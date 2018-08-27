@@ -1,7 +1,8 @@
 #include "application.h"
 
 namespace app {
-	Application::Application(const std::vector<std::string>& arguments) : window{nullptr} {}
+	Application::Application(const std::vector<std::string>& arguments) :
+	m_settings{arguments}, m_window{nullptr} {}
 	Application::~Application() {}
 
 	void Application::loop() {

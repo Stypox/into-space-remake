@@ -15,7 +15,7 @@ GL := $(STYPOX)gl-abstractions/
 APP := $(SRC)app/
 
 EXECUTABLE_NAME := IntoSpaceRemake$(if $(filter $(OS),Windows_NT), .exe,)
-OBJECT_FILES = main.o application.o fileManagement.o ebo.o shader.o texture.o vao.o vbo.o
+OBJECT_FILES = main.o application.o appsettings.o fileManagement.o ebo.o shader.o texture.o vao.o vbo.o
 
 # executable
 $(EXECUTABLE_NAME): $(OBJECT_FILES)
@@ -29,7 +29,10 @@ main.o: $(SRC)main.cpp
 
 # application
 application.o: $(APP)application.h $(APP)application.cpp
-	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp 
+	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp
+
+appsettings.o: $(APP)appsettings.h $(APP)appsettings.cpp
+	$(CXX) $(CXXFLAGS) -c $(APP)appsettings.cpp
 
 
 # includes from stypox libraries: fileManagement
