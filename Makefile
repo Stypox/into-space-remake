@@ -12,13 +12,14 @@ CXXLIBS = -lstdc++fs -lGLEW -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthrea
 # source code paths
 SRC = ./into-space-remake/src/
 GL := $(STYPOX)gl-abstractions/
-APP := $(SRC)application/
+APP := $(SRC)app/
 
 EXECUTABLE_NAME := IntoSpaceRemake$(if $(filter $(OS),Windows_NT), .exe,)
+OBJECT_FILES = main.o application.o fileManagement.o ebo.o shader.o texture.o vao.o vbo.o
 
 # executable
-$(EXECUTABLE_NAME): main.o application.o fileManagement.o ebo.o shader.o texture.o vao.o vbo.o
-	$(CXX) $(CXXFLAGS) -o $(EXECUTABLE_NAME) main.o fileManagement.o ebo.o shader.o texture.o vao.o vbo.o $(CXXLIBS)
+$(EXECUTABLE_NAME): $(OBJECT_FILES)
+	$(CXX) $(CXXFLAGS) -o $(EXECUTABLE_NAME) $(OBJECT_FILES) $(CXXLIBS)
 
 
 # main
