@@ -1,0 +1,10 @@
+.vscode/
+
+
+*.o
+IntoSpaceRemake*
+
+stypoxincludepath.txt
+GPATH
+GRTAGS
+GTAGS
