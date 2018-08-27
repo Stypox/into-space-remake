@@ -4,33 +4,39 @@ READFILE := $(if $(filter $(OS),Windows_NT),type,cat)
 # if this doesn't work just replace the following line with: STYPOX = path/to/include/stypox
 STYPOX := $(shell $(READFILE) $(STYPOX_INCLUDE_PATH_FILE))
 
-# Compiler options and settings
+# compiler options and settings
 CXX = g++
 CXXFLAGS := -Wall -g -std=c++17 -I$(STYPOX)
 CXXLIBS = -lstdc++fs -lGLEW -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor -lSOIL
 
+# source code paths
 SRC = ./into-space-remake/src/
 GL := $(STYPOX)gl-abstractions/
-OBJ = ./
+APP := $(SRC)application/
 
-EXECUTABLE_NAME := $(if $(filter $(OS),Windows_NT), IntoSpaceRemake.exe, IntoSpaceRemake)
+EXECUTABLE_NAME := IntoSpaceRemake$(if $(filter $(OS),Windows_NT), .exe,)
 
-#executable dependencies
-$(EXECUTABLE_NAME): main.o fileManagement.o ebo.o shader.o texture.o vao.o vbo.o
+# executable
+$(EXECUTABLE_NAME): main.o application.o fileManagement.o ebo.o shader.o texture.o vao.o vbo.o
 	$(CXX) $(CXXFLAGS) -o $(EXECUTABLE_NAME) main.o fileManagement.o ebo.o shader.o texture.o vao.o vbo.o $(CXXLIBS)
 
 
-#main
+# main
 main.o: $(SRC)main.cpp
 	$(CXX) $(CXXFLAGS) -c $(SRC)main.cpp
 
 
-#includes from stypox libraries: fileManagement
+# application
+application.o: $(APP)application.h $(APP)application.cpp
+	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp 
+
+
+# includes from stypox libraries: fileManagement
 fileManagement.o: $(STYPOX)fileManagement.h $(STYPOX)fileManagement.cpp
 	$(CXX) $(CXXFLAGS) -c $(STYPOX)fileManagement.cpp
 
 
-#includes from stypox libraries: gl-abstractions
+# includes from stypox libraries: gl-abstractions
 ebo.o: $(GL)ebo.h $(GL)ebo.cpp
 	$(CXX) $(CXXFLAGS) -c $(GL)ebo.cpp
 
@@ -47,9 +53,7 @@ vbo.o: $(GL)vbo.h $(GL)vbo.cpp
 	$(CXX) $(CXXFLAGS) -c $(GL)vbo.cpp
 
 
-
-
-#cleaning
+# remove all .o files
 clean:
-	rm $(OBJ)*.o
+	rm ./*.o
 	
