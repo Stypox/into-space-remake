@@ -11,16 +11,21 @@ int main(int argc, char* argv[]) {
 	for (int arg : sp::range(0, argc))
 		arguments.push_back(argv[arg]);
 
-	std::string lines = "------";
-	for (size_t i = 0; i < arguments[0].length(); ++i)
-		lines += "-";
+	std::string lines(6 + arguments[0].length(), '-');
 	std::cout << lines << "\nStart " << arguments[0] << "\n" << lines << "\n";
 
-	glfwInit();
-	glewInit();
-	app::Application app {arguments};
-	int exitValue = app.run();
-	glfwTerminate();
+	int exitValue;
+	try {
+		glfwInit();
+		glewInit();
+		app::Application app {arguments};
+		exitValue = app.run();
+		glfwTerminate();
+	}
+	catch (...) {
+		std::cout << "exception";
+		exitValue = 1;
+	}
 
 	std::cout << lines << "\n End " << arguments[0] << " \n" << lines << "\n";
 	return exitValue;

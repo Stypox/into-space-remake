@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 #include <GLFW/glfw3.h>
 
 #include "appsettings.h"
@@ -12,13 +13,18 @@ namespace app {
 		Settings m_settings;
 		GLFWwindow* m_window;
 
+		bool started;
+
+		void start();
 		void loop();
+		void terminate();
 
 	public:
 		Application(const std::vector<std::string>& arguments);
 		~Application();
 		
 		int run();
+		void exit(int exitValue);
 	};
 }
 
