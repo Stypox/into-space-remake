@@ -1,5 +1,5 @@
-#ifndef _INTO_SPACE_REMAKE_APP_APPSETTINGS_H_
-#define _INTO_SPACE_REMAKE_APP_APPSETTINGS_H_
+#ifndef _INTO_SPACE_REMAKE_APP_ARGUMENTS_H_
+#define _INTO_SPACE_REMAKE_APP_ARGUMENTS_H_
 
 #include <vector>
 #include <string>
@@ -33,7 +33,7 @@ namespace app {
 		"   -h=V --height=V    sets the window starting height to V; Defaults to 480\n"
 	};
 
-	struct Settings {
+	struct Arguments {
 		sp::Tstr errorMessage;
 
 		bool help = false;
@@ -42,7 +42,7 @@ namespace app {
 		sp::Tuint16 width = 480;
 		sp::Tuint16 height = 480;
 
-		Settings(std::vector<std::string> arguments);
+		Arguments(std::vector<std::string> arguments);
 	};
 }
 

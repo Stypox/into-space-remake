@@ -6,11 +6,11 @@
 #include <iostream>
 #include <GLFW/glfw3.h>
 
-#include "appsettings.h"
+#include "arguments.h"
 
 namespace app {
 	class Application {
-		Settings m_settings;
+		Arguments m_args;
 		GLFWwindow* m_window;
 
 		bool started;

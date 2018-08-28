@@ -20,18 +20,18 @@ namespace app {
 	}
 
 	Application::Application(const std::vector<std::string>& arguments) :
-	m_settings{arguments}, m_window{nullptr} {}
+	m_args{arguments}, m_window{nullptr} {}
 	Application::~Application() {
 		terminate();
 	}
 
 	int Application::run() {
-		if (m_settings.help) {
+		if (m_args.help) {
 			std::cout << helpScreen;
 			return 0;
 		}
-		if (m_settings.errorMessage != "") {
-			std::cout << m_settings.errorMessage;
+		if (m_args.errorMessage != "") {
+			std::cout << m_args.errorMessage;
 			return 0;
 		}
 		start();

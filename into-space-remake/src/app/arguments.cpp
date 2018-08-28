@@ -1,4 +1,4 @@
-#include "appsettings.h"
+#include "arguments.h"
 
 namespace app {
 	using namespace sp;
@@ -52,7 +52,7 @@ namespace app {
 	}
 	
 
-	Settings::Settings(std::vector<Tstr> arguments) {
+	Arguments::Arguments(std::vector<Tstr> arguments) {
 		help = findArg(BoolArg::help, arguments);
 
 
