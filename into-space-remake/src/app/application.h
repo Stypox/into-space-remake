@@ -4,11 +4,15 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#define GLEW_STATIC
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include "arguments.h"
 
 namespace app {
+	constexpr const char * windowTitle = "Into Space remake";
+
 	class Application {
 		Arguments m_args;
 		GLFWwindow* m_window;

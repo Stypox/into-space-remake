@@ -17,6 +17,7 @@ int main(int argc, char* argv[]) {
 	int exitValue;
 	try {
 		glfwInit();
+		glewExperimental = GL_TRUE;
 		glewInit();
 		app::Application app {arguments};
 		exitValue = app.run();
