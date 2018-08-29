@@ -11,6 +11,7 @@ namespace app {
 		{ValueArg::verbosity, {"-v=", "--verbosity="}},
 		{ValueArg::width, {"-w=", "--width="}},
 		{ValueArg::height, {"-h=", "--height="}},
+		{ValueArg::zoom, {"-z=", "--zoom="}},
 	};
 
 
@@ -118,11 +119,32 @@ namespace app {
 				errorMessage += "Argument height used multiple times\n";
 		}
 
+		//zoom
+		switch (ValueFound fZoom = findArg(ValueArg::zoom, arguments); std::get<int>(fZoom)) {
+			case 0:
+				break;
+			case 1: {
+				try {
+					float tempZoom = std::stof(std::get<Tstr>(fZoom));
+					if (tempZoom < 0.5f || tempZoom > 2.0f)
+						throw std::invalid_argument{""};
+					zoom = tempZoom;
+				}
+				catch (const std::invalid_argument&) {
+					errorMessage += "Invalid value of argument zoom\n";
+				}
+				break;
+			}
+			default:
+				errorMessage += "Argument zoom used multiple times\n";
+		}
+
 		if (verbosity == 3) {
 			std::cout << "Help: " << help << "\n"
 				<< "Verbosity: " << static_cast<int>(verbosity) << "\n"
-				<< "Screen width: " << static_cast<int>(width) << "\n"
-				<< "Screen height: " << static_cast<int>(height) << "\n"
+				<< "Screen width: " << width << "\n"
+				<< "Screen height: " << height << "\n"
+				<< "Zoom: " << zoom << "\n"
 				<< "Errors:" << "\n" << errorMessage;
 		}
 	}
