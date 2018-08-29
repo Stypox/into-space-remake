@@ -59,8 +59,7 @@ namespace app {
 		using ValueFound = std::pair<int, Tstr>;
 
 		//verbosity
-		ValueFound fVerbosity = findArg(ValueArg::verbosity, arguments);
-		switch (std::get<int>(fVerbosity)) {
+		switch (ValueFound fVerbosity = findArg(ValueArg::verbosity, arguments); std::get<int>(fVerbosity)) {
 			case 0:
 				break;
 			case 1: {
@@ -80,8 +79,7 @@ namespace app {
 		}
 
 		//screen width
-		ValueFound fWidth = findArg(ValueArg::width, arguments);
-		switch (std::get<int>(fWidth)) {
+		switch (ValueFound fWidth = findArg(ValueArg::width, arguments); std::get<int>(fWidth)) {
 			case 0:
 				break;
 			case 1: {
@@ -101,8 +99,7 @@ namespace app {
 		}
 
 		//screen height
-		ValueFound fHeight = findArg(ValueArg::height, arguments);
-		switch (std::get<int>(fHeight)) {
+		switch (ValueFound fHeight = findArg(ValueArg::height, arguments); std::get<int>(fHeight)) {
 			case 0:
 				break;
 			case 1: {
