@@ -5,11 +5,23 @@
 
 namespace app::event {
 	class KeyboardEvent : public Event {
+	public:
+		enum Type : char {
+			click,
+			doubeClick,
+			press,
+			release,
+			longPress,
+		};
+	private:
+		Type m_type;
 		const int m_key;
 	public:
-		KeyboardEvent(Event::Type type, int key);
+		KeyboardEvent(Type type, int key);
 
-		Event::Type type();
+		Type type();
+		Event::Type eventType();
+
 		int key();
 	};
 }

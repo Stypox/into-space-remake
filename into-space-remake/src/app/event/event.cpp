@@ -1,7 +1,7 @@
 #include "event.h"
 
 namespace app::event {
-	Event::Type Event::type() {
+	Event::Type Event::eventType() {
 		return m_type;
 	}
 }
