@@ -1,7 +1,7 @@
 #ifndef _INTO_SPACE_REMAKE_APP_EVENT_EVENT_H_
 #define _INTO_SPACE_REMAKE_APP_EVENT_EVENT_H_
 
-namespace app {
+namespace app::event {
 	class Event {		
 	public:
 		enum Type {
@@ -26,15 +26,19 @@ namespace app {
 			kRelease = 66,
 			kLongPress = 130,
 		};
-	private:
-		Type m_type;
+	protected:
+		const Type m_type;
 	public:
 		constexpr Event(Type type) : m_type{type} {}
+		
 		virtual Type type();
 	};
 
 	constexpr Event::Type operator& (Event::Type a, Event::Type b) {
 		return static_cast<Event::Type>(static_cast<int>(a) & static_cast<int>(b));
+	}
+	constexpr Event::Type operator| (Event::Type a, Event::Type b) {
+		return static_cast<Event::Type>(static_cast<int>(a) | static_cast<int>(b));
 	}
 }
 
