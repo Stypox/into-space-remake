@@ -9,6 +9,8 @@
 #include <GLFW/glfw3.h>
 
 #include "arguments.h"
+#include "event/handler.h"
+#include "input/keys.h"
 
 namespace app {
 	constexpr const char * windowTitle = "Into Space remake";
@@ -16,6 +18,9 @@ namespace app {
 	class Application {
 		Arguments m_args;
 		GLFWwindow* m_window;
+
+		event::Handler m_eventHandler;
+		input::Keys m_keysInput;
 
 		bool started;
 
