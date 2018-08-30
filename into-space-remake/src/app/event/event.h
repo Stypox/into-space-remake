@@ -15,6 +15,7 @@ namespace app::event {
 		constexpr Event(Type type) : type{type} {}
 
 		virtual Type eventType() const;
+		virtual operator bool() const;
 	};
 
 	constexpr Event::Type operator& (Event::Type a, Event::Type b) {

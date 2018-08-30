@@ -21,6 +21,7 @@ namespace app::event {
 			key{key} {}
 
 		inline Event::Type eventType() const { return Event::type; }
+		inline operator bool() const { return Event::type != Event::Type::empty; }
 	};
 }
 

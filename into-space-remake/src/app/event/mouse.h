@@ -23,6 +23,7 @@ namespace app::event {
 			y{y} {}
 
 		inline Event::Type eventType() const { return Event::type; }
+		inline operator bool() const { return Event::type != Event::Type::empty; }
 	};
 
 	struct MouseRollEvent : public Event {
