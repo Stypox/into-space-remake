@@ -6,9 +6,8 @@
 namespace app::event {
 	struct Key : public Event {
 		enum Type : char {
-			click,
-			doubeClick,
 			press,
+			doublePress,
 			release,
 		};
 
