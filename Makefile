@@ -16,7 +16,7 @@ APP := $(SRC)app/
 
 EXECUTABLE_NAME := IntoSpaceRemake$(if $(filter $(OS),Windows_NT), .exe,)
 OBJECT_FILES = main.o \
-	application.o arguments.o event.o \
+	application.o arguments.o event.o handler.o \
 	fileManagement.o \
 	ebo.o shader.o texture.o vao.o vbo.o
 
@@ -39,6 +39,9 @@ arguments.o: $(APP)arguments.h $(APP)arguments.cpp
 
 event.o: $(APP)event/event.h $(APP)event/event.cpp
 	$(CXX) $(CXXFLAGS) -c $(APP)event/event.cpp
+
+handler.o: $(APP)event/handler.h $(APP)event/handler.cpp
+	$(CXX) $(CXXFLAGS) -c $(APP)event/handler.cpp
 
 
 # includes from stypox libraries: fileManagement

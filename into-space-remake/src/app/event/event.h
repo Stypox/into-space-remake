@@ -4,6 +4,7 @@
 namespace app::event {
 	struct Event {
 		enum Type : char {
+			empty,
 			mouseClick,
 			mouseRoll,
 			keyboard,
