@@ -23,6 +23,11 @@ namespace app::event {
 	};
 
 	struct KeyLong : public Event {
+		enum Type : char {
+			press,
+			release,
+		};
+
 		const int key;
 		const int delay;
 
