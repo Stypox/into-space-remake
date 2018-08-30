@@ -18,6 +18,7 @@ namespace app {
 		width,
 		height,
 		zoom,
+		doubleClickDelay,
 	};
 
 	extern const std::map<BoolArg, std::vector<std::string>> boolArgs;
@@ -30,10 +31,11 @@ namespace app {
 		"   -h, --help         shows this screen\n"
 		"\n"
 		"Value settings: (I = integer, D = decimal)\n"
-		"   -v=I --verbosity=I sets verbosity to I (range 0-3); Defaults to 0\n"
-		"   -w=I --width=I     sets the window starting width to I; Defaults to 480\n"
-		"   -h=I --height=I    sets the window starting height to I; Defaults to 480\n"
-		"   -z=D --zoom=D      sets the game starting zoom to D (range 0.5-2.0); Defaults to 1.0\n"
+		"   -v=I --verbosity=I sets verbosity to I (range 0-3); defaults to 0\n"
+		"   -w=I --width=I     sets the window starting width to I; defaults to 480\n"
+		"   -h=I --height=I    sets the window starting height to I; defaults to 480\n"
+		"   -z=D --zoom=D      sets the game starting zoom to D (range 0.5-2.0); defaults to 1.0\n"
+		"        --dc-delay=D  sets the double click/press delay to D seconds; defaults to 0.5\n"
 	};
 
 	struct Arguments {
@@ -45,6 +47,7 @@ namespace app {
 		sp::Tuint16 width = 480;
 		sp::Tuint16 height = 480;
 		float zoom = 1.0f;
+		float doubleClickDelay = 0.5f;
 
 		Arguments(std::vector<std::string> arguments);
 	};

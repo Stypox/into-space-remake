@@ -12,6 +12,7 @@ namespace app {
 		{ValueArg::width, {"-w=", "--width="}},
 		{ValueArg::height, {"-h=", "--height="}},
 		{ValueArg::zoom, {"-z=", "--zoom="}},
+		{ValueArg::doubleClickDelay, {"--dc-delay="}},
 	};
 
 
@@ -79,7 +80,7 @@ namespace app {
 				errorMessage += "Argument verbosity used multiple times\n";
 		}
 
-		//screen width
+		//screen widthdoubleClickDelay
 		switch (ValueFound fWidth = findArg(ValueArg::width, arguments); std::get<int>(fWidth)) {
 			case 0:
 				break;
@@ -139,12 +140,33 @@ namespace app {
 				errorMessage += "Argument zoom used multiple times\n";
 		}
 
+		//doubleClickDelay
+		switch (ValueFound fDoubleClickDelay = findArg(ValueArg::doubleClickDelay, arguments); std::get<int>(fDoubleClickDelay)) {
+			case 0:
+				break;
+			case 1: {
+				try {
+					float tempDoubleClickDelay = std::stof(std::get<Tstr>(fDoubleClickDelay));
+					if (tempDoubleClickDelay < 0.0f)
+						throw std::invalid_argument{""};
+					doubleClickDelay = tempDoubleClickDelay;
+				}
+				catch (const std::invalid_argument&) {
+					errorMessage += "Invalid value of argument doubleClickDelay\n";
+				}
+				break;
+			}
+			default:
+				errorMessage += "Argument doubleClickDelay used multiple times\n";
+		}
+
 		if (verbosity == 3) {
 			std::cout << "Help: " << help << "\n"
 				<< "Verbosity: " << static_cast<int>(verbosity) << "\n"
 				<< "Screen width: " << width << "\n"
 				<< "Screen height: " << height << "\n"
 				<< "Zoom: " << zoom << "\n"
+				<< "DoubleClickDelay: " << doubleClickDelay << "\n"
 				<< "Errors:" << "\n" << errorMessage;
 		}
 	}
