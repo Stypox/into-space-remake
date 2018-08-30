@@ -10,18 +10,18 @@
 namespace app::input {
 	constexpr bool pressed = true, notPressed = false;
 
-	struct KeyData {
-		int key;
-		event::Key::Type type;
-		bool lastState = notPressed;
-		float lastPressed;
-
-		constexpr KeyData(int key, event::Key::Type type, float doubleClickTime) :
-			key{key}, type{type},
-			lastPressed{-3 * doubleClickTime} {}
-	};
-
 	class Keys {
+		struct KeyData {
+			int key;
+			event::Key::Type type;
+			bool lastState = notPressed;
+			float lastPressed;
+
+			constexpr KeyData(int key, event::Key::Type type, float doubleClickTime) :
+				key{key}, type{type},
+				lastPressed{-3 * doubleClickTime} {}
+		};
+
 		int m_doublePressDelay;
 
 		std::vector<KeyData> m_keys;
