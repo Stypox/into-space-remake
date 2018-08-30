@@ -17,14 +17,14 @@ namespace app::input {
 		float lastPressed = 0.0f;
 	};
 
-	class KeysInput {
+	class Keys {
 		std::vector<KeyData> m_keys;
 		GLFWwindow* m_window;
-		event::EventHandler& m_handler;
+		event::Handler& m_handler;
 
 	public:
-		KeysInput(event::EventHandler& handler);
-		KeysInput(GLFWwindow* window, event::EventHandler& handler);
+		Keys(event::Handler& handler);
+		Keys(GLFWwindow* window, event::Handler& handler);
 
 		inline void setWindow(GLFWwindow* window) { m_window = window; }
 		inline void removeWindow() { m_window = nullptr; }

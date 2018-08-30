@@ -8,16 +8,16 @@
 #include "event.h"
 
 namespace app::event {
-	class EventHandler {
+	class Handler {
 		std::queue<std::shared_ptr<Event>> m_events;
 	public:
-		EventHandler() = default;
-		~EventHandler() = default;
+		Handler() = default;
+		~Handler() = default;
 
-		EventHandler(const EventHandler& other) = default;
-		EventHandler& operator=(const EventHandler& other) = default;
-		EventHandler(EventHandler&& other) = default;
-		EventHandler& operator=(EventHandler&& other) = default;
+		Handler(const Handler& other) = default;
+		Handler& operator=(const Handler& other) = default;
+		Handler(Handler&& other) = default;
+		Handler& operator=(Handler&& other) = default;
 
 		void push(Event* event);
 

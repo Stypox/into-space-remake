@@ -5,9 +5,10 @@ namespace app::event {
 	struct Event {
 		enum Type : char {
 			empty,
-			mouseClick,
+			click,
 			mouseRoll,
-			keyboard,
+			key,
+			keyLong,
 		};
 		
 		const Type type;

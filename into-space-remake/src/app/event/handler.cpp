@@ -1,11 +1,11 @@
 #include "handler.h"
 
 namespace app::event {
-	void EventHandler::push(Event* event) {
+	void Handler::push(Event* event) {
 		m_events.emplace(event);
 	}
 
-	std::shared_ptr<Event> EventHandler::get() {
+	std::shared_ptr<Event> Handler::get() {
 		if (m_events.empty()) {
 			return std::shared_ptr<Event>{new Event{Event::Type::empty}};
 		}
@@ -15,7 +15,7 @@ namespace app::event {
 			return tempEvent;
 		}
 	}
-	std::shared_ptr<Event> EventHandler::getKeep() {
+	std::shared_ptr<Event> Handler::getKeep() {
 		if (m_events.empty()) {
 			return std::shared_ptr<Event>{new Event{Event::Type::empty}};
 		}
