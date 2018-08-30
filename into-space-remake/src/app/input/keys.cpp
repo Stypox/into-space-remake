@@ -15,12 +15,22 @@ namespace app::input {
 		for (auto&& key : m_keys) {
 			if (bool keyState = glfwGetKey(m_window, key.key); keyState != key.lastState) {
 				if (keyState) {
-					double glfwTime = glfwGetTime();
-					if (key.type == event::Key::press)
-						m_eventHandler.push(static_cast<event::Event*>(new event::Key{event::Key::press, key.key}));
-					else if (key.type == event::Key::doublePress && key.lastPressed + m_doublePressDelay > glfwTime)
-						m_eventHandler.push(static_cast<event::Event*>(new event::Key{event::Key::doublePress, key.key}));
-					key.lastPressed = glfwTime;
+					switch (key.type) {
+						case event::Key::press:
+							m_eventHandler.push(static_cast<event::Event*>(new event::Key{event::Key::press, key.key}));
+							break;
+						case event::Key::doublePress:
+							if (double glfwTime = glfwGetTime(); key.lastPressed + m_doublePressDelay > glfwTime) {
+								m_eventHandler.push(static_cast<event::Event*>(new event::Key{event::Key::doublePress, key.key}));
+								key.lastPressed = -3 * m_doublePressDelay;
+							}
+							else {
+								key.lastPressed = glfwTime;
+							}
+							break;
+						default:
+							break;
+					}
 				}
 				else {
 					if (key.type == event::Key::release)
