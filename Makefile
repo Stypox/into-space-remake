@@ -11,59 +11,74 @@ CXXLIBS = -lstdc++fs -lGLEW -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthrea
 
 # source code paths
 SRC = ./into-space-remake/src/
-GL := $(STYPOX)gl-abstractions/
+STYPOX_GL := $(STYPOX)gl-abstractions/
 APP := $(SRC)app/
 
 EXECUTABLE_NAME := IntoSpaceRemake$(if $(filter $(OS),Windows_NT), .exe,)
 OBJECT_FILES = main.o \
-	application.o arguments.o event.o handler.o \
-	fileManagement.o \
-	ebo.o shader.o texture.o vao.o vbo.o
+	app_application.o app_arguments.o \
+		app_event_event.o app_event_handler.o \
+	stypox_fileManagement.o \
+	stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
 
 # executable
 $(EXECUTABLE_NAME): $(OBJECT_FILES)
 	$(CXX) $(CXXFLAGS) -o $(EXECUTABLE_NAME) $(OBJECT_FILES) $(CXXLIBS)
 
+# src/
 
-# main
+# src/main.cpp
 main.o: $(SRC)main.cpp
-	$(CXX) $(CXXFLAGS) -c $(SRC)main.cpp
+	$(CXX) $(CXXFLAGS) -c $(SRC)main.cpp -o main.o
+
+# src/app/
+
+# src/app/application.cpp
+app_application.o: $(APP)application.h $(APP)application.cpp
+	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp -o app_application.o
+
+# src/app/arguments.cpp
+app_arguments.o: $(APP)arguments.h $(APP)arguments.cpp
+	$(CXX) $(CXXFLAGS) -c $(APP)arguments.cpp -o app_arguments.o
+
+# src/app/event/
+
+# src/app/event/event.cpp
+app_event_event.o: $(APP)event/event.h $(APP)event/event.cpp
+	$(CXX) $(CXXFLAGS) -c $(APP)event/event.cpp -o app_event_event.o
+
+# src/app/event/handler.cpp
+app_event_handler.o: $(APP)event/handler.h $(APP)event/handler.cpp
+	$(CXX) $(CXXFLAGS) -c $(APP)event/handler.cpp -o app_event_handler.o
 
 
-# application
-application.o: $(APP)application.h $(APP)application.cpp
-	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp
+# stypox_libraries_path/
 
-arguments.o: $(APP)arguments.h $(APP)arguments.cpp
-	$(CXX) $(CXXFLAGS) -c $(APP)arguments.cpp
+# stypox_libraries_path/fileManagement.cpp
+stypox_fileManagement.o: $(STYPOX)fileManagement.h $(STYPOX)fileManagement.cpp
+	$(CXX) $(CXXFLAGS) -c $(STYPOX)fileManagement.cpp -o stypox_fileManagement.o
 
-event.o: $(APP)event/event.h $(APP)event/event.cpp
-	$(CXX) $(CXXFLAGS) -c $(APP)event/event.cpp
+# stypox_libraries_path/gl-abstractions/
 
-handler.o: $(APP)event/handler.h $(APP)event/handler.cpp
-	$(CXX) $(CXXFLAGS) -c $(APP)event/handler.cpp
+# stypox_libraries_path/gl-abstractions/ebo.cpp
+stypox_gl_ebo.o: $(STYPOX_GL)ebo.h $(STYPOX_GL)ebo.cpp
+	$(CXX) $(CXXFLAGS) -c $(STYPOX_GL)ebo.cpp -o stypox_gl_ebo.o
 
+# stypox_libraries_path/gl-abstractions/shader.cpp
+stypox_gl_shader.o: $(STYPOX_GL)shader.h $(STYPOX_GL)shader.cpp
+	$(CXX) $(CXXFLAGS) -c $(STYPOX_GL)shader.cpp -o stypox_gl_shader.o
 
-# includes from stypox libraries: fileManagement
-fileManagement.o: $(STYPOX)fileManagement.h $(STYPOX)fileManagement.cpp
-	$(CXX) $(CXXFLAGS) -c $(STYPOX)fileManagement.cpp
+# stypox_libraries_path/gl-abstractions/texture.cpp
+stypox_gl_texture.o: $(STYPOX_GL)texture.h $(STYPOX_GL)texture.cpp
+	$(CXX) $(CXXFLAGS) -c $(STYPOX_GL)texture.cpp -o stypox_gl_texture.o
 
+# stypox_libraries_path/gl-abstractions/vao.cpp
+stypox_gl_vao.o: $(STYPOX_GL)vao.h $(STYPOX_GL)vao.cpp
+	$(CXX) $(CXXFLAGS) -c $(STYPOX_GL)vao.cpp -o stypox_gl_vao.o
 
-# includes from stypox libraries: gl-abstractions
-ebo.o: $(GL)ebo.h $(GL)ebo.cpp
-	$(CXX) $(CXXFLAGS) -c $(GL)ebo.cpp
-
-shader.o: $(GL)shader.h $(GL)shader.cpp
-	$(CXX) $(CXXFLAGS) -c $(GL)shader.cpp
-
-texture.o: $(GL)texture.h $(GL)texture.cpp
-	$(CXX) $(CXXFLAGS) -c $(GL)texture.cpp
-
-vao.o: $(GL)vao.h $(GL)vao.cpp
-	$(CXX) $(CXXFLAGS) -c $(GL)vao.cpp
-
-vbo.o: $(GL)vbo.h $(GL)vbo.cpp
-	$(CXX) $(CXXFLAGS) -c $(GL)vbo.cpp
+# stypox_libraries_path/gl-abstractions/vbo.cpp
+stypox_gl_vbo.o: $(STYPOX_GL)vbo.h $(STYPOX_GL)vbo.cpp
+	$(CXX) $(CXXFLAGS) -c $(STYPOX_GL)vbo.cpp -o stypox_gl_vbo.o
 
 
 # remove all .o files
