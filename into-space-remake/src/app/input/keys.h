@@ -23,17 +23,18 @@ namespace app::input {
 				lastPressed{-3 * doubleClickTime} {}
 		};
 
-		int m_doublePressDelay;
+		float m_doublePressDelay;
 
 		std::vector<KeyData> m_keys;
 		GLFWwindow* m_window;
 		event::Handler& m_eventHandler;
 
 	public:
-		Keys(GLFWwindow* window, event::Handler& eventHandler, int doublePressDelay);
-		Keys(GLFWwindow* window, event::Handler& eventHandler, int doublePressDelay, std::initializer_list<std::pair<int, event::Key::Type>> listeners);
+		Keys(GLFWwindow* window, event::Handler& eventHandler, float doublePressDelay);
+		Keys(GLFWwindow* window, event::Handler& eventHandler, float doublePressDelay, std::initializer_list<std::pair<int, event::Key::Type>> listeners);
 
 		inline void setWindow(GLFWwindow* window) { m_window = window; }
+		inline void setDoublePressDelay(float doublePressDelay) { m_doublePressDelay = doublePressDelay; }
 
 		inline void addListener(int key, event::Key::Type type) { m_keys.emplace_back(key, type, m_doublePressDelay); }
 

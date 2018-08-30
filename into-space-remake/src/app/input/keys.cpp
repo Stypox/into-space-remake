@@ -1,10 +1,10 @@
 #include "keys.h"
 
 namespace app::input {
-	Keys::Keys(GLFWwindow* window, event::Handler& eventHandler, int doublePressDelay) :
+	Keys::Keys(GLFWwindow* window, event::Handler& eventHandler, float doublePressDelay) :
 		m_doublePressDelay{doublePressDelay}, m_window{window},
 		m_eventHandler{eventHandler} {}
-	Keys::Keys(GLFWwindow* window, event::Handler& eventHandler, int doublePressDelay, std::initializer_list<std::pair<int, event::Key::Type>> listeners) :
+	Keys::Keys(GLFWwindow* window, event::Handler& eventHandler, float doublePressDelay, std::initializer_list<std::pair<int, event::Key::Type>> listeners) :
 		m_doublePressDelay{doublePressDelay}, m_window{window},
 		m_eventHandler{eventHandler} {
 		for (auto&& listener : listeners)
