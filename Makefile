@@ -28,13 +28,13 @@ $(EXECUTABLE_NAME): $(OBJECT_FILES)
 # src/
 
 # src/main.cpp
-main.o: $(SRC)main.cpp
+main.o: $(SRC)main.cpp app_application.o
 	$(CXX) $(CXXFLAGS) -c $(SRC)main.cpp -o main.o
 
 # src/app/
 
 # src/app/application.cpp
-app_application.o: $(APP)application.h $(APP)application.cpp
+app_application.o: $(APP)application.h $(APP)application.cpp app_arguments.o
 	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp -o app_application.o
 
 # src/app/arguments.cpp
@@ -48,7 +48,7 @@ app_event_event.o: $(APP)event/event.h $(APP)event/event.cpp
 	$(CXX) $(CXXFLAGS) -c $(APP)event/event.cpp -o app_event_event.o
 
 # src/app/event/handler.cpp
-app_event_handler.o: $(APP)event/handler.h $(APP)event/handler.cpp
+app_event_handler.o: $(APP)event/handler.h $(APP)event/handler.cpp app_event_event.o
 	$(CXX) $(CXXFLAGS) -c $(APP)event/handler.cpp -o app_event_handler.o
 
 

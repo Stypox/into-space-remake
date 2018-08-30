@@ -2,9 +2,9 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <stypox/range.h>
 
 #include "app/application.h"
-#include "stypox/range.h"
 
 int main(int argc, char* argv[]) {
 	std::vector<std::string> arguments;
