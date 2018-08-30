@@ -2,6 +2,7 @@
 #define _INTO_SPACE_REMAKE_APP_INPUT_KEYS_H_
 
 #include <vector>
+#include <utility>
 
 #include "../event/key.h"
 #include "../event/handler.h"
@@ -26,16 +27,15 @@ namespace app::input {
 
 		std::vector<KeyData> m_keys;
 		GLFWwindow* m_window;
-		event::Handler& m_handler;
+		event::Handler& m_eventHandler;
 
 	public:
-		Keys(event::Handler& handler, int doublePressDelay);
-		Keys(GLFWwindow* window, event::Handler& handler, int doublePressDelay);
+		Keys(GLFWwindow* window, event::Handler& eventHandler, int doublePressDelay);
+		Keys(GLFWwindow* window, event::Handler& eventHandler, int doublePressDelay, std::initializer_list<std::pair<int, event::Key::Type>> listeners);
 
 		inline void setWindow(GLFWwindow* window) { m_window = window; }
-		inline void removeWindow() { m_window = nullptr; }
 
-		void addListener(int key, event::Key::Type type);
+		inline void addListener(int key, event::Key::Type type) { m_keys.emplace_back(key, type, m_doublePressDelay); }
 
 		void update();
 
