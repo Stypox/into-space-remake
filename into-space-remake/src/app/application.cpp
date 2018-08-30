@@ -25,7 +25,7 @@ namespace app {
 	}
 
 	Application::Application(const std::vector<std::string>& arguments) :
-	m_args{arguments}, m_window{nullptr} {}
+		m_args{arguments}, m_window{nullptr} {}
 	Application::~Application() {
 		terminate();
 	}
