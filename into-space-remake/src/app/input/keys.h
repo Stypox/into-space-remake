@@ -31,12 +31,12 @@ namespace app::input {
 
 	public:
 		Keys(GLFWwindow* window, event::Handler& eventHandler, float doublePressDelay);
-		Keys(GLFWwindow* window, event::Handler& eventHandler, float doublePressDelay, std::initializer_list<std::pair<int, event::Key::Type>> listeners);
+		Keys(GLFWwindow* window, event::Handler& eventHandler, float doublePressDelay, std::initializer_list<std::pair<event::Key::Type, int>> listeners);
 
 		inline void setWindow(GLFWwindow* window) { m_window = window; }
 		inline void setDoublePressDelay(float doublePressDelay) { m_doublePressDelay = doublePressDelay; }
 
-		inline void addListener(int key, event::Key::Type type) { m_keys.emplace_back(key, type, m_doublePressDelay); }
+		inline void addListener(event::Key::Type type, int key) { m_keys.emplace_back(key, type, m_doublePressDelay); }
 
 		void update();
 

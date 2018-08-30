@@ -4,11 +4,11 @@ namespace app::input {
 	Keys::Keys(GLFWwindow* window, event::Handler& eventHandler, float doublePressDelay) :
 		m_doublePressDelay{doublePressDelay}, m_window{window},
 		m_eventHandler{eventHandler} {}
-	Keys::Keys(GLFWwindow* window, event::Handler& eventHandler, float doublePressDelay, std::initializer_list<std::pair<int, event::Key::Type>> listeners) :
+	Keys::Keys(GLFWwindow* window, event::Handler& eventHandler, float doublePressDelay, std::initializer_list<std::pair<event::Key::Type, int>> listeners) :
 		m_doublePressDelay{doublePressDelay}, m_window{window},
 		m_eventHandler{eventHandler} {
 		for (auto&& listener : listeners)
-			addListener(std::get<int>(listener), std::get<event::Key::Type>(listener));
+			addListener(std::get<event::Key::Type>(listener), std::get<int>(listener));
 	}
 
 	void Keys::update() {
