@@ -4,8 +4,7 @@
 #include "event.h"
 
 namespace app::event {
-	class KeyboardEvent : public Event {
-	public:
+	struct KeyboardEvent : public Event {
 		enum Type : char {
 			click,
 			doubeClick,
@@ -13,16 +12,15 @@ namespace app::event {
 			release,
 			longPress,
 		};
-	private:
-		Type m_type;
-		const int m_key;
-	public:
-		KeyboardEvent(Type type, int key);
 
-		Type type();
-		Event::Type eventType();
+		const Type type;
+		const int key;
 
-		int key();
+		constexpr KeyboardEvent(Type type, int key) :
+			Event{Event::Type::keyboard}, type{type},
+			key{key} {}
+
+		inline Event::Type eventType() const { return Event::type; }
 	};
 }
 

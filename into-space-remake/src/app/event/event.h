@@ -2,19 +2,18 @@
 #define _INTO_SPACE_REMAKE_APP_EVENT_EVENT_H_
 
 namespace app::event {
-	class Event {		
-	public:
+	struct Event {
 		enum Type : char {
 			mouseClick,
 			mouseRoll,
 			keyboard,
 		};
-	protected:
-		const Type m_type;
-	public:
-		constexpr Event(Type type) : m_type{type} {}
 		
-		virtual Type eventType();
+		const Type type;
+		
+		constexpr Event(Type type) : type{type} {}
+
+		virtual Type eventType() const;
 	};
 
 	constexpr Event::Type operator& (Event::Type a, Event::Type b) {

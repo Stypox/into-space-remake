@@ -4,8 +4,7 @@
 #include "event.h"
 
 namespace app::event {
-	class MouseClickEvent : public Event {
-	public:
+	struct MouseClickEvent : public Event {
 		enum Type : char {
 			click,
 			doubeClick,
@@ -13,32 +12,28 @@ namespace app::event {
 			release,
 			longPress,
 		};
-	private:
-		const Type m_type;
-		const int m_key;
-		const int m_x, m_y;
-	public:
-		MouseClickEvent(Type type, int key, int x, int y);
-		
-		Type type();
-		Event::Type eventType();
 
-		int key();
-		int x();
-		int y();
+		const Type type;
+		const int key;
+		const int x, y;
+
+		constexpr MouseClickEvent(Type type, int key, int x, int y) :
+			Event{Event::Type::mouseClick}, type{type},
+			key{key}, x{x},
+			y{y} {}
+
+		inline Event::Type eventType() const { return Event::type; }
 	};
 
-	class MouseRollEvent : public Event {
-		const int m_offset;
-		const int m_x, m_y;
-	public:
-		MouseRollEvent(int offset, int x, int y);
-		
-		Event::Type eventType();
+	struct MouseRollEvent : public Event {
+		const int offset;
+		const int x, y;
 
-		int offset();
-		int x();
-		int y();
+		constexpr MouseRollEvent(int offset, int x, int y) :
+			Event{Event::Type::mouseRoll}, offset{offset},
+			x{x}, y{y} {}
+
+		inline Event::Type eventType() const { return Event::type; }
 	};
 }
 

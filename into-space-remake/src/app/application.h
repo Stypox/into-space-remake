@@ -26,7 +26,7 @@ namespace app {
 	public:
 		Application(const std::vector<std::string>& arguments);
 		~Application();
-		
+
 		int run();
 		void exit(int exitValue);
 	};
