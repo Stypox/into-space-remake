@@ -10,15 +10,13 @@
 #include "GLFW/glfw3.h"
 
 namespace app::input {
-	constexpr bool pressed = true, notPressed = false;
-
 	class Keys {
 		struct KeyData {
 			const int key;
 			bool lastState;
 
 			constexpr KeyData(int key) :
-				key{key}, lastState{notPressed} {}
+				key{key}, lastState{false} {}
 		};
 		struct KeyDoublePressData {
 			const int key;
@@ -26,7 +24,7 @@ namespace app::input {
 			float lastPressed;
 
 			constexpr KeyDoublePressData(int key, float doublePressDelay) :
-				key{key}, lastState{notPressed},
+				key{key}, lastState{false},
 				lastPressed{-3 * doublePressDelay} {}
 		};
 		struct KeyLongData {
@@ -37,7 +35,7 @@ namespace app::input {
 
 			constexpr KeyLongData(int key, float delayAfterAction, float delayInBetween) :
 				key{key}, delayAfterAction{delayAfterAction},
-				delayInBetween{delayInBetween}, lastState{notPressed},
+				delayInBetween{delayInBetween}, lastState{false},
 				lastAction{0.0f} {}
 		};
 
