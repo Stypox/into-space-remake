@@ -22,8 +22,8 @@ namespace app::event {
 			key{key}, x{x},
 			y{y} {}
 
-		inline Event::Type eventType() const { return Event::type; }
-		inline operator bool() const { return Event::type != Event::Type::empty; }
+		inline Event::Type eventType() const override { return Event::type; }
+		inline operator bool() const override { return Event::type != Event::Type::empty; }
 	};
 
 	struct MouseRoll : public Event {
@@ -34,7 +34,8 @@ namespace app::event {
 			Event{Event::Type::mouseRoll}, offset{offset},
 			x{x}, y{y} {}
 
-		inline Event::Type eventType() const { return Event::type; }
+		inline Event::Type eventType() const override { return Event::type; }
+		inline operator bool() const override { return Event::type != Event::Type::empty; }
 	};
 }
 

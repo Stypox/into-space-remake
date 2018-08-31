@@ -18,8 +18,8 @@ namespace app::event {
 			Event{Event::Type::key}, type{type},
 			key{key} {}
 
-		inline Event::Type eventType() const { return Event::type; }
-		inline operator bool() const { return Event::type != Event::Type::empty; }
+		inline Event::Type eventType() const override { return Event::type; }
+		inline operator bool() const override { return Event::type != Event::Type::empty; }
 	};
 
 	struct KeyLong : public Event {
@@ -37,8 +37,8 @@ namespace app::event {
 			key{key}, delayAfterAction{delayAfterAction},
 			delayInBetween{delayInBetween} {}
 
-		inline Event::Type eventType() const { return Event::type; }
-		inline operator bool() const { return Event::type != Event::Type::empty; }
+		inline Event::Type eventType() const override { return Event::type; }
+		inline operator bool() const override { return Event::type != Event::Type::empty; }
 	};
 }
 
