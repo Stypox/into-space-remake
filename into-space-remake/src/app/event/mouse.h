@@ -6,11 +6,9 @@
 namespace app::event {
 	struct Click : public Event {
 		enum Type : char {
-			click,
-			doubeClick,
 			press,
+			doublePress,
 			release,
-			longPress,
 		};
 
 		const Type type;
@@ -21,6 +19,27 @@ namespace app::event {
 			Event{Event::Type::click}, type{type},
 			key{key}, x{x},
 			y{y} {}
+
+		inline Event::Type eventType() const override { return Event::type; }
+		inline operator bool() const override { return Event::type != Event::Type::empty; }
+	};
+
+	struct LongClick : public Event {
+		enum Type : char {
+			press,
+			release,
+		};
+
+		const Type type;
+		const int key;
+		const int x, y;
+		const float delayAfterAction, delayInBetween;
+
+		constexpr Click(Type type, int key, int x, int y, float delayAfterAction, float delayInBetween) :
+			Event{Event::Type::click}, type{type},
+			key{key}, x{x},
+			y{y}, delayAfterAction{delayAfterAction},
+			delayInBetween{delayInBetween} {}
 
 		inline Event::Type eventType() const override { return Event::type; }
 		inline operator bool() const override { return Event::type != Event::Type::empty; }
