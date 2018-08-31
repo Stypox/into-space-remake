@@ -5,7 +5,6 @@ namespace app {
 		if (!started) {
 			m_window = glfwCreateWindow(m_args.width, m_args.height, windowTitle, nullptr, nullptr);
 			glfwMakeContextCurrent(m_window);
-			m_keysInput.setWindow(m_window);
 			started = true;
 		}
 	}
@@ -14,8 +13,16 @@ namespace app {
 			while (!glfwWindowShouldClose(m_window)) {
 				glfwPollEvents();
 				m_keysInput.update();
-				if (*m_eventHandler.getKeep())
-					std::cout << std::dynamic_pointer_cast<event::Key>(m_eventHandler.get())->type << "\n";
+				switch (m_eventHandler.getKeep()->eventType()) {
+					case event::Event::key:
+						std::cout << "Key: " << std::dynamic_pointer_cast<event::Key>(m_eventHandler.get())->type << "\n";
+						break;
+					case event::Event::keyLong:
+						std::cout << "KeyLong: " << std::dynamic_pointer_cast<event::KeyLong>(m_eventHandler.get())->type << "\n";
+						break;
+					default:
+						break;
+				}
 
 				if (GLenum e = glGetError(); e) std::cout << "Error " << e << " in game loop: " << gluErrorString(e) << std::flush;
 				glfwSwapBuffers(m_window);
@@ -35,6 +42,10 @@ namespace app {
 			{event::Key::press, GLFW_KEY_W},
 			{event::Key::release, GLFW_KEY_A},
 			{event::Key::doublePress, GLFW_KEY_S},
+			{event::Key::press, GLFW_KEY_D},
+		}, {
+			//{event::KeyLong::release, GLFW_KEY_A, 2.0, 1.0},
+			{event::KeyLong::press, GLFW_KEY_D, 0.6, 0.1},
 		}} {}
 	Application::~Application() {
 		terminate();
