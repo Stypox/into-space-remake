@@ -35,7 +35,7 @@ namespace app::event {
 		const int x, y;
 		const float delayAfterAction, delayInBetween;
 
-		constexpr Click(Type type, int key, int x, int y, float delayAfterAction, float delayInBetween) :
+		constexpr LongClick(Type type, int key, int x, int y, float delayAfterAction, float delayInBetween) :
 			Event{Event::Type::click}, type{type},
 			key{key}, x{x},
 			y{y}, delayAfterAction{delayAfterAction},
