@@ -45,17 +45,18 @@ namespace app::input {
 		event::Handler& m_eventHandler;
 		float m_doublePressDelay;
 
-		std::vector<KeyData> m_keysPressListener;
-		std::vector<KeyData> m_mouseKeysPressListener;
-		std::vector<KeyDoublePressData> m_keysDoublePressListener;
-		std::vector<KeyDoublePressData> m_mouseKeysDoublePressListener;
-		std::vector<KeyData> m_keysReleaseListener;
-		std::vector<KeyData> m_mouseKeysReleaseListener;
-		std::vector<KeyLongData> m_keysLongPressListener;
-		std::vector<KeyLongData> m_mouseKeysLongPressListener;
-		std::vector<KeyLongData> m_keysLongReleaseListener;
-		std::vector<KeyLongData> m_mouseKeysLongReleaseListener;
-
+		//listeners data
+		std::vector<KeyData> m_pressData;
+		std::vector<KeyData> m_mousePressData;
+		std::vector<KeyDoublePressData> m_doublePressData;
+		std::vector<KeyDoublePressData> m_mouseDoublePressData;
+		std::vector<KeyData> m_releaseData;
+		std::vector<KeyData> m_mouseReleaseData;
+		std::vector<KeyLongData> m_longPressData;
+		std::vector<KeyLongData> m_mouseLongPressData;
+		std::vector<KeyLongData> m_longReleaseData;
+		std::vector<KeyLongData> m_mouseLongReleaseData;
+		
 		float m_time;
 
 		void updatePress();

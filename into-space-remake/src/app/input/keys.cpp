@@ -9,7 +9,7 @@ namespace app::input {
 
 	void Keys::updatePress() {
 		//keyboard
-		for (auto&& key : m_keysPressListener) {
+		for (auto&& key : m_pressData) {
 			if (bool keyState = glfwGetKey(m_window, key.key); keyState != key.lastState) {
 				if (keyState)
 					m_eventHandler.push(new event::Key{event::Key::press, key.key});
@@ -18,7 +18,7 @@ namespace app::input {
 		}
 
 		//mouse
-		for (auto&& key : m_mouseKeysPressListener) {
+		for (auto&& key : m_mousePressData) {
 			if (bool keyState = glfwGetMouseButton(m_window, key.key); keyState != key.lastState) {
 				if (keyState)
 					m_eventHandler.push(new event::Key{event::Key::press, key.key});
@@ -28,7 +28,7 @@ namespace app::input {
 	}
 	void Keys::updateDoublePress() {
 		//keyboard
-		for (auto&& key : m_keysDoublePressListener) {
+		for (auto&& key : m_doublePressData) {
 			if (bool keyState = glfwGetKey(m_window, key.key); keyState != key.lastState) {
 				if (keyState) {
 					if (key.lastPressed + m_doublePressDelay > m_time) {
@@ -43,7 +43,7 @@ namespace app::input {
 		}
 
 		//mouse
-		for (auto&& key : m_mouseKeysDoublePressListener) {
+		for (auto&& key : m_mouseDoublePressData) {
 			if (bool keyState = glfwGetMouseButton(m_window, key.key); keyState != key.lastState) {
 				if (keyState) {
 					if (key.lastPressed + m_doublePressDelay > m_time) {
@@ -59,7 +59,7 @@ namespace app::input {
 	}
 	void Keys::updateRelease() {
 		//keyboard
-		for (auto&& key : m_keysReleaseListener) {
+		for (auto&& key : m_releaseData) {
 			if (bool keyState = glfwGetKey(m_window, key.key); keyState != key.lastState) {
 				if (!keyState)
 					m_eventHandler.push(new event::Key{event::Key::release, key.key});
@@ -68,7 +68,7 @@ namespace app::input {
 		}
 
 		//mouse
-		for (auto&& key : m_mouseKeysReleaseListener) {
+		for (auto&& key : m_mouseReleaseData) {
 			if (bool keyState = glfwGetMouseButton(m_window, key.key); keyState != key.lastState) {
 				if (!keyState)
 					m_eventHandler.push(new event::Key{event::Key::release, key.key});
@@ -78,7 +78,7 @@ namespace app::input {
 	}
 	void Keys::updateLongPress() {
 		//keyboard
-		for (auto&& key : m_keysLongPressListener) {
+		for (auto&& key : m_longPressData) {
 			if (bool keyState = glfwGetKey(m_window, key.key); keyState != key.lastState) {
 				key.lastState = keyState;
 				if (keyState)
@@ -92,7 +92,7 @@ namespace app::input {
 		}
 
 		//mouse
-		for (auto&& key : m_mouseKeysLongPressListener) {
+		for (auto&& key : m_mouseLongPressData) {
 			if (bool keyState = glfwGetMouseButton(m_window, key.key); keyState != key.lastState) {
 				key.lastState = keyState;
 				if (keyState)
@@ -107,7 +107,7 @@ namespace app::input {
 	}
 	void Keys::updateLongRelease() {
 		//keyboard
-		for (auto&& key : m_keysLongReleaseListener) {
+		for (auto&& key : m_longReleaseData) {
 			if (bool keyState = glfwGetKey(m_window, key.key); keyState != key.lastState) {
 				key.lastState = keyState;
 				if (!keyState)
@@ -121,7 +121,7 @@ namespace app::input {
 		}
 
 		//mouse
-		for (auto&& key : m_mouseKeysLongReleaseListener) {
+		for (auto&& key : m_mouseLongReleaseData) {
 			if (bool keyState = glfwGetMouseButton(m_window, key.key); keyState != key.lastState) {
 				key.lastState = keyState;
 				if (!keyState)
@@ -151,51 +151,55 @@ namespace app::input {
 	}
 
 	void Keys::addListener(event::Key::Type type, int key) {
+		//mouse
 		if (key >= 0 && key <= GLFW_MOUSE_BUTTON_LAST) {
 			switch (type) {
 				case event::Key::press:
-					m_mouseKeysPressListener.emplace_back(key);
+					m_mousePressData.emplace_back(key);
 					break;
 				case event::Key::doublePress:
-					m_mouseKeysDoublePressListener.emplace_back(key, m_doublePressDelay);
+					m_mouseDoublePressData.emplace_back(key, m_doublePressDelay);
 					break;
 				case event::Key::release:
-					m_mouseKeysReleaseListener.emplace_back(key);
+					m_mouseReleaseData.emplace_back(key);
 					break;
 			}
 		}
+		//keyboard
 		else {
 			switch (type) {
 				case event::Key::press:
-					m_keysPressListener.emplace_back(key);
+					m_pressData.emplace_back(key);
 					break;
 				case event::Key::doublePress:
-					m_keysDoublePressListener.emplace_back(key, m_doublePressDelay);
+					m_doublePressData.emplace_back(key, m_doublePressDelay);
 					break;
 				case event::Key::release:
-					m_keysReleaseListener.emplace_back(key);
+					m_releaseData.emplace_back(key);
 					break;
 			}
 		}
 	}
 	void Keys::addListener(event::KeyLong::Type type, int key, float delayAfterAction, float delayInBetween) {
+		//mouse
 		if (key > 0 && key < GLFW_MOUSE_BUTTON_LAST) {
 			switch (type) {
 				case event::KeyLong::press:
-					m_mouseKeysLongPressListener.emplace_back(key, delayAfterAction, delayInBetween);
+					m_mouseLongPressData.emplace_back(key, delayAfterAction, delayInBetween);
 					break;
 				case event::KeyLong::release:
-					m_mouseKeysLongReleaseListener.emplace_back(key, delayAfterAction, delayInBetween);
+					m_mouseLongReleaseData.emplace_back(key, delayAfterAction, delayInBetween);
 					break;
 			}
 		}
+		//keyboard
 		else {
 			switch (type) {
 				case event::KeyLong::press:
-					m_keysLongPressListener.emplace_back(key, delayAfterAction, delayInBetween);
+					m_longPressData.emplace_back(key, delayAfterAction, delayInBetween);
 					break;
 				case event::KeyLong::release:
-					m_keysLongReleaseListener.emplace_back(key, delayAfterAction, delayInBetween);
+					m_longReleaseData.emplace_back(key, delayAfterAction, delayInBetween);
 					break;
 			}
 		}
