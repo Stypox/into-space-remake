@@ -46,11 +46,23 @@ namespace app::input {
 		float m_doublePressDelay;
 
 		std::vector<KeyData> m_keysPressListener;
+		std::vector<KeyData> m_mouseKeysPressListener;
 		std::vector<KeyDoublePressData> m_keysDoublePressListener;
+		std::vector<KeyDoublePressData> m_mouseKeysDoublePressListener;
 		std::vector<KeyData> m_keysReleaseListener;
+		std::vector<KeyData> m_mouseKeysReleaseListener;
 		std::vector<KeyLongData> m_keysLongPressListener;
+		std::vector<KeyLongData> m_mouseKeysLongPressListener;
 		std::vector<KeyLongData> m_keysLongReleaseListener;
+		std::vector<KeyLongData> m_mouseKeysLongReleaseListener;
 
+		float m_time;
+
+		void updatePress();
+		void updateDoublePress();
+		void updateRelease();
+		void updateLongPress();
+		void updateLongRelease();
 	public:
 		Keys(GLFWwindow*& window, event::Handler& eventHandler, float doublePressDelay);
 		Keys(GLFWwindow*& window, event::Handler& eventHandler, float doublePressDelay,

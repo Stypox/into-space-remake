@@ -39,7 +39,7 @@ namespace app {
 	Application::Application(const std::vector<std::string>& arguments) :
 		m_args{arguments}, m_window{nullptr},
 		m_eventHandler{}, m_keysInput{m_window, m_eventHandler, m_args.doubleClickDelay, {
-			{event::Key::press, GLFW_KEY_W},
+			{event::Key::press, GLFW_MOUSE_BUTTON_RIGHT},
 			{event::Key::release, GLFW_KEY_A},
 			{event::Key::doublePress, GLFW_KEY_S},
 			{event::Key::press, GLFW_KEY_D},
