@@ -1,10 +1,6 @@
 #include "handler.h"
 
 namespace app::event {
-	void Handler::push(Event* event) {
-		m_events.emplace(event);
-	}
-
 	std::shared_ptr<Event> Handler::get() {
 		if (m_events.empty()) {
 			return std::shared_ptr<Event>{new Event{Event::Type::empty}};

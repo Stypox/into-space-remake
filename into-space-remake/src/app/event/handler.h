@@ -19,7 +19,8 @@ namespace app::event {
 		Handler(Handler&& other) = default;
 		Handler& operator=(Handler&& other) = default;
 
-		void push(Event* event);
+		template<typename T, typename = typename std::enable_if<std::is_same<T, Event>::value || std::is_base_of<Event, T>::value>::type>
+		inline void push(T* event) { m_events.emplace(dynamic_cast<Event*>(event)); }
 
 		std::shared_ptr<Event> get();
 		std::shared_ptr<Event> getKeep();
