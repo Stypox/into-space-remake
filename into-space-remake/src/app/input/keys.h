@@ -4,10 +4,10 @@
 #include <vector>
 #include <utility>
 #include <tuple>
+#include <GLFW/glfw3.h>
 
 #include "../event/key.h"
 #include "../event/handler.h"
-#include "GLFW/glfw3.h"
 
 namespace app::input {
 	class Keys {
