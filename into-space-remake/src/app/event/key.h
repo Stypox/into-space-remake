@@ -28,12 +28,14 @@ namespace app::event {
 			release,
 		};
 
+		const Type type;
 		const int key;
-		const int delay;
+		const float delayAfterAction, delayInBetween;
 
-		constexpr KeyLong(int key, int delay) :
-			Event{Event::Type::keyLong}, key{key},
-			delay{delay} {}
+		constexpr KeyLong(Type type, int key, float delayAfterAction, float delayInBetween) :
+			Event{Event::Type::keyLong}, type{type},
+			key{key}, delayAfterAction{delayAfterAction},
+			delayInBetween{delayInBetween} {}
 
 		inline Event::Type eventType() const { return Event::type; }
 		inline operator bool() const { return Event::type != Event::Type::empty; }
