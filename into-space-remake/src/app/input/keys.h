@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <utility>
+#include <tuple>
 
 #include "../event/key.h"
 #include "../event/handler.h"
@@ -13,30 +14,53 @@ namespace app::input {
 
 	class Keys {
 		struct KeyData {
-			int key;
-			event::Key::Type type;
-			bool lastState = notPressed;
+			const int key;
+			bool lastState;
+
+			constexpr KeyData(int key) :
+				key{key}, lastState{notPressed} {}
+		};
+		struct KeyDoublePressData {
+			const int key;
+			bool lastState;
 			float lastPressed;
 
-			constexpr KeyData(int key, event::Key::Type type, float doubleClickTime) :
-				key{key}, type{type},
-				lastPressed{-3 * doubleClickTime} {}
+			constexpr KeyDoublePressData(int key, float doublePressDelay) :
+				key{key}, lastState{notPressed},
+				lastPressed{-3 * doublePressDelay} {}
+		};
+		struct KeyLongData {
+			const int key;
+			const float delayAfterAction, delayInBetween;
+			bool lastState;
+			float lastAction;
+
+			constexpr KeyLongData(int key, float delayAfterAction, float delayInBetween) :
+				key{key}, delayAfterAction{delayAfterAction},
+				delayInBetween{delayInBetween}, lastState{notPressed},
+				lastAction{0.0f} {}
 		};
 
+		GLFWwindow*& m_window;
+		event::Handler& m_eventHandler;
 		float m_doublePressDelay;
 
-		std::vector<KeyData> m_keys;
-		GLFWwindow* m_window;
-		event::Handler& m_eventHandler;
+		std::vector<KeyData> m_keysPressListener;
+		std::vector<KeyDoublePressData> m_keysDoublePressListener;
+		std::vector<KeyData> m_keysReleaseListener;
+		std::vector<KeyLongData> m_keysLongPressListener;
+		std::vector<KeyLongData> m_keysLongReleaseListener;
 
 	public:
-		Keys(GLFWwindow* window, event::Handler& eventHandler, float doublePressDelay);
-		Keys(GLFWwindow* window, event::Handler& eventHandler, float doublePressDelay, std::initializer_list<std::pair<event::Key::Type, int>> listeners);
+		Keys(GLFWwindow*& window, event::Handler& eventHandler, float doublePressDelay);
+		Keys(GLFWwindow*& window, event::Handler& eventHandler, float doublePressDelay,
+			std::initializer_list<std::pair<event::Key::Type, int>> listeners,
+			std::initializer_list<std::tuple<event::KeyLong::Type, int, float, float>> longListeners);
 
-		inline void setWindow(GLFWwindow* window) { m_window = window; }
 		inline void setDoublePressDelay(float doublePressDelay) { m_doublePressDelay = doublePressDelay; }
 
-		inline void addListener(event::Key::Type type, int key) { m_keys.emplace_back(key, type, m_doublePressDelay); }
+		void addListener(event::Key::Type type, int key);
+		void addListener(event::KeyLong::Type type, int key, float delayAfterAction, float delayInBetween);
 
 		void update();
 
