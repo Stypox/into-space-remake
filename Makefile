@@ -18,7 +18,7 @@ EXECUTABLE_NAME := IntoSpaceRemake$(if $(filter $(OS),Windows_NT), .exe,)
 OBJECT_FILES = main.o \
 	app_application.o app_arguments.o \
 		app_event_event.o app_event_handler.o \
-		app_input_keys.o app_input_mouse.o \
+		app_input_keys.o app_input_mouseroll.o \
 	stypox_fileManagement.o \
 	stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
 
@@ -59,8 +59,8 @@ app_input_keys.o: $(APP)input/keys.h $(APP)input/keys.cpp $(APP)event/key.h app_
 	$(CXX) $(CXXFLAGS) -c $(APP)input/keys.cpp -o app_input_keys.o
 
 # src/app/input/mouse.cpp
-app_input_mouse.o: $(APP)input/mouse.h $(APP)input/mouse.cpp $(APP)event/mouse.h app_event_event.o app_event_handler.o
-	$(CXX) $(CXXFLAGS) -c $(APP)input/mouse.cpp -o app_input_mouse.o
+app_input_mouseroll.o: $(APP)input/mouseroll.h $(APP)input/mouseroll.cpp $(APP)event/mouseroll.h app_event_event.o app_event_handler.o
+	$(CXX) $(CXXFLAGS) -c $(APP)input/mouseroll.cpp -o app_input_mouseroll.o
 
 
 # stypox_libraries_path/
