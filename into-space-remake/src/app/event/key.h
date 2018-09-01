@@ -40,6 +40,36 @@ namespace app::event {
 		inline Event::Type eventType() const override { return Event::type; }
 		inline operator bool() const override { return Event::type != Event::Type::empty; }
 	};
+
+	struct KeyPos : public Event {
+		const Key::Type type;
+		const int key;
+		double x, y;
+
+		constexpr KeyPos(Key::Type type, int key, double x, double y) :
+			Event{Event::Type::keyPos}, type{type},
+			key{key}, x{x},
+			y{y} {}
+
+		inline Event::Type eventType() const override { return Event::type; }
+		inline operator bool() const override { return Event::type != Event::Type::empty; }
+	};
+
+	struct KeyPosLong : public Event {
+		const KeyLong::Type type;
+		const int key;
+		double x, y;
+		const float delayAfterAction, delayInBetween;
+
+		constexpr KeyPosLong(KeyLong::Type type, int key, double x, double y, float delayAfterAction, float delayInBetween) :
+			Event{Event::Type::keyPosLong}, type{type},
+			key{key}, x{x},
+			y{y}, delayAfterAction{delayAfterAction},
+			delayInBetween{delayInBetween} {}
+
+		inline Event::Type eventType() const override { return Event::type; }
+		inline operator bool() const override { return Event::type != Event::Type::empty; }
+	};
 }
 
 #endif
