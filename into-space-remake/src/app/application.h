@@ -11,6 +11,7 @@
 #include "arguments.h"
 #include "event/handler.h"
 #include "input/keys.h"
+#include "input/scroll.h"
 
 namespace app {
 	constexpr const char * windowTitle = "Into Space remake";
@@ -21,6 +22,7 @@ namespace app {
 
 		event::Handler m_eventHandler;
 		input::Keys m_keysInput;
+		input::Scroll m_scrollInput;
 
 		bool started;
 

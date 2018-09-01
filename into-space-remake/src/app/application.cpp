@@ -8,6 +8,7 @@ namespace app {
 			glfwSetInputMode(m_window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE);
 			glfwMakeContextCurrent(m_window);
 			glfwSwapInterval(0);
+			m_scrollInput.activateWindowCallback();
 			started = true;
 		}
 	}
@@ -16,6 +17,7 @@ namespace app {
 			while (!glfwWindowShouldClose(m_window)) {
 				glfwPollEvents();
 				m_keysInput.update();
+				m_scrollInput.update();
 				while (1) {
 					switch (m_eventHandler.getKeep()->eventType()) {
 						case event::Event::key: {
@@ -36,7 +38,12 @@ namespace app {
 							std::cout << "KeyPosLong: " << event->type << " - X:" << event->x << "; Y:" << event->y << "\n";
 							continue;
 						}
+						case event::Event::empty: {
+							m_eventHandler.get();
+							break;
+						}
 						default: {
+							std::cout << "Unknown event\n";
 							m_eventHandler.get();
 							break;
 						}
@@ -62,7 +69,7 @@ namespace app {
 
 		}, {
 			
-		}} {}
+		}}, m_scrollInput{m_window, m_eventHandler, 1, 1} {}
 	Application::~Application() {
 		terminate();
 	}
