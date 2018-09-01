@@ -10,8 +10,6 @@
 
 namespace app::input {
 	class Keys {
-
-
 		struct KeyData {
 			const int key;
 			bool lastState;
