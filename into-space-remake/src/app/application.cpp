@@ -4,7 +4,10 @@ namespace app {
 	void Application::start() {
 		if (!started) {
 			m_window = glfwCreateWindow(m_args.width, m_args.height, windowTitle, nullptr, nullptr);
+			glfwSetInputMode(m_window, GLFW_STICKY_KEYS, GLFW_TRUE);
+			glfwSetInputMode(m_window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE);
 			glfwMakeContextCurrent(m_window);
+			glfwSwapInterval(0);
 			started = true;
 		}
 	}
@@ -13,15 +16,32 @@ namespace app {
 			while (!glfwWindowShouldClose(m_window)) {
 				glfwPollEvents();
 				m_keysInput.update();
-				switch (m_eventHandler.getKeep()->eventType()) {
-					case event::Event::key:
-						std::cout << "Key: " << std::dynamic_pointer_cast<event::Key>(m_eventHandler.get())->type << "\n";
-						break;
-					case event::Event::keyLong:
-						std::cout << "KeyLong: " << std::dynamic_pointer_cast<event::KeyLong>(m_eventHandler.get())->type << "\n";
-						break;
-					default:
-						break;
+				while (1) {
+					switch (m_eventHandler.getKeep()->eventType()) {
+						case event::Event::key: {
+							std::cout << "Key: " << std::dynamic_pointer_cast<event::Key>(m_eventHandler.get())->type << "\n";
+							continue;
+						}
+						case event::Event::keyLong: {
+							std::cout << "KeyLong: " << std::dynamic_pointer_cast<event::KeyLong>(m_eventHandler.get())->type << "\n";
+							continue;
+						}
+						case event::Event::keyPos: {
+							auto event = std::dynamic_pointer_cast<event::KeyPos>(m_eventHandler.get());
+							std::cout << "KeyPos: " << event->type << " - X:" << event->x << "; Y:" << event->y << "\n";
+							continue;
+						}
+						case event::Event::keyPosLong: {
+							auto event = std::dynamic_pointer_cast<event::KeyPosLong>(m_eventHandler.get());
+							std::cout << "KeyPosLong: " << event->type << " - X:" << event->x << "; Y:" << event->y << "\n";
+							continue;
+						}
+						default: {
+							m_eventHandler.get();
+							break;
+						}
+					}
+					break;
 				}
 
 				if (GLenum e = glGetError(); e) std::cout << "Error " << e << " in game loop: " << gluErrorString(e) << std::flush;
@@ -39,13 +59,9 @@ namespace app {
 	Application::Application(const std::vector<std::string>& arguments) :
 		m_args{arguments}, m_window{nullptr},
 		m_eventHandler{}, m_keysInput{m_window, m_eventHandler, m_args.doubleClickDelay, {
-			{event::Key::press, GLFW_MOUSE_BUTTON_RIGHT},
-			{event::Key::release, GLFW_KEY_A},
-			{event::Key::doublePress, GLFW_KEY_S},
-			{event::Key::press, GLFW_KEY_D},
+
 		}, {
-			//{event::KeyLong::release, GLFW_KEY_A, 2.0, 1.0},
-			{event::KeyLong::press, GLFW_KEY_D, 0.6, 0.1},
+			
 		}} {}
 	Application::~Application() {
 		terminate();
