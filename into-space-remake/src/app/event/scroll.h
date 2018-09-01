@@ -4,11 +4,11 @@
 #include "event.h"
 
 namespace app::event {
-	struct MouseRoll : public Event {
+	struct Scroll : public Event {
 		const double offset;
 		const double x, y;
 
-		constexpr MouseRoll(double offset, double x, double y) :
+		constexpr Scroll(double offset, double x, double y) :
 			Event{Event::Type::mouseRoll}, offset{offset},
 			x{x}, y{y} {}
 

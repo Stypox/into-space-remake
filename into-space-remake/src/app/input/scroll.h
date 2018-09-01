@@ -3,11 +3,11 @@
 
 #include <GLFW/glfw3.h>
 
-#include "../event/mouseroll.h"
+#include "../event/scroll.h"
 #include "../event/handler.h"
 
 namespace app::input {
-	class MouseRoll {
+	class Scroll {
 
 	};
 }
