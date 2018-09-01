@@ -6,6 +6,7 @@ namespace app::event {
 		enum Type : char {
 			empty,
 			mouseRoll,
+			mouseMove,
 			key,
 			keyLong,
 			keyPos,
