@@ -58,7 +58,7 @@ app_event_handler.o: $(APP)event/handler.h $(APP)event/handler.cpp app_event_eve
 app_input_keys.o: $(APP)input/keys.h $(APP)input/keys.cpp $(APP)event/key.h app_event_event.o app_event_handler.o
 	$(CXX) $(CXXFLAGS) -c $(APP)input/keys.cpp -o app_input_keys.o
 
-# src/app/input/mouse.cpp
+# src/app/input/scroll.cpp
 app_input_scroll.o: $(APP)input/scroll.h $(APP)input/scroll.cpp $(APP)event/scroll.h app_event_event.o app_event_handler.o
 	$(CXX) $(CXXFLAGS) -c $(APP)input/scroll.cpp -o app_input_scroll.o
 
