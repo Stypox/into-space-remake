@@ -60,16 +60,16 @@ namespace app::input {
 		double xCursor, yCursor;
 		glfwGetCursorPos(m_window, &xCursor, &yCursor);
 
-		if (m_xOffset != 0) {
+		if (m_xOffset != 0.0) {
 			for (sp::Tint8 xEvents = 0; xEvents != m_nrEventsX; ++xEvents)
 				m_eventHandler.push(new event::Scroll{event::Scroll::xAxis, m_xOffset, xCursor, yCursor});
-			m_xOffset = 0;
+			m_xOffset = 0.0;
 		}
 
-		if (m_yOffset != 0) {
+		if (m_yOffset != 0.0) {
 			for (sp::Tint8 yEvents = 0; yEvents != m_nrEventsY; ++yEvents)
 				m_eventHandler.push(new event::Scroll{event::Scroll::yAxis, m_yOffset, xCursor, yCursor});
-			m_yOffset = 0;
+			m_yOffset = 0.0;
 		}
 	}
 }
