@@ -11,6 +11,7 @@
 #include "arguments.h"
 #include "event/handler.h"
 #include "input/keys.h"
+#include "input/mousemove.h"
 #include "input/scroll.h"
 
 namespace app {
@@ -22,6 +23,7 @@ namespace app {
 
 		event::Handler m_eventHandler;
 		input::Keys m_keysInput;
+		input::MouseMove m_mouseMoveInput;
 		input::Scroll m_scrollInput;
 
 		bool started;

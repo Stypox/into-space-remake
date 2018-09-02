@@ -35,7 +35,7 @@ main.o: $(SRC)main.cpp app_application.o
 # src/app/
 
 # src/app/application.cpp
-app_application.o: $(APP)application.h $(APP)application.cpp app_arguments.o app_event_handler.o app_input_keys.o app_input_scroll.o
+app_application.o: $(APP)application.h $(APP)application.cpp app_arguments.o app_event_handler.o app_input_keys.o app_input_scroll.o app_input_mousemove.o
 	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp -o app_application.o
 
 # src/app/arguments.cpp

@@ -17,6 +17,7 @@ namespace app {
 			while (!glfwWindowShouldClose(m_window)) {
 				glfwPollEvents();
 				m_keysInput.update();
+				m_mouseMoveInput.update();
 				m_scrollInput.update();
 				while (1) {
 					switch (m_eventHandler.getKeep()->eventType()) {
@@ -36,6 +37,16 @@ namespace app {
 						case event::Event::keyPosLong: {
 							auto event = std::dynamic_pointer_cast<event::KeyPosLong>(m_eventHandler.get());
 							std::cout << "KeyPosLong: " << event->type << " - X:" << event->x << "; Y:" << event->y << "\n";
+							continue;
+						}
+						case event::Event::scroll: {
+							auto event = std::dynamic_pointer_cast<event::Scroll>(m_eventHandler.get());
+							std::cout << "Scroll: " << event->type << " - Offset:" << event->offset << "; X:" << event->xCursor << "; Y:" << event->yCursor << "\n";
+							continue;
+						}
+						case event::Event::mouseMove: {
+							auto event = std::dynamic_pointer_cast<event::MouseMove>(m_eventHandler.get());
+							std::cout << "Scroll: " << event->type << " - Offset:" << event->offset << "; Position:" << event->position << "\n";
 							continue;
 						}
 						case event::Event::empty: {
@@ -68,8 +79,9 @@ namespace app {
 		m_eventHandler{}, m_keysInput{m_window, m_eventHandler, m_args.doubleClickDelay, {
 
 		}, {
-			
-		}}, m_scrollInput{m_window, m_eventHandler, 1, 1} {}
+
+		}}, m_mouseMoveInput{m_window, m_eventHandler, 1, 1},
+		m_scrollInput{m_window, m_eventHandler, 1, 1} {}
 	Application::~Application() {
 		terminate();
 	}
