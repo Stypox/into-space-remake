@@ -5,13 +5,18 @@
 
 namespace app::event {
 	struct MouseMove : public Event {
-		const double xOffset, yOffset;
-		const double x, y;
+		enum Type {
+			xAxis,
+			yAxis,
+		};
 
-		constexpr MouseMove(double xOffset, double yOffset, double x, double y) :
-			Event{Event::Type::mouseMove}, xOffset{xOffset},
-			yOffset{yOffset}, x{x},
-			y{y} {}
+		const Type type;
+		const double offset;
+		const double position;
+
+		constexpr MouseMove(Type type, double offset, double position) :
+			Event{Event::Type::mouseMove}, type{type},
+			offset{offset}, position{position} {}
 
 		inline Event::Type eventType() const override { return Event::type; }
 		inline operator bool() const override { return Event::type != Event::Type::empty; }
