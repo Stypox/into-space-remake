@@ -1,5 +1,5 @@
-#ifndef _INTO_SPACE_REMAKE_APP_EVENT_MOUSEROLL_H_
-#define _INTO_SPACE_REMAKE_APP_EVENT_MOUSEROLL_H_
+#ifndef _INTO_SPACE_REMAKE_APP_EVENT_SCROLL_H_
+#define _INTO_SPACE_REMAKE_APP_EVENT_SCROLL_H_
 
 #include "event.h"
 
@@ -15,7 +15,7 @@ namespace app::event {
 		const double xCursor, yCursor;
 
 		constexpr Scroll(Type type, double offset, double xCursor, double yCursor) :
-			Event{Event::Type::mouseRoll}, type{type},
+			Event{Event::Type::scroll}, type{type},
 			offset{offset}, xCursor{xCursor},
 			yCursor{yCursor} {}
 
