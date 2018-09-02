@@ -11,13 +11,15 @@ namespace app::input {
 	class MouseMove {
 		GLFWwindow*& m_window;
 		event::Handler& m_eventHandler;
-		sp::Tint8 m_nrEvents;
+		sp::Tint8 m_nrEventsX, m_nrEventsY;
 
 		double m_lastX, m_lastY;
 	public:
-		MouseMove(GLFWwindow*& window, event::Handler& eventHandler, sp::Tint8 nrEvents = 0);
+		MouseMove(GLFWwindow*& window, event::Handler& eventHandler);
+		MouseMove(GLFWwindow*& window, event::Handler& eventHandler, sp::Tint8 nrEventsX, sp::Tint8 nrEventsY);
 
-		inline void setNrEvents(sp::Tint8 nrEvents) { m_nrEvents = nrEvents; }
+		inline void setNrEventsX(sp::Tint8 nrEventsX) { m_nrEventsX = nrEventsX; }
+		inline void setNrEventsY(sp::Tint8 nrEventsY) { m_nrEventsY = nrEventsY; }
 
 		void update();
 	};
