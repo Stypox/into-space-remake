@@ -7,7 +7,8 @@ namespace game::entity {
 	constexpr size_t nrVerticesItem = 4;
 
 	class Item : public Entity<nrVerticesItem> {
-		enum Type : char { //the enum values represent the position in the texture file 
+		// the enum values represent the position in the texture file 
+		enum Type : char {
 			fuel0  = 0,
 			fuel1  = 1,
 			fuel2  = 2,
@@ -21,7 +22,7 @@ namespace game::entity {
 		const float m_x, m_y;
 
 	public:
-		Item(float x, float y);
+		Item(Type type, float x, float y);
 
 		std::array<float, nrVerticesItem * render::vertexSize> vertices();
 	};
