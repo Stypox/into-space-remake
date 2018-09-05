@@ -16,7 +16,7 @@ $(info Using glad include path: $(GLAD))
 # compiler options and settings
 CXX = g++
 CXXFLAGS := -Wall -g -std=c++17 -I$(STYPOX) -I$(GLAD)include/
-CXXLIBS = -lstdc++fs -lGLEW -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor -lSOIL
+CXXLIBS = -lstdc++fs -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor -lSOIL
 
 # source code paths
 SRC = ./into-space-remake/src/
