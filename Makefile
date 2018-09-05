@@ -1,12 +1,21 @@
+# command to read file
+READFILE := $(if $(filter $(OS),Windows_NT),type,cat)
+
 # stypox libraries include path
 STYPOX_INCLUDE_PATH_FILE = stypoxincludepath.txt
-READFILE := $(if $(filter $(OS),Windows_NT),type,cat)
-# if this doesn't work just replace the following line with: STYPOX = path/to/include/stypox
+# if this doesn't work just replace the following line with: STYPOX = path/to/include/stypox/
 STYPOX := $(shell $(READFILE) $(STYPOX_INCLUDE_PATH_FILE))
+$(info Using stypox include path: $(STYPOX))
+
+# glad include path
+GLAD_INCLUDE_PATH_FILE = gladpath.txt
+# if this doesn't work just replace the following line with: GLAD = path/to/glad/
+GLAD := $(shell $(READFILE) $(GLAD_INCLUDE_PATH_FILE))
+$(info Using glad include path: $(GLAD))
 
 # compiler options and settings
 CXX = g++
-CXXFLAGS := -Wall -g -std=c++17 -I$(STYPOX)
+CXXFLAGS := -Wall -g -std=c++17 -I$(STYPOX) -I$(GLAD)include/
 CXXLIBS = -lstdc++fs -lGLEW -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor -lSOIL
 
 # source code paths
@@ -19,6 +28,7 @@ OBJECT_FILES = main.o \
 	app_application.o app_arguments.o \
 		app_event_event.o app_event_handler.o \
 		app_input_keys.o app_input_scroll.o app_input_mousemove.o \
+	glad_glad.o \
 	stypox_fileManagement.o \
 	stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
 
@@ -65,6 +75,14 @@ app_input_scroll.o: $(APP)input/scroll.h $(APP)input/scroll.cpp $(APP)event/scro
 # src/app/input/mousemove.cpp
 app_input_mousemove.o: $(APP)input/mousemove.h $(APP)input/mousemove.cpp $(APP)event/mousemove.h app_event_event.o app_event_handler.o
 	$(CXX) $(CXXFLAGS) -c $(APP)input/mousemove.cpp -o app_input_mousemove.o
+
+
+
+
+# glad_path/src/glad/
+glad_glad.o: $(GLAD)include/glad/glad.h $(GLAD)src/glad.c
+	$(CXX) $(CXXFLAGS) -c $(GLAD)src/glad.c -o glad_glad.o
+
 
 
 

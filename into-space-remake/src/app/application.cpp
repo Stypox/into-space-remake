@@ -39,9 +39,12 @@ namespace app {
 			glfwSwapInterval(0);
 			
 			m_scrollInput.activateWindowCallback();
-			
-			glewExperimental = GL_TRUE;
-			glewInit();
+
+			if (int errorCode = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress); !errorCode) {
+				glfwDestroyWindow(m_window);
+				glfwTerminate();
+				throw std::runtime_error{"Unable to initialize glad, error " + std::to_string(errorCode)};
+			}
 
 			started = true;
 		}
@@ -96,7 +99,7 @@ namespace app {
 					break;
 				}
 
-				if (GLenum e = glGetError(); e) std::cout << "Error " << e << " in game loop: " << gluErrorString(e) << std::flush;
+				if (GLenum e = glGetError(); e) std::cout << "Error " << e << " in game loop\n";
 				glfwSwapBuffers(m_window);
 			}
 		}
