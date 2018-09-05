@@ -25,9 +25,9 @@ namespace app {
 		static input::MouseMove m_mouseMoveInput;
 		static input::Scroll m_scrollInput;
 
-		static bool started;
+		static bool m_initialized;
 
-		static void start();
+		static void init();
 		static void loop();
 		static void terminate();
 

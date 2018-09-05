@@ -14,12 +14,12 @@ namespace app {
 	input::MouseMove Application::m_mouseMoveInput{m_window, m_eventHandler, 1, 1};
 	input::Scroll Application::m_scrollInput{m_window, m_eventHandler, 1, 1};
 
-	bool Application::started{false};
+	bool Application::m_initialized{false};
 	
 
 
-	void Application::start() {
-		if (!started) {
+	void Application::init() {
+		if (!m_initialized) {
 			if (int errorCode = glfwInit(); !errorCode)
 				throw std::runtime_error{"Unable to initialize glfw, error " + std::to_string(errorCode)};
 
@@ -50,11 +50,11 @@ namespace app {
 
 			m_width = Arguments::width;
 			m_height = Arguments::height;
-			started = true;
+			m_initialized = true;
 		}
 	}
 	void Application::loop() {
-		if (started) {
+		if (m_initialized) {
 			while (!glfwWindowShouldClose(m_window)) {
 				glfwPollEvents();
 				m_keysInput.update();
@@ -109,15 +109,15 @@ namespace app {
 		}
 	}
 	void Application::terminate() {
-		if (started) {
+		if (m_initialized) {
 			glfwDestroyWindow(m_window);
 			glfwTerminate();
-			started = false;
+			m_initialized = false;
 		}
 	}
 
 	void Application::framebufferSizeCallback(GLFWwindow* window, int width, int height) {
-		if (started) {
+		if (m_initialized) {
 			m_width = width;
 			m_height = height;
 
@@ -136,7 +136,7 @@ namespace app {
 			std::cout << Arguments::errorMessage;
 			return 0;
 		}
-		start();
+		init();
 		loop();
 		terminate();
 		return 0;
