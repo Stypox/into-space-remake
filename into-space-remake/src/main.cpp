@@ -16,16 +16,16 @@ int main(int argc, char* argv[]) {
 
 	int exitValue;
 	try {
-		glfwInit();
-		glewExperimental = GL_TRUE;
-		glewInit();
-		app::Application app {arguments};
-		exitValue = app.run();
-		glfwTerminate();
+		app::Arguments::parse(arguments);
+		exitValue = app::Application::run();
+	}
+	catch (const std::runtime_error& e) {
+		std::cerr << "Exception: " << e.what() << "\n";
+		exitValue = 1;
 	}
 	catch (...) {
-		std::cout << "exception";
-		exitValue = 1;
+		std::cout << "Unknown exception\n";
+		exitValue = 2;
 	}
 
 	std::cout << lines << "\n End " << arguments[0] << " \n" << lines << "\n";

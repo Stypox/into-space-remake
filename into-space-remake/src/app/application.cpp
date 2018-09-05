@@ -1,14 +1,48 @@
 #include "application.h"
 
 namespace app {
+	GLFWwindow* Application::m_window{nullptr};
+
+	event::Handler Application::m_eventHandler{};
+	input::Keys Application::m_keysInput{m_window, m_eventHandler, Arguments::doubleClickDelay, {
+
+	}, {
+
+	}};
+	input::MouseMove Application::m_mouseMoveInput{m_window, m_eventHandler, 1, 1};
+	input::Scroll Application::m_scrollInput{m_window, m_eventHandler, 1, 1};
+
+	bool Application::started{false};
+	
+
+
 	void Application::start() {
 		if (!started) {
-			m_window = glfwCreateWindow(m_args.width, m_args.height, windowTitle, nullptr, nullptr);
+			if (int errorCode = glfwInit(); !errorCode)
+				throw std::runtime_error{"Unable to initialize glfw, error " + std::to_string(errorCode)};
+
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+			glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+			m_window = glfwCreateWindow(Arguments::width, Arguments::height, windowTitle, nullptr, nullptr);
+			if (m_window == nullptr) {
+				glfwTerminate();
+				throw std::runtime_error{"Unable to create glfw window."};
+			}
+
 			glfwSetInputMode(m_window, GLFW_STICKY_KEYS, GLFW_TRUE);
 			glfwSetInputMode(m_window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE);
 			glfwMakeContextCurrent(m_window);
 			glfwSwapInterval(0);
+			
 			m_scrollInput.activateWindowCallback();
+			
+			glewExperimental = GL_TRUE;
+			glewInit();
+
 			started = true;
 		}
 	}
@@ -46,7 +80,7 @@ namespace app {
 						}
 						case event::Event::mouseMove: {
 							auto event = std::dynamic_pointer_cast<event::MouseMove>(m_eventHandler.get());
-							std::cout << "Scroll: " << event->type << " - Offset:" << event->offset << "; Position:" << event->position << "\n";
+							std::cout << "MouseMove: " << event->type << " - Offset:" << event->offset << "; Position:" << event->position << "\n";
 							continue;
 						}
 						case event::Event::empty: {
@@ -70,29 +104,18 @@ namespace app {
 	void Application::terminate() {
 		if (started) {
 			glfwDestroyWindow(m_window);
+			glfwTerminate();
 			started = false;
 		}
 	}
 
-	Application::Application(const std::vector<std::string>& arguments) :
-		m_args{arguments}, m_window{nullptr},
-		m_eventHandler{}, m_keysInput{m_window, m_eventHandler, m_args.doubleClickDelay, {
-
-		}, {
-
-		}}, m_mouseMoveInput{m_window, m_eventHandler, 1, 1},
-		m_scrollInput{m_window, m_eventHandler, 1, 1} {}
-	Application::~Application() {
-		terminate();
-	}
-
 	int Application::run() {
-		if (m_args.help) {
+		if (Arguments::help) {
 			std::cout << helpScreen;
 			return 0;
 		}
-		if (m_args.errorMessage != "") {
-			std::cout << m_args.errorMessage;
+		if (Arguments::errorMessage != "") {
+			std::cout << Arguments::errorMessage;
 			return 0;
 		}
 		start();

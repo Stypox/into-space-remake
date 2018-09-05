@@ -16,6 +16,19 @@ namespace app {
 	};
 
 
+	Tstr Arguments::errorMessage = "";
+
+	bool Arguments::help = false;
+
+	Tuint8 Arguments::verbosity = 0;
+	Tuint16 Arguments::width = 480;
+	Tuint16 Arguments::height = 480;
+	float Arguments::zoom = 1.0f;
+	float Arguments::doubleClickDelay = 0.5f;
+
+
+
+
 	size_t findArg(BoolArg argType, std::vector<Tstr>& arguments) {
 		int nrFoundIndices = 0;
 		
@@ -54,7 +67,7 @@ namespace app {
 	}
 	
 
-	Arguments::Arguments(std::vector<Tstr> arguments) {
+	void Arguments::parse(std::vector<Tstr> arguments) {
 		help = findArg(BoolArg::help, arguments);
 
 
@@ -80,7 +93,7 @@ namespace app {
 				errorMessage += "Argument verbosity used multiple times\n";
 		}
 
-		//screen widthdoubleClickDelay
+		//screen width
 		switch (ValueFound fWidth = findArg(ValueArg::width, arguments); std::get<int>(fWidth)) {
 			case 0:
 				break;

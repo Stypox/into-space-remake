@@ -39,17 +39,17 @@ namespace app {
 	};
 
 	struct Arguments {
-		sp::Tstr errorMessage;
+		static sp::Tstr errorMessage;
 
-		bool help = false;
+		static bool help;
 
-		sp::Tuint8 verbosity = 0;
-		sp::Tuint16 width = 480;
-		sp::Tuint16 height = 480;
-		float zoom = 1.0f;
-		float doubleClickDelay = 0.5f;
+		static sp::Tuint8 verbosity;
+		static sp::Tuint16 width;
+		static sp::Tuint16 height;
+		static float zoom;
+		static float doubleClickDelay;
 
-		Arguments(std::vector<std::string> arguments);
+		static void parse(std::vector<std::string> arguments);
 	};
 }
 
