@@ -10,7 +10,7 @@ namespace game::entity {
 	template<size_t V>
 	class Entity {		
 	public:
-		virtual std::array<float, render::vertexSize * V> vertices() = 0;
+		virtual std::array<float, render::vertexSize * V> vertices() const = 0;
 	};
 }
 

@@ -24,7 +24,7 @@ namespace game::entity {
 	public:
 		Item(Type type, float x, float y);
 
-		std::array<float, nrVerticesItem * render::vertexSize> vertices();
+		std::array<float, nrVerticesItem * render::vertexSize> vertices() const override;
 	};
 }
 

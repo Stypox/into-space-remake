@@ -5,7 +5,7 @@ namespace game::entity {
 		m_type{type}, m_x{x},
 		m_y{y} {}
 
-	std::array<float, nrVerticesItem * render::vertexSize> Item::vertices() {
+	std::array<float, nrVerticesItem * render::vertexSize> Item::vertices() const {
 		float texturePos = 1.0f * static_cast<float>(m_type),
 			  texturePosShifted = texturePos + 1.0f;
 		return {
