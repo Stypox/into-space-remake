@@ -18,6 +18,7 @@ namespace app {
 
 	class Application {
 		static GLFWwindow* m_window;
+		static int m_width, m_height;
 
 		static event::Handler m_eventHandler;
 		static input::Keys m_keysInput;
@@ -29,6 +30,8 @@ namespace app {
 		static void start();
 		static void loop();
 		static void terminate();
+
+		static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 
 	public:
 		static int run();

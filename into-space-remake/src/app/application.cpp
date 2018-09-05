@@ -2,6 +2,8 @@
 
 namespace app {
 	GLFWwindow* Application::m_window{nullptr};
+	int Application::m_width{};
+	int Application::m_height{};
 
 	event::Handler Application::m_eventHandler{};
 	input::Keys Application::m_keysInput{m_window, m_eventHandler, Arguments::doubleClickDelay, {
@@ -25,7 +27,6 @@ namespace app {
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-			glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 			m_window = glfwCreateWindow(Arguments::width, Arguments::height, windowTitle, nullptr, nullptr);
 			if (m_window == nullptr) {
@@ -38,6 +39,7 @@ namespace app {
 			glfwMakeContextCurrent(m_window);
 			glfwSwapInterval(0);
 			
+			glfwSetFramebufferSizeCallback(m_window, framebufferSizeCallback);
 			m_scrollInput.activateWindowCallback();
 
 			if (int errorCode = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress); !errorCode) {
@@ -46,6 +48,8 @@ namespace app {
 				throw std::runtime_error{"Unable to initialize glad, error " + std::to_string(errorCode)};
 			}
 
+			m_width = Arguments::width;
+			m_height = Arguments::height;
 			started = true;
 		}
 	}
@@ -109,6 +113,17 @@ namespace app {
 			glfwDestroyWindow(m_window);
 			glfwTerminate();
 			started = false;
+		}
+	}
+
+	void Application::framebufferSizeCallback(GLFWwindow* window, int width, int height) {
+		if (started) {
+			m_width = width;
+			m_height = height;
+
+			glViewport(0, 0, width, height);
+
+			//TODO update projection matrix so that 16:9 is the ratio with the bigger view.
 		}
 	}
 
