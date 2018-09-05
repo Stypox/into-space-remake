@@ -22,12 +22,16 @@ CXXLIBS = -lstdc++fs -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi 
 SRC = ./into-space-remake/src/
 STYPOX_GL := $(STYPOX)gl-abstractions/
 APP := $(SRC)app/
+GAME := $(SRC)game/
+RENDER := $(SRC)render/
 
 EXECUTABLE_NAME := IntoSpaceRemake$(if $(filter $(OS),Windows_NT), .exe,)
 OBJECT_FILES = main.o \
 	app_application.o app_arguments.o \
 		app_event_event.o app_event_handler.o \
 		app_input_keys.o app_input_scroll.o app_input_mousemove.o \
+	\
+		game_entity_entity.o game_entity_item.o \
 	glad_glad.o \
 	stypox_fileManagement.o \
 	stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
@@ -75,6 +79,18 @@ app_input_scroll.o: $(APP)input/scroll.h $(APP)input/scroll.cpp $(APP)event/scro
 # src/app/input/mousemove.cpp
 app_input_mousemove.o: $(APP)input/mousemove.h $(APP)input/mousemove.cpp $(APP)event/mousemove.h app_event_event.o app_event_handler.o
 	$(CXX) $(CXXFLAGS) -c $(APP)input/mousemove.cpp -o app_input_mousemove.o
+
+# src/game
+
+# src/game/entity
+
+# src/game/entity/entity.cpp
+game_entity_entity.o: $(GAME)entity/entity.h $(GAME)entity/entity.cpp $(RENDER)shared.h
+	$(CXX) $(CXXFLAGS) -c $(GAME)entity/entity.cpp -o game_entity_entity.o
+
+# src/game/entity/item.cpp
+game_entity_item.o: $(GAME)entity/item.h $(GAME)entity/item.cpp game_entity_entity.o
+	$(CXX) $(CXXFLAGS) -c $(GAME)entity/item.cpp -o game_entity_item.o
 
 
 
