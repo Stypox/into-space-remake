@@ -7,10 +7,11 @@
 #include "../../render/shared.h"
 
 namespace game::entity {
-	template<size_t V>
 	class Entity {		
 	public:
-		virtual std::array<float, render::vertexSize * V> vertices() const = 0;
+		virtual GLfloat x() const = 0;
+		virtual GLfloat y() const = 0;
+		virtual GLfloat textureIndex() const = 0;
 	};
 }
 
