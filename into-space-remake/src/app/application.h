@@ -31,7 +31,7 @@ namespace app {
 		static void loop();
 		static void terminate();
 
-		static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
+		static void framebufferSizeCallback(GLFWwindow*, int width, int height);
 
 	public:
 		static int run();

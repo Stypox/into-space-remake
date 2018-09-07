@@ -116,7 +116,7 @@ namespace app {
 		}
 	}
 
-	void Application::framebufferSizeCallback(GLFWwindow* window, int width, int height) {
+	void Application::framebufferSizeCallback(GLFWwindow*, int width, int height) {
 		if (m_initialized) {
 			m_width = width;
 			m_height = height;
