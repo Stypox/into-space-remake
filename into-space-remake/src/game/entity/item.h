@@ -2,13 +2,13 @@
 #define _INTO_SPACE_REMAKE_GAME_ENTITY_ITEM_H_
 
 #include "entity.h"
+#include "GLFW/glfw3.h"
 
 namespace game::entity {
-	constexpr size_t nrVerticesItem = 4;
-
-	class Item : public Entity<nrVerticesItem> {
-		// the enum values represent the position in the texture file 
-		enum Type : char {
+	class Item : public Entity {
+	public:
+		// the enum values represent the index in the packed texture file 
+		enum Type : GLbyte {
 			fuel0  = 0,
 			fuel1  = 1,
 			fuel2  = 2,
@@ -16,15 +16,19 @@ namespace game::entity {
 			money1 = 4,
 			money2 = 5,
 			repair = 6,
+			max = repair,
 		};
-
+		
+	private:
 		const Type m_type;
-		const float m_x, m_y;
+		const GLfloat m_x, m_y;
 
 	public:
 		Item(Type type, float x, float y);
 
-		std::array<float, nrVerticesItem * render::vertexSize> vertices() const override;
+		GLfloat x() const override;
+		GLfloat y() const override;
+		GLfloat textureIndex() const override;
 	};
 }
 
