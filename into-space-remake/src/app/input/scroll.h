@@ -4,7 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <GLFW/glfw3.h>
-#include <stypox/basicTypes.h>
+#include <basicTypes.h>
 
 #include "../event/scroll.h"
 #include "../event/handler.h"

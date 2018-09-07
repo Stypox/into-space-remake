@@ -2,7 +2,7 @@
 #define _INTO_SPACE_REMAKE_APP_INPUT_MOUSEMOVE_H_
 
 #include <GLFW/glfw3.h>
-#include <stypox/basicTypes.h>
+#include <basicTypes.h>
 
 #include "../event/mousemove.h"
 #include "../event/handler.h"

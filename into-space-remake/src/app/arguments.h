@@ -6,8 +6,8 @@
 #include <map>
 #include <algorithm>
 #include <iostream>
-#include <stypox/range.h>
-#include <stypox/basicTypes.h>
+#include <range.h>
+#include <basicTypes.h>
 
 namespace app {
 	enum class BoolArg {
