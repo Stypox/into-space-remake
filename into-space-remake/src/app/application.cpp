@@ -11,8 +11,8 @@ namespace app {
 	}, {
 
 	}};
-	input::MouseMove Application::m_mouseMoveInput{m_window, m_eventHandler, 1, 1};
-	input::Scroll Application::m_scrollInput{m_window, m_eventHandler, 1, 1};
+	input::MouseMove Application::m_mouseMoveInput{m_window, m_eventHandler, 0, 0};
+	input::Scroll Application::m_scrollInput{m_window, m_eventHandler, 0, 0};
 
 	bool Application::m_initialized{false};
 	
@@ -55,7 +55,24 @@ namespace app {
 	}
 	void Application::loop() {
 		if (m_initialized) {
+			glClearColor(0.0, 1.0, 0.0, 1.0);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+			sp::gl::Shader sh{render::shaderDir / "entities.vert", render::shaderDir / "entities.frag"};
+			std::cout << sh.debugInfo("sh");
+			render::Items itemsRenderer{sh};
+			std::vector<game::entity::Item> items{};
+			items.emplace_back(game::entity::Item::fuel0, -0.6, -0.2);
+			items.emplace_back(game::entity::Item::fuel1, -0.4, 0.0);
+			items.emplace_back(game::entity::Item::fuel2, -0.2, -0.7);
+			items.emplace_back(game::entity::Item::money0, 0.0, 0.9);
+			items.emplace_back(game::entity::Item::money1, 0.2, -0.4);
+			items.emplace_back(game::entity::Item::money2, 0.4, -0.1);
+			items.emplace_back(game::entity::Item::repair, 0.6, 0.3);
+
 			while (!glfwWindowShouldClose(m_window)) {
+				glClear(GL_COLOR_BUFFER_BIT);
 				glfwPollEvents();
 				m_keysInput.update();
 				m_mouseMoveInput.update();
@@ -102,6 +119,8 @@ namespace app {
 					}
 					break;
 				}
+
+				itemsRenderer.draw(items);
 
 				if (GLenum e = glGetError(); e) std::cout << "Error " << e << " in game loop\n";
 				glfwSwapBuffers(m_window);

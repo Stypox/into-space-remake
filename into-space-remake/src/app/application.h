@@ -12,6 +12,7 @@
 #include "input/keys.h"
 #include "input/mousemove.h"
 #include "input/scroll.h"
+#include "../render/items.h"
 
 namespace app {
 	constexpr const char * windowTitle = "Into Space remake";
