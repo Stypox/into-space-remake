@@ -11,7 +11,6 @@ namespace game::entity {
 	public:
 		virtual GLfloat x() const = 0;
 		virtual GLfloat y() const = 0;
-		virtual GLfloat textureIndex() const = 0;
 	};
 }
 

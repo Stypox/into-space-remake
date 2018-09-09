@@ -28,7 +28,7 @@ namespace game::entity {
 
 		GLfloat x() const override;
 		GLfloat y() const override;
-		GLfloat textureIndex() const override;
+		GLfloat textureIndex() const;
 	};
 }
 
