@@ -4,8 +4,8 @@ in vec2 vTexturePosition;
 
 out vec4 outColor;
 
-uniform sampler2D entitiesTexture;
+uniform sampler2D itemsTexture;
 
 void main() {
-    outColor = texture(entitiesTexture, vTexturePosition);
+    outColor = texture(itemsTexture, vTexturePosition);
 }
