@@ -59,9 +59,7 @@ namespace app {
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-			sp::gl::Shader sh{render::shaderDir / "entities.vert", render::shaderDir / "entities.frag"};
-			std::cout << sh.debugInfo("sh");
-			render::Items itemsRenderer{sh};
+			render::Items itemsRenderer;
 			std::vector<game::entity::Item> items{};
 			items.emplace_back(game::entity::Item::fuel0, -0.6, -0.2);
 			items.emplace_back(game::entity::Item::fuel1, -0.4, 0.0);

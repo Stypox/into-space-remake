@@ -13,14 +13,14 @@
 
 namespace render {
 	class Items {
-		sp::gl::Shader& m_shader;
+		sp::gl::Shader m_shader;
 		sp::gl::Texture2D m_texture;
 		sp::gl::Vao m_vao;
 		sp::gl::Vbo m_verticesVbo;
 		sp::gl::Ebo m_verticesEbo;
 		sp::gl::Vbo m_dataVbo;
 	public:
-		Items(sp::gl::Shader& shader);
+		Items();
 
 		void draw(const std::vector<game::entity::Item>& items);
 	};

@@ -3,10 +3,12 @@
 namespace render {
 	using namespace sp::gl;
 
-	Items::Items(Shader& shader) :
-	m_shader{shader}, m_texture{itemTexturePos, "items.png", GL_RGBA, GL_REPEAT, GL_REPEAT, GL_NEAREST, GL_NEAREST},
+	Items::Items() :
+	m_shader{render::shaderDir / "items.vert", render::shaderDir / "items.frag"}, m_texture{itemTexturePos, "items.png", GL_RGBA, GL_REPEAT, GL_REPEAT, GL_NEAREST, GL_NEAREST},
 	m_vao{}, m_verticesVbo{},
 	m_verticesEbo{}, m_dataVbo{} {
+		std::cout << m_shader.debugInfo("render::Items::m_texture");
+
 		constexpr std::array<GLfloat, 16> vertices{
 			-0.1f, +0.1f, 0.0f, 0.0f, // Top-left
 			+0.1f, +0.1f, 1.0f, 0.0f, // Top-right
