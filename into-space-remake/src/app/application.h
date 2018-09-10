@@ -12,6 +12,7 @@
 #include "input/keys.h"
 #include "input/mousemove.h"
 #include "input/scroll.h"
+#include "../render/renderer.h"
 #include "../render/items.h"
 
 namespace app {
@@ -19,7 +20,6 @@ namespace app {
 
 	class Application {
 		static GLFWwindow* m_window;
-		static int m_width, m_height;
 
 		static event::Handler m_eventHandler;
 		static input::Keys m_keysInput;
@@ -35,8 +35,6 @@ namespace app {
 		static void framebufferSizeCallback(GLFWwindow*, int width, int height);
 
 	public:
-		static GLfloat screenRatio();
-
 		static int run();
 		static void exit(int exitValue);
 	};

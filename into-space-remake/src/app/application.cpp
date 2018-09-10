@@ -2,8 +2,6 @@
 
 namespace app {
 	GLFWwindow* Application::m_window{nullptr};
-	int Application::m_width{};
-	int Application::m_height{};
 
 	event::Handler Application::m_eventHandler{};
 	input::Keys Application::m_keysInput{m_window, m_eventHandler, Arguments::doubleClickDelay, {
@@ -48,8 +46,7 @@ namespace app {
 				throw std::runtime_error{"Unable to initialize glad, error " + std::to_string(errorCode)};
 			}
 
-			m_width = Arguments::width;
-			m_height = Arguments::height;
+			render::Renderer::updateScreenSize(Arguments::width, Arguments::height);
 			m_initialized = true;
 		}
 	}
@@ -135,17 +132,9 @@ namespace app {
 
 	void Application::framebufferSizeCallback(GLFWwindow*, int width, int height) {
 		if (m_initialized) {
-			m_width = width;
-			m_height = height;
-
 			glViewport(0, 0, width, height);
-
-			//TODO update projection matrix so that 16:9 is the ratio with the bigger view.
-		}
+			render::Renderer::updateScreenSize(width, height);
 	}
-
-	GLfloat Application::screenRatio() {
-		return static_cast<GLfloat>(m_width) / static_cast<GLfloat>(m_height);
 	}
 
 	int Application::run() {
