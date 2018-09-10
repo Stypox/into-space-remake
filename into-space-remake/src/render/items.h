@@ -10,6 +10,7 @@
 
 #include "shared.h"
 #include "../game/entity/item.h"
+#include "../app/application.h"
 
 namespace render {
 	class Items {

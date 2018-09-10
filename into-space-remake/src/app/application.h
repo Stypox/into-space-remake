@@ -35,6 +35,8 @@ namespace app {
 		static void framebufferSizeCallback(GLFWwindow*, int width, int height);
 
 	public:
+		static GLfloat screenRatio();
+
 		static int run();
 		static void exit(int exitValue);
 	};

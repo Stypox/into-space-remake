@@ -7,7 +7,7 @@ namespace render {
 	m_shader{render::shaderDir / "items.vert", render::shaderDir / "items.frag"}, m_texture{itemTexturePos, "items.png", GL_RGBA, GL_REPEAT, GL_REPEAT, GL_NEAREST, GL_NEAREST},
 	m_vao{}, m_verticesVbo{},
 	m_verticesEbo{}, m_dataVbo{} {
-		std::cout << m_shader.debugInfo("render::Items::m_texture");
+		std::cout << m_shader.debugInfo("render::Items::m_shader");
 
 		constexpr std::array<GLfloat, 16> vertices{
 			-0.1f, +0.1f, 0.0f, 0.0f, // Top-left
@@ -64,6 +64,7 @@ namespace render {
 		m_vao.bind();
 		m_shader.bind();
 		m_shader.uniform("itemsTexture", m_texture.position());
+		m_shader.uniform("screenRatio", app::Application::screenRatio());
 		m_shader.uniform("nrPackedTextures", static_cast<GLint>(game::entity::Item::max) + 1);
 
 		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr, items.size());

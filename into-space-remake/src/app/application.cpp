@@ -144,6 +144,10 @@ namespace app {
 		}
 	}
 
+	GLfloat Application::screenRatio() {
+		return static_cast<GLfloat>(m_width) / static_cast<GLfloat>(m_height);
+	}
+
 	int Application::run() {
 		if (Arguments::help) {
 			std::cout << helpScreen;
