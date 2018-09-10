@@ -32,7 +32,7 @@ OBJECT_FILES = main.o \
 		app_input_keys.o app_input_scroll.o app_input_mousemove.o \
 	\
 		game_entity_entity.o game_entity_item.o \
-	render_items.o \
+	render_renderer.o render_items.o \
 	glad_glad.o \
 	stypox_fileManagement.o \
 	stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
@@ -94,6 +94,10 @@ game_entity_item.o: $(GAME)entity/item.h $(GAME)entity/item.cpp game_entity_enti
 	$(CXX) $(CXXFLAGS) -c $(GAME)entity/item.cpp -o game_entity_item.o
 
 # src/render
+
+# src/render/renderer.cpp
+render_renderer.o: $(RENDER)renderer.h $(RENDER)renderer.cpp
+	$(CXX) $(CXXFLAGS) -c $(RENDER)renderer.cpp -o render_renderer.o
 
 # src/render/items.cpp
 render_items.o: $(RENDER)items.h $(RENDER)items.cpp $(RENDER)shared.h game_entity_item.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
