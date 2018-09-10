@@ -4,7 +4,7 @@ namespace render {
 	using namespace sp::gl;
 
 	Items::Items() :
-	m_shader{render::shaderDir / "items.vert", render::shaderDir / "items.frag"}, m_texture{itemTexturePos, "items.png", GL_RGBA, GL_REPEAT, GL_REPEAT, GL_NEAREST, GL_NEAREST},
+	m_shader{render::shaderDir / "items.vert", render::shaderDir / "items.frag"}, m_texture{itemsTexturePos, "items.png", GL_RGBA, GL_REPEAT, GL_REPEAT, GL_NEAREST, GL_NEAREST},
 	m_vao{}, m_verticesVbo{},
 	m_verticesEbo{}, m_dataVbo{} {
 		std::cout << m_shader.debugInfo("render::Items::m_shader");

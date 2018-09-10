@@ -10,7 +10,7 @@ namespace render {
 	constexpr size_t vertexSize = 4; // x, y, u, v
 	const sp::Tpath shaderDir = "./into-space-remake/src/render/shader/";
 
-	constexpr GLint itemTexturePos = 0;
+	constexpr GLint itemsTexturePos = 0;
 }
 
 #endif
