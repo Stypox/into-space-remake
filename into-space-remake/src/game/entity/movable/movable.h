@@ -1,11 +1,11 @@
-#ifndef _INTO_SPACE_REMAKE_GAME_ENTITY_MOVABLE_H_
-#define _INTO_SPACE_REMAKE_GAME_ENTITY_MOVABLE_H_
+#ifndef _INTO_SPACE_REMAKE_GAME_ENTITY_MOVABLE_MOVABLE_H_
+#define _INTO_SPACE_REMAKE_GAME_ENTITY_MOVABLE_MOVABLE_H_
 
 #include <GLFW/glfw3.h>
 
-#include "entity.h"
+#include "../entity.h"
 
-namespace game::entity {
+namespace game::entity::movable {
 	class Movable : public Entity {
 		GLfloat m_x, m_y;
 	public:

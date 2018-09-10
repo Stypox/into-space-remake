@@ -1,6 +1,6 @@
 #include "movable.h"
 
-namespace game::entity {
+namespace game::entity::movable {
 	GLfloat Movable::x() const {
 		return m_x;
 	}

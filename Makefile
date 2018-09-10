@@ -31,7 +31,8 @@ OBJECT_FILES = main.o \
 		app_event_event.o app_event_handler.o \
 		app_input_keys.o app_input_scroll.o app_input_mousemove.o \
 	\
-		game_entity_entity.o game_entity_item.o game_entity_movable.o \
+		game_entity_entity.o game_entity_item.o \
+			game_entity_movable_movable.o \
 	render_renderer.o render_items.o \
 	glad_glad.o \
 	stypox_fileManagement.o \
@@ -93,9 +94,11 @@ game_entity_entity.o: $(GAME)entity/entity.h $(GAME)entity/entity.cpp $(RENDER)s
 game_entity_item.o: $(GAME)entity/item.h $(GAME)entity/item.cpp game_entity_entity.o
 	$(CXX) $(CXXFLAGS) -c $(GAME)entity/item.cpp -o game_entity_item.o
 
-# src/game/entity/movable.cpp
-game_entity_movable.o: $(GAME)entity/movable.h $(GAME)entity/movable.cpp game_entity_entity.o
-	$(CXX) $(CXXFLAGS) -c $(GAME)entity/movable.cpp -o game_entity_movable.o
+# src/game/entity/movable
+
+# src/game/entity/movable/movable.cpp
+game_entity_movable_movable.o: $(GAME)entity/movable/movable.h $(GAME)entity/movable/movable.cpp game_entity_entity.o
+	$(CXX) $(CXXFLAGS) -c $(GAME)entity/movable/movable.cpp -o game_entity_movable_movable.o
 
 # src/render
 
