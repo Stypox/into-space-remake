@@ -63,8 +63,9 @@ namespace render {
 
 		m_vao.bind();
 		m_shader.bind();
+		m_shader.uniform("projection", Renderer::projectionMatrix());
+		m_shader.uniform("view", Renderer::viewMatrix());
 		m_shader.uniform("itemsTexture", m_texture.position());
-		m_shader.uniform("screenRatio", app::Application::screenRatio());
 		m_shader.uniform("nrPackedTextures", static_cast<GLint>(game::entity::Item::max) + 1);
 
 		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr, items.size());

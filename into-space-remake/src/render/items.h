@@ -9,8 +9,8 @@
 #include <gl-abstractions/ebo.h>
 
 #include "shared.h"
+#include "renderer.h"
 #include "../game/entity/item.h"
-#include "../app/application.h"
 
 namespace render {
 	class Items {
