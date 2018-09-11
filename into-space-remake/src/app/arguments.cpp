@@ -179,8 +179,9 @@ namespace app {
 				<< "Screen width: " << width << "\n"
 				<< "Screen height: " << height << "\n"
 				<< "Zoom: " << zoom << "\n"
-				<< "DoubleClickDelay: " << doubleClickDelay << "\n"
-				<< "Errors:" << "\n" << errorMessage;
+				<< "DoubleClickDelay: " << doubleClickDelay << "\n";
+			if (!errorMessage.empty())
+				std::cout << "Errors:" << "\n" << errorMessage;
 		}
 	}
 }
