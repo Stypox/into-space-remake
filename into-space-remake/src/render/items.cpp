@@ -7,7 +7,9 @@ namespace render {
 	m_shader{render::shaderDir / "items.vert", render::shaderDir / "items.frag"}, m_texture{itemsTexturePos, "items.png", GL_RGBA, GL_REPEAT, GL_REPEAT, GL_NEAREST, GL_NEAREST},
 	m_vao{}, m_verticesVbo{},
 	m_verticesEbo{}, m_dataVbo{} {
-		std::cout << m_shader.debugInfo("render::Items::m_shader");
+		if (app::Arguments::verbosity > 1) {
+			std::cout << m_shader.debugInfo("render::Items::m_shader") << m_texture.debugInfo("render::Items::m_texture");
+		}
 
 		constexpr std::array<GLfloat, 16> vertices{
 			-0.1f, +0.1f, 0.0f, 0.0f, // Top-left
