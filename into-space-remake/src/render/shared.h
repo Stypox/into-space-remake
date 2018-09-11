@@ -11,6 +11,7 @@ namespace render {
 	const sp::Tpath shaderDir = "./into-space-remake/src/render/shader/";
 
 	constexpr GLint itemsTexturePos = 0;
+	constexpr GLint movablesTexturePos = 1;
 }
 
 #endif

@@ -33,7 +33,7 @@ OBJECT_FILES = main.o \
 	\
 		game_entity_entity.o game_entity_item.o \
 			game_entity_movable_movable.o \
-	render_renderer.o render_items.o \
+	render_renderer.o render_items.o render_movables.o \
 	glad_glad.o \
 	stypox_fileManagement.o \
 	stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
@@ -109,6 +109,10 @@ render_renderer.o: $(RENDER)renderer.h $(RENDER)renderer.cpp
 # src/render/items.cpp
 render_items.o: $(RENDER)items.h $(RENDER)items.cpp $(RENDER)shared.h game_entity_item.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
 	$(CXX) $(CXXFLAGS) -c $(RENDER)items.cpp -o render_items.o
+
+# src/render/movables.cpp
+render_movables.o: $(RENDER)movables.h $(RENDER)movables.cpp $(RENDER)shared.h game_entity_movable_movable.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
+	$(CXX) $(CXXFLAGS) -c $(RENDER)movables.cpp -o render_movables.o
 
 
 
