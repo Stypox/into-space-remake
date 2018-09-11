@@ -52,7 +52,7 @@ namespace app {
 	}
 	void Application::loop() {
 		if (m_initialized) {
-			glClearColor(0.0, 1.0, 0.0, 1.0);
+			glClearColor(0.0, 0.86, 0.0, 1.0);
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -65,6 +65,13 @@ namespace app {
 			items.emplace_back(game::entity::Item::money1, 0.2, -0.4);
 			items.emplace_back(game::entity::Item::money2, 0.4, -0.1);
 			items.emplace_back(game::entity::Item::repair, 0.6, 0.3);
+
+			render::Movables movablesRenderer;
+			std::vector<std::unique_ptr<game::entity::movable::Movable>> movables{};
+			movables.emplace_back(new game::entity::movable::Rocket{0.4});
+			movables.emplace_back(new game::entity::movable::Rocket{0.0});
+			//movables.emplace_back(new game::entity::movable::Rocket);
+
 
 			while (!glfwWindowShouldClose(m_window)) {
 				glClear(GL_COLOR_BUFFER_BIT);
@@ -116,8 +123,10 @@ namespace app {
 				}
 
 				itemsRenderer.draw(items);
+				movablesRenderer.draw(movables);
 
-				if (GLenum e = glGetError(); e) std::cout << "Error " << e << " in game loop\n";
+				if (Arguments::verbosity == 3)
+					if (GLenum e = glGetError(); e) std::cout << "Error " << e << " in game loop\n";
 				glfwSwapBuffers(m_window);
 			}
 		}
