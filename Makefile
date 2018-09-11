@@ -32,7 +32,7 @@ OBJECT_FILES = main.o \
 		app_input_keys.o app_input_scroll.o app_input_mousemove.o \
 	\
 		game_entity_entity.o game_entity_item.o \
-			game_entity_movable_movable.o \
+			game_entity_movable_movable.o game_entity_movable_rocket.o \
 	render_renderer.o render_items.o render_movables.o \
 	glad_glad.o \
 	stypox_fileManagement.o \
@@ -99,6 +99,10 @@ game_entity_item.o: $(GAME)entity/item.h $(GAME)entity/item.cpp game_entity_enti
 # src/game/entity/movable/movable.cpp
 game_entity_movable_movable.o: $(GAME)entity/movable/movable.h $(GAME)entity/movable/movable.cpp game_entity_entity.o
 	$(CXX) $(CXXFLAGS) -c $(GAME)entity/movable/movable.cpp -o game_entity_movable_movable.o
+
+# src/game/entity/movable/rocket.cpp
+game_entity_movable_rocket.o: $(GAME)entity/movable/rocket.h $(GAME)entity/movable/rocket.cpp game_entity_movable_movable.o
+	$(CXX) $(CXXFLAGS) -c $(GAME)entity/movable/rocket.cpp -o game_entity_movable_rocket.o
 
 # src/render
 
