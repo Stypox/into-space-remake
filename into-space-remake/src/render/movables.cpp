@@ -1,5 +1,9 @@
 #include "movables.h"
 
+#include "shared.h"
+#include "renderer.h"
+#include "../app/arguments.h"
+
 namespace render {
 	Movables::Movables() :
 	m_shader{render::shaderDir / "movables.vert", render::shaderDir / "movables.frag"}, m_texture{movablesTexturePos, "movables.png", GL_RGBA, GL_REPEAT, GL_REPEAT, GL_NEAREST, GL_NEAREST},

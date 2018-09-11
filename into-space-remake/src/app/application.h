@@ -1,21 +1,13 @@
 #ifndef _INTO_SPACE_REMAKE_APP_APPLICATION_H_
 #define _INTO_SPACE_REMAKE_APP_APPLICATION_H_
 
-#include <vector>
-#include <string>
-#include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "arguments.h"
 #include "event/handler.h"
 #include "input/keys.h"
 #include "input/mousemove.h"
 #include "input/scroll.h"
-#include "../render/renderer.h"
-#include "../render/items.h"
-#include "../render/movables.h"
-#include "../game/entity/movable/rocket.h"
 
 namespace app {
 	constexpr const char * windowTitle = "Into Space remake";

@@ -4,9 +4,6 @@
 #include <vector>
 #include <string>
 #include <map>
-#include <algorithm>
-#include <iostream>
-#include <range.h>
 #include <basicTypes.h>
 
 namespace app {

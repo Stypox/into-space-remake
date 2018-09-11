@@ -3,6 +3,7 @@
 #include <gl-abstractions/texture.h>
 
 #include "app/application.h"
+#include "app/arguments.h"
 
 int main(int argc, char* argv[]) {
 	//put arguments in vector

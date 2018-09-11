@@ -2,7 +2,6 @@
 #define _INTO_SPACE_REMAKE_APP_EVENT_HANDLER_H_
 
 #include <queue>
-#include <stack>
 #include <memory>
 
 #include "event.h"

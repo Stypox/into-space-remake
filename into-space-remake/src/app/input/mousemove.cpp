@@ -1,5 +1,7 @@
 #include "mousemove.h"
 
+#include "../event/mousemove.h"
+
 namespace app::input {
 	MouseMove::MouseMove(GLFWwindow*& window, event::Handler& eventHandler) :
 		MouseMove{window, eventHandler, 0, 0} {}

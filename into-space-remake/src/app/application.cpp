@@ -1,5 +1,17 @@
 #include "application.h"
 
+#include <vector>
+#include <string>
+#include <iostream>
+
+#include "arguments.h"
+#include "event/scroll.h"
+#include "event/mousemove.h"
+#include "../render/renderer.h"
+#include "../render/items.h"
+#include "../render/movables.h"
+#include "../game/entity/movable/rocket.h"
+
 namespace app {
 	GLFWwindow* Application::m_window{nullptr};
 

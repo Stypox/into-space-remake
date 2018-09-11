@@ -8,10 +8,7 @@
 #include <gl-abstractions/vbo.h>
 #include <gl-abstractions/ebo.h>
 
-#include "shared.h"
-#include "renderer.h"
 #include "../game/entity/item.h"
-#include "../app/arguments.h"
 
 namespace render {
 	class Items {

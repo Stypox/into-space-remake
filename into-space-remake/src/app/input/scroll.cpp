@@ -1,5 +1,10 @@
 #include "scroll.h"
 
+#include <vector>
+#include <algorithm>
+
+#include "../event/scroll.h"
+
 namespace app::input {
 	void Scroll::scrollCallback(GLFWwindow* window, double xOffset, double yOffset) {
 		if (void* userPointer = glfwGetWindowUserPointer(window); userPointer) {

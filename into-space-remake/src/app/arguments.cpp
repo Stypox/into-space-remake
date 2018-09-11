@@ -1,5 +1,9 @@
 #include "arguments.h"
 
+#include <algorithm>
+#include <iostream>
+#include <range.h>
+
 namespace app {
 	using namespace sp;
 

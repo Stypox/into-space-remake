@@ -9,10 +9,7 @@
 #include <gl-abstractions/vbo.h>
 #include <gl-abstractions/ebo.h>
 
-#include "shared.h"
-#include "renderer.h"
 #include "../game/entity/movable/movable.h"
-#include "../app/arguments.h"
 
 namespace render {
 	class Movables {

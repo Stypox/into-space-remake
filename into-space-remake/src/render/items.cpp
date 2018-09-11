@@ -1,5 +1,9 @@
 #include "items.h"
 
+#include "shared.h"
+#include "renderer.h"
+#include "../app/arguments.h"
+
 namespace render {
 	using namespace sp::gl;
 
