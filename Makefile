@@ -34,6 +34,7 @@ OBJECT_FILES = main.o \
 	\
 		game_entity_entity.o game_entity_item.o \
 			game_entity_movable_movable.o game_entity_movable_rocket.o \
+		game_world_chunk.o \
 	render_renderer.o render_items.o render_movables.o \
 	misc_random.o \
 	glad_glad.o \
@@ -105,6 +106,12 @@ game_entity_movable_movable.o: $(GAME)entity/movable/movable.h $(GAME)entity/mov
 # src/game/entity/movable/rocket.cpp
 game_entity_movable_rocket.o: $(GAME)entity/movable/rocket.h $(GAME)entity/movable/rocket.cpp game_entity_movable_movable.o
 	$(CXX) $(CXXFLAGS) -c $(GAME)entity/movable/rocket.cpp -o game_entity_movable_rocket.o
+
+# src/game/world
+
+# src/game/world/chunk.cpp
+game_world_chunk.o: $(GAME)world/chunk.h $(GAME)world/chunk.cpp game_entity_entity.o game_entity_item.o app_arguments.o misc_random.o
+	$(CXX) $(CXXFLAGS) -c $(GAME)world/chunk.cpp -o game_world_chunk.o
 
 # src/render
 
