@@ -17,6 +17,8 @@ namespace app {
 		{ValueArg::height, {"-h=", "--height="}},
 		{ValueArg::zoom, {"-z=", "--zoom="}},
 		{ValueArg::doubleClickDelay, {"--dc-delay="}},
+		{ValueArg::entitiesPerChunk, {"-e=", "--entities="}},
+		{ValueArg::percItems, {"--%items="}},
 	};
 
 
@@ -29,6 +31,8 @@ namespace app {
 	Tuint16 Arguments::height = 480;
 	float Arguments::zoom = 1.0f;
 	float Arguments::doubleClickDelay = 0.5f;
+	Tuint16 Arguments::entitiesPerChunk = 20;
+	Tuint8 Arguments::percItems = 50;
 
 
 
@@ -86,7 +90,7 @@ namespace app {
 					int tempVerbosity = std::stoi(std::get<Tstr>(fVerbosity));
 					if (tempVerbosity < 0 || tempVerbosity > 3)
 						throw std::invalid_argument{""};
-					verbosity = static_cast<Tint8>(tempVerbosity);
+					verbosity = static_cast<Tuint8>(tempVerbosity);
 				}
 				catch (const std::invalid_argument&) {
 					errorMessage += "Invalid value of argument verbosity\n";
@@ -177,13 +181,55 @@ namespace app {
 				errorMessage += "Argument doubleClickDelay used multiple times\n";
 		}
 
+		//entitiesPerChunk
+		switch (ValueFound fEntitiesPerChunk = findArg(ValueArg::entitiesPerChunk, arguments); std::get<int>(fEntitiesPerChunk)) {
+			case 0:
+				break;
+			case 1: {
+				try {
+					int tempEntitiesPerChunk = std::stoi(std::get<Tstr>(fEntitiesPerChunk));
+					if (tempEntitiesPerChunk < 0)
+						throw std::invalid_argument{""};
+					entitiesPerChunk = static_cast<Tuint16>(tempEntitiesPerChunk);
+				}
+				catch (const std::invalid_argument&) {
+					errorMessage += "Invalid value of argument entitiesPerChunk\n";
+				}
+				break;
+			}
+			default:
+				errorMessage += "Argument entitiesPerChunk used multiple times\n";
+		}
+
+		//percItems
+		switch (ValueFound fPercItems = findArg(ValueArg::percItems, arguments); std::get<int>(fPercItems)) {
+			case 0:
+				break;
+			case 1: {
+				try {
+					int tempPercItems = std::stoi(std::get<Tstr>(fPercItems));
+					if (tempPercItems < 0 || tempPercItems > 255)
+						throw std::invalid_argument{""};
+					percItems = static_cast<Tuint8>(tempPercItems);
+				}
+				catch (const std::invalid_argument&) {
+					errorMessage += "Invalid value of argument percItems\n";
+				}
+				break;
+			}
+			default:
+				errorMessage += "Argument percItems used multiple times\n";
+		}
+
 		if (verbosity == 3) {
 			std::cout << "Help: " << help << "\n"
 				<< "Verbosity: " << static_cast<int>(verbosity) << "\n"
 				<< "Screen width: " << width << "\n"
 				<< "Screen height: " << height << "\n"
 				<< "Zoom: " << zoom << "\n"
-				<< "DoubleClickDelay: " << doubleClickDelay << "\n";
+				<< "DoubleClickDelay: " << doubleClickDelay << "\n"
+				<< "EntitiesPerChunk: " << entitiesPerChunk << "\n"
+				<< "PercItems: " << static_cast<int>(percItems) << "\n";
 			if (!errorMessage.empty())
 				std::cout << "Errors:" << "\n" << errorMessage;
 		}

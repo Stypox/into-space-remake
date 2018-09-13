@@ -16,6 +16,8 @@ namespace app {
 		height,
 		zoom,
 		doubleClickDelay,
+		entitiesPerChunk,
+		percItems,
 	};
 
 	extern const std::map<BoolArg, std::vector<std::string>> boolArgs;
@@ -28,11 +30,13 @@ namespace app {
 		"   -h, --help         shows this screen\n"
 		"\n"
 		"Value settings: (I = integer, D = decimal)\n"
-		"   -v=I --verbosity=I sets verbosity to I (range 0-3); defaults to 0\n"
-		"   -w=I --width=I     sets the window starting width to I; defaults to 480\n"
-		"   -h=I --height=I    sets the window starting height to I; defaults to 480\n"
-		"   -z=D --zoom=D      sets the game starting zoom to D (range 0.5-2.0); defaults to 1.0\n"
-		"        --dc-delay=D  sets the double click/press delay to D seconds; defaults to 0.5\n"
+		"   -v=I --verbosity=I verbosity (0-3); default: 0\n"
+		"   -w=I --width=I     window starting width; default: 480\n"
+		"   -h=I --height=I    window starting height; default: 480\n"
+		"   -z=D --zoom=D      game starting zoom (0.5-2.0); default: 1.0\n"
+		"        --dc-delay=D  double click/press delay in seconds; default: 0.5\n"
+		"   -e=I --entities=I  entities per chunk; default: 20\n"
+		"        --%items=I    item generation probability (0-255); default: 40\n"
 	};
 
 	struct Arguments {
@@ -45,6 +49,8 @@ namespace app {
 		static sp::Tuint16 height;
 		static float zoom;
 		static float doubleClickDelay;
+		static sp::Tuint16 entitiesPerChunk;
+		static sp::Tuint8 percItems;
 
 		static void parse(std::vector<std::string> arguments);
 	};
