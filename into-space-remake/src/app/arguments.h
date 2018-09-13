@@ -36,7 +36,7 @@ namespace app {
 		"   -z=D --zoom=D      game starting zoom (0.5-2.0); default: 1.0\n"
 		"        --dc-delay=D  double click/press delay in seconds; default: 0.5\n"
 		"   -e=I --entities=I  entities per chunk; default: 20\n"
-		"        --%items=I    item generation probability (0-255); default: 40\n"
+		"        --%items=I    item generation probability (0-255); default: 50\n"
 	};
 
 	struct Arguments {

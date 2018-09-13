@@ -11,6 +11,7 @@
 #include "../render/items.h"
 #include "../render/movables.h"
 #include "../game/entity/movable/rocket.h"
+#include "../game/world/chunk.h"
 
 namespace app {
 	GLFWwindow* Application::m_window{nullptr};
@@ -70,19 +71,18 @@ namespace app {
 
 			render::Items itemsRenderer;
 			std::vector<game::entity::Item> items{};
-			items.emplace_back(game::entity::Item::fuel0, -0.6, -0.2);
-			items.emplace_back(game::entity::Item::fuel1, -0.4, 0.0);
-			items.emplace_back(game::entity::Item::fuel2, -0.2, -0.7);
-			items.emplace_back(game::entity::Item::money0, 0.0, 0.9);
-			items.emplace_back(game::entity::Item::money1, 0.2, -0.4);
-			items.emplace_back(game::entity::Item::money2, 0.4, -0.1);
-			items.emplace_back(game::entity::Item::repair, 0.6, 0.3);
+			auto entities = game::world::Chunk{0, 0}.generate();
+			for (auto&& entity : entities) items.push_back(*dynamic_cast<game::entity::Item*>(entity.get()));
+			entities = game::world::Chunk{-1, 0}.generate();
+			for (auto&& entity : entities) items.push_back(*dynamic_cast<game::entity::Item*>(entity.get()));
+			entities = game::world::Chunk{-1, -1}.generate();
+			for (auto&& entity : entities) items.push_back(*dynamic_cast<game::entity::Item*>(entity.get()));
+			entities = game::world::Chunk{0, -1}.generate();
+			for (auto&& entity : entities) items.push_back(*dynamic_cast<game::entity::Item*>(entity.get()));
 
 			render::Movables movablesRenderer;
 			std::vector<std::unique_ptr<game::entity::movable::Movable>> movables{};
-			movables.emplace_back(new game::entity::movable::Rocket{0.4});
-			movables.emplace_back(new game::entity::movable::Rocket{0.0});
-			//movables.emplace_back(new game::entity::movable::Rocket);
+			movables.emplace_back(new game::entity::movable::Rocket{});
 
 
 			while (!glfwWindowShouldClose(m_window)) {
