@@ -24,12 +24,12 @@ namespace misc {
 		m_start{std::chrono::high_resolution_clock::now()} {}
 
 	template <typename T>
-	inline Clock<T>::Type Clock<T>::now() {
-		return std::chrono::duration<Clock::Type, std::chrono::seconds>{std::chrono::high_resolution_clock::now() - m_start}.count();
+	inline auto Clock<T>::now() -> Clock<T>::Type {
+		return std::chrono::duration<Clock::Type>{std::chrono::high_resolution_clock::now() - m_start}.count();
 	}
 	template <typename T>
-	inline Clock<T>::Type Clock<T>::restart() {
-		oldNow = now();
+	inline auto Clock<T>::restart() -> Clock<T>::Type {
+		Type oldNow = now();
 		m_start = std::chrono::high_resolution_clock::now();
 		return oldNow;
 	}
