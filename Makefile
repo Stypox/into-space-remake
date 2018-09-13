@@ -24,6 +24,7 @@ STYPOX_GL := $(STYPOX)gl-abstractions/
 APP := $(SRC)app/
 GAME := $(SRC)game/
 RENDER := $(SRC)render/
+MISC := $(SRC)misc/
 
 EXECUTABLE_NAME := IntoSpaceRemake$(if $(filter $(OS),Windows_NT), .exe,)
 OBJECT_FILES = main.o \
@@ -34,6 +35,7 @@ OBJECT_FILES = main.o \
 		game_entity_entity.o game_entity_item.o \
 			game_entity_movable_movable.o game_entity_movable_rocket.o \
 	render_renderer.o render_items.o render_movables.o \
+	misc_random.o \
 	glad_glad.o \
 	stypox_fileManagement.o \
 	stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
@@ -117,6 +119,12 @@ render_items.o: $(RENDER)items.h $(RENDER)items.cpp $(RENDER)shared.h game_entit
 # src/render/movables.cpp
 render_movables.o: $(RENDER)movables.h $(RENDER)movables.cpp $(RENDER)shared.h game_entity_movable_movable.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
 	$(CXX) $(CXXFLAGS) -c $(RENDER)movables.cpp -o render_movables.o
+
+# src/misc
+
+# src/misc/random.h
+misc_random.o: $(MISC)random.h $(MISC)random.cpp
+	$(CXX) $(CXXFLAGS) -c $(MISC)random.cpp -o misc_random.o
 
 
 
