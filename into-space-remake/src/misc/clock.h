@@ -10,7 +10,7 @@ namespace misc {
 		using Type = T;
 
 	private:
-		std::chrono::time_point<std::chrono::high_resolution_clock> start;
+		std::chrono::time_point<std::chrono::high_resolution_clock> m_start;
 
 	public:
 		Clock();
@@ -21,16 +21,16 @@ namespace misc {
 
 	template <typename T>
 	inline Clock<T>::Clock() :
-	start{std::chrono::high_resolution_clock::now()} {}
+		m_start{std::chrono::high_resolution_clock::now()} {}
 
 	template <typename T>
 	inline Clock<T>::Type Clock<T>::now() {
-		return std::chrono::duration<Clock::Type, std::chrono::seconds>{std::chrono::high_resolution_clock::now() - start}.count();
+		return std::chrono::duration<Clock::Type, std::chrono::seconds>{std::chrono::high_resolution_clock::now() - m_start}.count();
 	}
 	template <typename T>
 	inline Clock<T>::Type Clock<T>::restart() {
 		oldNow = now();
-		startTime = std::chrono::high_resolution_clock::now();
+		m_start = std::chrono::high_resolution_clock::now();
 		return oldNow;
 	}
 }
