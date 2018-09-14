@@ -31,7 +31,7 @@ namespace app {
 	Tuint16 Arguments::height = 480;
 	float Arguments::zoom = 1.0f;
 	float Arguments::doubleClickDelay = 0.5f;
-	Tuint16 Arguments::entitiesPerChunk = 20;
+	Tuint16 Arguments::entitiesPerChunk = 1;
 	Tuint8 Arguments::percItems = 50;
 
 
