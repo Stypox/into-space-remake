@@ -36,7 +36,7 @@ OBJECT_FILES = main.o \
 			game_entity_movable_movable.o game_entity_movable_rocket.o \
 		game_world_chunk.o \
 	render_renderer.o render_items.o render_movables.o \
-	misc_random.o \
+	misc_random.o misc_frequency.o \
 	glad_glad.o \
 	stypox_fileManagement.o \
 	stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
@@ -132,6 +132,10 @@ render_movables.o: $(RENDER)movables.h $(RENDER)movables.cpp $(RENDER)shared.h g
 # src/misc/random.h
 misc_random.o: $(MISC)random.h $(MISC)random.cpp
 	$(CXX) $(CXXFLAGS) -c $(MISC)random.cpp -o misc_random.o
+
+# src/misc/random.h
+misc_frequency.o: $(MISC)frequency.h $(MISC)frequency.cpp $(MISC)clock.h
+	$(CXX) $(CXXFLAGS) -c $(MISC)frequency.cpp -o misc_frequency.o
 
 
 
