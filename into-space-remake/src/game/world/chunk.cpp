@@ -15,7 +15,7 @@ namespace game::world {
 	std::vector<std::unique_ptr<entity::Entity>> Chunk::generate() {
 		std::vector<std::unique_ptr<entity::Entity>> entities;
 
-		const int nrEntities = Random::range(1, app::Arguments::entitiesPerChunk + 1);
+		const int nrEntities = Random::range(0, app::Arguments::entitiesPerChunk);
 		entities.reserve(nrEntities);
 		
 		for (int item = 0; item != nrEntities; ++item) {
