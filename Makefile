@@ -28,7 +28,7 @@ MISC := $(SRC)misc/
 
 EXECUTABLE_NAME := IntoSpaceRemake$(if $(filter $(OS),Windows_NT), .exe,)
 OBJECT_FILES = main.o \
-	app_application.o app_arguments.o \
+	app_application.o app_arguments.o app_debug.o \
 		app_event_event.o app_event_handler.o \
 		app_input_keys.o app_input_scroll.o app_input_mousemove.o \
 	\
@@ -54,12 +54,16 @@ main.o: $(SRC)main.cpp app_application.o
 # src/app/
 
 # src/app/application.cpp
-app_application.o: $(APP)application.h $(APP)application.cpp app_arguments.o app_event_handler.o app_input_keys.o app_input_scroll.o app_input_mousemove.o render_renderer.o render_items.o
+app_application.o: $(APP)application.h $(APP)application.cpp app_arguments.o app_event_handler.o app_input_keys.o app_input_scroll.o app_input_mousemove.o render_renderer.o render_items.o misc_frequency.o app_debug.o
 	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp -o app_application.o
 
 # src/app/arguments.cpp
-app_arguments.o: $(APP)arguments.h $(APP)arguments.cpp
+app_arguments.o: $(APP)arguments.h $(APP)arguments.cpp app_debug.o
 	$(CXX) $(CXXFLAGS) -c $(APP)arguments.cpp -o app_arguments.o
+
+# src/app/debug.cpp
+app_debug.o: $(APP)debug.h $(APP)debug.cpp
+	$(CXX) $(CXXFLAGS) -c $(APP)debug.cpp -o app_debug.o
 
 # src/app/event/
 
@@ -120,11 +124,11 @@ render_renderer.o: $(RENDER)renderer.h $(RENDER)renderer.cpp
 	$(CXX) $(CXXFLAGS) -c $(RENDER)renderer.cpp -o render_renderer.o
 
 # src/render/items.cpp
-render_items.o: $(RENDER)items.h $(RENDER)items.cpp $(RENDER)shared.h game_entity_item.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
+render_items.o: $(RENDER)items.h $(RENDER)items.cpp $(RENDER)shared.h game_entity_item.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o app_arguments.o
 	$(CXX) $(CXXFLAGS) -c $(RENDER)items.cpp -o render_items.o
 
 # src/render/movables.cpp
-render_movables.o: $(RENDER)movables.h $(RENDER)movables.cpp $(RENDER)shared.h game_entity_movable_movable.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
+render_movables.o: $(RENDER)movables.h $(RENDER)movables.cpp $(RENDER)shared.h game_entity_movable_movable.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o app_arguments.o
 	$(CXX) $(CXXFLAGS) -c $(RENDER)movables.cpp -o render_movables.o
 
 # src/misc
