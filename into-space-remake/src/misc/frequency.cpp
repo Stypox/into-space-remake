@@ -1,7 +1,6 @@
 #include "frequency.h"
 
 #include <algorithm>
-#include <iostream>
 
 namespace misc {
 	Clock<float> FrequencyNr::m_clock{};
