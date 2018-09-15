@@ -26,7 +26,7 @@ namespace app {
 
 	bool Arguments::help = false;
 
-	Tuint8 Arguments::verbosity = 0;
+	Gravity Arguments::verbosity = Gravity::critical;
 	Tuint16 Arguments::width = 480;
 	Tuint16 Arguments::height = 480;
 	float Arguments::zoom = 1.0f;
@@ -88,9 +88,9 @@ namespace app {
 			case 1: {
 				try {
 					int tempVerbosity = std::stoi(std::get<Tstr>(fVerbosity));
-					if (tempVerbosity < 0 || tempVerbosity > 3)
+					if (tempVerbosity < 0 || tempVerbosity > static_cast<int>(Gravity::max))
 						throw std::invalid_argument{""};
-					verbosity = static_cast<Tuint8>(tempVerbosity);
+					verbosity = static_cast<Gravity>(-tempVerbosity + 3);
 				}
 				catch (const std::invalid_argument&) {
 					errorMessage += "Invalid value of argument verbosity\n";
@@ -221,17 +221,15 @@ namespace app {
 				errorMessage += "Argument percItems used multiple times\n";
 		}
 
-		if (verbosity == 3) {
-			std::cout << "Help: " << help << "\n"
-				<< "Verbosity: " << static_cast<int>(verbosity) << "\n"
-				<< "Screen width: " << width << "\n"
-				<< "Screen height: " << height << "\n"
-				<< "Zoom: " << zoom << "\n"
-				<< "DoubleClickDelay: " << doubleClickDelay << "\n"
-				<< "EntitiesPerChunk: " << entitiesPerChunk << "\n"
-				<< "PercItems: " << static_cast<int>(percItems) << "\n";
-			if (!errorMessage.empty())
-				std::cout << "Errors:" << "\n" << errorMessage;
-		}
+		debug(Gravity::info, "Arguments", "Value of help: " + std::to_string(help));
+		debug(Gravity::info, "Arguments", "Value of verbosity: " + std::to_string(static_cast<int>(verbosity)));
+		debug(Gravity::info, "Arguments", "Value of width: " + std::to_string(width));
+		debug(Gravity::info, "Arguments", "Value of height: " + std::to_string(height));
+		debug(Gravity::info, "Arguments", "Value of zoom: " + std::to_string(zoom));
+		debug(Gravity::info, "Arguments", "Value of doubleClickDelay: " + std::to_string(doubleClickDelay));
+		debug(Gravity::info, "Arguments", "Value of entitiesPerChunk: " + std::to_string(entitiesPerChunk));
+		debug(Gravity::info, "Arguments", "Value of percItems: " + std::to_string(static_cast<int>(percItems)));
+		if (!errorMessage.empty())
+			debug(Gravity::error, "Arguments", errorMessage);
 	}
 }

@@ -6,6 +6,8 @@
 #include <map>
 #include <basicTypes.h>
 
+#include "debug.h"
+
 namespace app {
 	enum class BoolArg {
 		help,
@@ -44,7 +46,7 @@ namespace app {
 
 		static bool help;
 
-		static sp::Tuint8 verbosity;
+		static Gravity verbosity;
 		static sp::Tuint16 width;
 		static sp::Tuint16 height;
 		static float zoom;
