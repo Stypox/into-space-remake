@@ -13,8 +13,12 @@
 #include "../game/entity/movable/rocket.h"
 #include "../game/world/chunk.h"
 
+#include "../misc/random.h"
+
 namespace app {
 	GLFWwindow* Application::m_window{nullptr};
+
+	misc::FrequencyNr Application::m_framerate{1000};
 
 	event::Handler Application::m_eventHandler{};
 	input::Keys Application::m_keysInput{m_window, m_eventHandler, Arguments::doubleClickDelay, {
@@ -85,12 +89,15 @@ namespace app {
 			movables.emplace_back(new game::entity::movable::Rocket{});
 
 
+			int frames = 0;
 			while (!glfwWindowShouldClose(m_window)) {
 				glClear(GL_COLOR_BUFFER_BIT);
 				glfwPollEvents();
 				m_keysInput.update();
 				m_mouseMoveInput.update();
 				m_scrollInput.update();
+				m_framerate.ping();
+
 				while (1) {
 					switch (m_eventHandler.getKeep()->eventType()) {
 						case event::Event::key: {
@@ -137,8 +144,14 @@ namespace app {
 				itemsRenderer.draw(items);
 				movablesRenderer.draw(movables);
 
-				if (Arguments::verbosity == 3)
-					if (GLenum e = glGetError(); e) std::cout << "Error " << e << " in game loop\n";
+				if (Arguments::verbosity == Gravity::info && ++frames > 1000) {
+					glfwSetWindowTitle(m_window, std::to_string(m_framerate.frequency()).c_str());
+					frames = 0;
+				}
+
+				if (Arguments::verbosity >= Gravity::error)
+					if (GLenum e = glGetError(); e) debug(Gravity::error, "MainLoop", "OpenGL" + std::to_string(e));
+					
 				glfwSwapBuffers(m_window);
 			}
 		}

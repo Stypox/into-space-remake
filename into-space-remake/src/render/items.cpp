@@ -11,8 +11,15 @@ namespace render {
 	m_shader{render::shaderDir / "items.vert", render::shaderDir / "items.frag"}, m_texture{itemsTexturePos, "items.png", GL_RGBA, GL_REPEAT, GL_REPEAT, GL_NEAREST, GL_NEAREST},
 	m_vao{}, m_verticesVbo{},
 	m_verticesEbo{}, m_dataVbo{} {
-		if (app::Arguments::verbosity > 1) {
-			std::cout << m_shader.debugInfo("render::Items::m_shader") << m_texture.debugInfo("render::Items::m_texture");
+		if (app::Gravity::info >= app::Arguments::verbosity) {
+			if (m_shader.errors())
+				app::debug(app::Gravity::error, "Items", m_shader.debugInfo("render::Items::m_shader"));
+			else
+				app::debug(app::Gravity::info, "Items", m_shader.debugInfo("render::Items::m_shader"));
+			if (m_texture.fileOk())
+				app::debug(app::Gravity::info, "Items", m_texture.debugInfo("render::Items::m_texture"));
+			else
+				app::debug(app::Gravity::error, "Items", m_texture.debugInfo("render::Items::m_texture"));
 		}
 
 		constexpr std::array<GLfloat, 16> vertices{

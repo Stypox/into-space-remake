@@ -4,6 +4,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "../misc/frequency.h"
 #include "event/handler.h"
 #include "input/keys.h"
 #include "input/mousemove.h"
@@ -14,6 +15,8 @@ namespace app {
 
 	class Application {
 		static GLFWwindow* m_window;
+
+		static misc::FrequencyNr m_framerate;
 
 		static event::Handler m_eventHandler;
 		static input::Keys m_keysInput;
