@@ -8,7 +8,11 @@ namespace game::entity {
 	public:
 		virtual GLfloat x() const = 0;
 		virtual GLfloat y() const = 0;
+		virtual GLfloat sizeX() const = 0;
+		virtual GLfloat sizeY() const = 0;
 	};
+	
+	bool intersects(Entity* a, Entity* b);
 }
 
 #endif
