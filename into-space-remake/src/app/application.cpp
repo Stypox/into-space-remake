@@ -5,14 +5,11 @@
 #include <iostream>
 
 #include "arguments.h"
+#include "debug.h"
 #include "event/scroll.h"
 #include "event/mousemove.h"
 #include "../render/renderer.h"
-#include "../render/items.h"
-#include "../render/movables.h"
-#include "../game/entity/movable/rocket.h"
-#include "../game/world/chunk.h"
-
+#include "../game/game.h"
 #include "../misc/random.h"
 
 namespace app {
@@ -73,21 +70,7 @@ namespace app {
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-			render::Items itemsRenderer;
-			std::vector<game::entity::Item> items{};
-			auto entities = game::world::Chunk{0, 0}.generate();
-			for (auto&& entity : entities) items.push_back(*dynamic_cast<game::entity::Item*>(entity.get()));
-			entities = game::world::Chunk{-1, 0}.generate();
-			for (auto&& entity : entities) items.push_back(*dynamic_cast<game::entity::Item*>(entity.get()));
-			entities = game::world::Chunk{-1, -1}.generate();
-			for (auto&& entity : entities) items.push_back(*dynamic_cast<game::entity::Item*>(entity.get()));
-			entities = game::world::Chunk{0, -1}.generate();
-			for (auto&& entity : entities) items.push_back(*dynamic_cast<game::entity::Item*>(entity.get()));
-
-			render::Movables movablesRenderer;
-			std::vector<std::unique_ptr<game::entity::movable::Movable>> movables{};
-			movables.emplace_back(new game::entity::movable::Rocket{});
-
+			game::Game game;
 
 			int frames = 0;
 			while (!glfwWindowShouldClose(m_window)) {
@@ -98,51 +81,8 @@ namespace app {
 				m_scrollInput.update();
 				m_framerate.ping();
 
-				while (1) {
-					switch (m_eventHandler.getKeep()->eventType()) {
-						case event::Event::key: {
-							std::cout << "Key: " << std::dynamic_pointer_cast<event::Key>(m_eventHandler.get())->type << "\n";
-							continue;
-						}
-						case event::Event::keyLong: {
-							std::cout << "KeyLong: " << std::dynamic_pointer_cast<event::KeyLong>(m_eventHandler.get())->type << "\n";
-							continue;
-						}
-						case event::Event::keyPos: {
-							auto event = std::dynamic_pointer_cast<event::KeyPos>(m_eventHandler.get());
-							std::cout << "KeyPos: " << event->type << " - X:" << event->x << "; Y:" << event->y << "\n";
-							continue;
-						}
-						case event::Event::keyPosLong: {
-							auto event = std::dynamic_pointer_cast<event::KeyPosLong>(m_eventHandler.get());
-							std::cout << "KeyPosLong: " << event->type << " - X:" << event->x << "; Y:" << event->y << "\n";
-							continue;
-						}
-						case event::Event::scroll: {
-							auto event = std::dynamic_pointer_cast<event::Scroll>(m_eventHandler.get());
-							std::cout << "Scroll: " << event->type << " - Offset:" << event->offset << "; X:" << event->xCursor << "; Y:" << event->yCursor << "\n";
-							continue;
-						}
-						case event::Event::mouseMove: {
-							auto event = std::dynamic_pointer_cast<event::MouseMove>(m_eventHandler.get());
-							std::cout << "MouseMove: " << event->type << " - Offset:" << event->offset << "; Position:" << event->position << "\n";
-							continue;
-						}
-						case event::Event::empty: {
-							m_eventHandler.get();
-							break;
-						}
-						default: {
-							std::cout << "Unknown event\n";
-							m_eventHandler.get();
-							break;
-						}
-					}
-					break;
-				}
-
-				itemsRenderer.draw(items);
-				movablesRenderer.draw(movables);
+				game.update();
+				game.render();
 
 				if (Arguments::verbosity == Gravity::info && ++frames > 1000) {
 					glfwSetWindowTitle(m_window, std::to_string(m_framerate.frequency()).c_str());
