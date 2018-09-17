@@ -46,7 +46,7 @@ namespace app {
 				if (index == arguments.end())
 					break;
 				else {
-					arguments.erase(index, index + 1);
+					arguments.erase(index);
 					++nrFoundIndices;
 				}
 			}
@@ -65,7 +65,7 @@ namespace app {
 					break;
 				else {
 					value = index->substr(argString.size());
-					arguments.erase(index, index + 1);
+					arguments.erase(index);
 					++nrFoundIndices;
 				}
 			}

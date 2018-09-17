@@ -25,7 +25,7 @@ namespace game::world {
 	void Chunk::remove(EntitiesContainer& entities) {
 		for (auto item = entities.items.end(); item != entities.items.begin(); ++item) {
 			if ((*item)->x() >= m_x && (*item)->x() < m_x + 1.0f && (*item)->y() >= m_y && (*item)->y() < m_y + 1.0f) {
-				entities.items.erase(item, item + 1);
+				entities.items.erase(item);
 			}
 		}
 	}

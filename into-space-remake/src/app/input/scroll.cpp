@@ -50,7 +50,7 @@ namespace app::input {
 			if (void* userPointer = glfwGetWindowUserPointer(m_window); userPointer) {
 				std::vector<Scroll*>* scrollsToUpdate = static_cast<std::vector<Scroll*>*>(userPointer);
 				if (auto thisScroll = std::find(scrollsToUpdate->begin(), scrollsToUpdate->end(), this); thisScroll != scrollsToUpdate->end()) {
-					scrollsToUpdate->erase(thisScroll, thisScroll + 1);
+					scrollsToUpdate->erase(thisScroll);
 				}
 				if (scrollsToUpdate->size() == 0) {
 					glfwSetScrollCallback(m_window, nullptr);

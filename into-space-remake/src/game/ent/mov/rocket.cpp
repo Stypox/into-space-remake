@@ -36,7 +36,7 @@ namespace game::ent::mov {
 		for (auto item = items.end(); item != items.begin(); --item) {
 			if (intersects(this, item->get())) {
 				pickUp(**item);
-				items.erase(item, item + 1);
+				items.erase(item);
 			}
 		}
 	}
