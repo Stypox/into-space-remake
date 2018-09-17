@@ -21,7 +21,7 @@ namespace app::input {
 	
 	Scroll::Scroll(GLFWwindow*& window, event::Handler& eventHandler) :
 		Scroll{window, eventHandler, 0, 0} {}
-	Scroll::Scroll(GLFWwindow*& window, event::Handler& eventHandler, sp::Tint8 nrEventsX, sp::Tint8 nrEventsY) :
+	Scroll::Scroll(GLFWwindow*& window, event::Handler& eventHandler, int8_t nrEventsX, int8_t nrEventsY) :
 		m_window{window}, m_eventHandler{eventHandler},
 		m_nrEventsX{nrEventsX}, m_nrEventsY{nrEventsY},
 		m_xOffset{0.0}, m_yOffset{0.0} {
@@ -66,13 +66,13 @@ namespace app::input {
 		glfwGetCursorPos(m_window, &xCursor, &yCursor);
 
 		if (m_xOffset != 0.0) {
-			for (sp::Tint8 xEvents = 0; xEvents != m_nrEventsX; ++xEvents)
+			for (int8_t xEvents = 0; xEvents != m_nrEventsX; ++xEvents)
 				m_eventHandler.push(new event::Scroll{event::Scroll::xAxis, m_xOffset, xCursor, yCursor});
 			m_xOffset = 0.0;
 		}
 
 		if (m_yOffset != 0.0) {
-			for (sp::Tint8 yEvents = 0; yEvents != m_nrEventsY; ++yEvents)
+			for (int8_t yEvents = 0; yEvents != m_nrEventsY; ++yEvents)
 				m_eventHandler.push(new event::Scroll{event::Scroll::yAxis, m_yOffset, xCursor, yCursor});
 			m_yOffset = 0.0;
 		}

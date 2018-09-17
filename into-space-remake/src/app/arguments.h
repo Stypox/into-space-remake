@@ -47,12 +47,12 @@ namespace app {
 		static bool help;
 
 		static Gravity verbosity;
-		static sp::Tuint16 width;
-		static sp::Tuint16 height;
+		static uint16_t width;
+		static uint16_t height;
 		static float zoom;
 		static float doubleClickDelay;
-		static sp::Tuint16 entitiesPerChunk;
-		static sp::Tuint8 percItems;
+		static uint16_t entitiesPerChunk;
+		static uint8_t percItems;
 
 		static void parse(std::vector<std::string> arguments);
 	};

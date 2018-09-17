@@ -27,12 +27,12 @@ namespace app {
 	bool Arguments::help = false;
 
 	Gravity Arguments::verbosity = Gravity::critical;
-	Tuint16 Arguments::width = 480;
-	Tuint16 Arguments::height = 480;
+	uint16_t Arguments::width = 480;
+	uint16_t Arguments::height = 480;
 	float Arguments::zoom = 1.0f;
 	float Arguments::doubleClickDelay = 0.5f;
-	Tuint16 Arguments::entitiesPerChunk = 1;
-	Tuint8 Arguments::percItems = 50;
+	uint16_t Arguments::entitiesPerChunk = 1;
+	uint8_t Arguments::percItems = 50;
 
 
 
@@ -110,7 +110,7 @@ namespace app {
 					int tempWidth = std::stoi(std::get<Tstr>(fWidth));
 					if (tempWidth < 0)
 						throw std::invalid_argument{""};
-					width = static_cast<Tint16>(tempWidth);
+					width = static_cast<uint16_t>(tempWidth);
 				}
 				catch (const std::invalid_argument&) {
 					errorMessage += "Invalid value of argument width\n";
@@ -130,7 +130,7 @@ namespace app {
 					int tempHeight = std::stoi(std::get<Tstr>(fHeight));
 					if (tempHeight < 0)
 						throw std::invalid_argument{""};
-					height = static_cast<Tint16>(tempHeight);
+					height = static_cast<uint16_t>(tempHeight);
 				}
 				catch (const std::invalid_argument&) {
 					errorMessage += "Invalid value of argument height\n";
@@ -190,7 +190,7 @@ namespace app {
 					int tempEntitiesPerChunk = std::stoi(std::get<Tstr>(fEntitiesPerChunk));
 					if (tempEntitiesPerChunk < 0)
 						throw std::invalid_argument{""};
-					entitiesPerChunk = static_cast<Tuint16>(tempEntitiesPerChunk);
+					entitiesPerChunk = static_cast<uint16_t>(tempEntitiesPerChunk);
 				}
 				catch (const std::invalid_argument&) {
 					errorMessage += "Invalid value of argument entitiesPerChunk\n";
@@ -210,7 +210,7 @@ namespace app {
 					int tempPercItems = std::stoi(std::get<Tstr>(fPercItems));
 					if (tempPercItems < 0 || tempPercItems > 255)
 						throw std::invalid_argument{""};
-					percItems = static_cast<Tuint8>(tempPercItems);
+					percItems = static_cast<uint8_t>(tempPercItems);
 				}
 				catch (const std::invalid_argument&) {
 					errorMessage += "Invalid value of argument percItems\n";
