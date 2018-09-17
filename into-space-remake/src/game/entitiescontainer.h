@@ -9,8 +9,11 @@
 
 namespace game {
 	struct EntitiesContainer {
-		entity::movable::Rocket rocket;
+		std::unique_ptr<entity::movable::Rocket> rocket;
 		std::vector<std::unique_ptr<entity::Item>> items;
+
+		inline EntitiesContainer() :
+			rocket{std::make_unique<entity::movable::Rocket>()} {}
 	};
 }
 
