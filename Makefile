@@ -27,7 +27,7 @@ REND := $(SRC)rend/
 MISC := $(SRC)misc/
 
 EXECUTABLE_NAME := IntoSpaceRemake$(if $(filter $(OS),Windows_NT), .exe,)
-OBJECT_FILES = main.o \
+OBJECT_FILES = $(SRC)main.o \
 	$(APP)application.o $(APP)arguments.o $(APP)debug.o \
 		$(APP)event/event.o $(APP)event/handler.o \
 		$(APP)input/keys.o $(APP)input/scroll.o $(APP)input/mousemove.o \
@@ -48,8 +48,8 @@ $(EXECUTABLE_NAME): $(OBJECT_FILES)
 # src/
 
 # src/main.cpp
-main.o: $(SRC)main.cpp $(APP)application.o
-	$(CXX) $(CXXFLAGS) -c $(SRC)main.cpp -o main.o
+$(SRC)main.o: $(SRC)main.cpp $(APP)application.o
+	$(CXX) $(CXXFLAGS) -c $(SRC)main.cpp -o $(SRC)main.o
 
 # src/app/
 
