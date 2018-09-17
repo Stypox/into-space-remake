@@ -31,7 +31,7 @@ OBJECT_FILES = main.o \
 	app_application.o app_arguments.o app_debug.o \
 		app_event_event.o app_event_handler.o \
 		app_input_keys.o app_input_scroll.o app_input_mousemove.o \
-	\
+	game_game.o \
 		game_entity_entity.o game_entity_item.o \
 			game_entity_movable_movable.o game_entity_movable_rocket.o \
 		game_world_chunk.o \
@@ -90,6 +90,10 @@ app_input_mousemove.o: $(APP)input/mousemove.h $(APP)input/mousemove.cpp $(APP)e
 	$(CXX) $(CXXFLAGS) -c $(APP)input/mousemove.cpp -o app_input_mousemove.o
 
 # src/game
+
+# src/game/game.cpp
+game_game.o: $(GAME)game.h $(GAME)game.cpp $(GAME)entitiescontainer.h render_items.o render_movables.o
+	$(CXX) $(CXXFLAGS) -c $(GAME)game.cpp -o game_game.o
 
 # src/game/entity
 
