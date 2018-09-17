@@ -63,13 +63,13 @@ namespace render {
 		m_vao.attribDivisor(textureIndexIndex,	  1);
 	}
 
-	void Items::draw(const std::vector<game::entity::Item>& items) {
+	void Items::draw(const std::vector<std::unique_ptr<game::entity::Item>>& items) {
 		std::vector<GLfloat> itemsData;
 		itemsData.reserve(3 * items.size());
 		for (auto&& item : items) {
-			itemsData.push_back(item.x());
-			itemsData.push_back(item.y());
-			itemsData.push_back(item.textureIndex());
+			itemsData.push_back(item->x());
+			itemsData.push_back(item->y());
+			itemsData.push_back(item->textureIndex());
 		}
 
 		m_dataVbo.data(itemsData, GL_STREAM_DRAW);

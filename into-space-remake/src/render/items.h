@@ -2,6 +2,7 @@
 #define _INTO_SPACE_REMAKE_RENDER_ITEMS_H_
 
 #include <vector>
+#include <memory>
 #include <gl-abstractions/shader.h>
 #include <gl-abstractions/texture.h>
 #include <gl-abstractions/vao.h>
@@ -21,7 +22,7 @@ namespace render {
 	public:
 		Items();
 
-		void draw(const std::vector<game::entity::Item>& items);
+		void draw(const std::vector<std::unique_ptr<game::entity::Item>>& items);
 	};
 }
 
