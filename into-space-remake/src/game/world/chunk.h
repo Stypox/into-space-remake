@@ -1,9 +1,7 @@
 #ifndef _INTO_SPACE_REMAKE_GAME_WORLD_CHUNK_H_
 #define _INTO_SPACE_REMAKE_GAME_WORLD_CHUNK_H_
 
-#include <vector>
-
-#include "../entity/entity.h"
+#include "../entitiescontainer.h"
 
 namespace game::world {
 	class Chunk {
@@ -13,8 +11,8 @@ namespace game::world {
 	public:
 		Chunk(int x, int y);
 
-		std::vector<std::unique_ptr<entity::Entity>> generate();
-		void remove(std::vector<std::unique_ptr<entity::Entity>> entities);
+		void generate(EntitiesContainer& entities);
+		void remove(EntitiesContainer& entities);
 	};
 }
 
