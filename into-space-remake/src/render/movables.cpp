@@ -72,19 +72,12 @@ namespace render {
 		m_vao.attribDivisor(textureWidthIndex,	  1);
 	}
 
-	void Movables::draw(const std::vector<std::unique_ptr<game::entity::movable::Movable>>& movables) {
-		std::vector<GLfloat> movablesData;
-		movablesData.reserve(6 * movables.size());
-		for (auto&& movable : movables) {
-			movablesData.push_back(movable->x());
-			movablesData.push_back(movable->y());
-			movablesData.push_back(movable->sizeX());
-			movablesData.push_back(movable->sizeY());
-			movablesData.push_back(movable->textureOffset());
-			movablesData.push_back(movable->textureWidth());
-		}
+	void Movables::reserve(size_t nrMovables) {
+		m_data.reserve(nrMovables * m_movableSize);
+	}
 
-		m_dataVbo.data(movablesData, GL_STREAM_DRAW);
+	void Movables::draw() {
+		m_dataVbo.data(m_data, GL_STREAM_DRAW);
 
 		m_vao.bind();
 		m_shader.bind();
@@ -94,6 +87,8 @@ namespace render {
 
 		if (GLenum e = glGetError(); e) std::cout << "Error " << e << " in game loop\n";
 
-		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr, movables.size());
+		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr, m_data.size() / m_movableSize);
+		
+		m_data.clear();
 	}
 }
