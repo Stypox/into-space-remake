@@ -28,15 +28,15 @@ MISC := $(SRC)misc/
 
 EXECUTABLE_NAME := IntoSpaceRemake$(if $(filter $(OS),Windows_NT), .exe,)
 OBJECT_FILES = main.o \
-	app_application.o app_arguments.o app_debug.o \
-		app_event_event.o app_event_handler.o \
-		app_input_keys.o app_input_scroll.o app_input_mousemove.o \
-	game_game.o \
-		game_ent_entity.o game_ent_item.o \
-			game_ent_mov_movable.o game_ent_mov_rocket.o \
-		game_world_chunk.o \
-	rend_renderer.o rend_items.o rend_movables.o \
-	misc_random.o misc_frequency.o \
+	$(APP)application.o $(APP)arguments.o $(APP)debug.o \
+		$(APP)event/event.o $(APP)event/handler.o \
+		$(APP)input/keys.o $(APP)input/scroll.o $(APP)input/mousemove.o \
+	$(GAME)game.o \
+		$(GAME)ent/entity.o $(GAME)ent/item.o \
+			$(GAME)ent/mov/movable.o $(GAME)ent/mov/rocket.o \
+		$(GAME)world/chunk.o \
+	$(REND)renderer.o $(REND)items.o $(REND)movables.o \
+	$(MISC)random.o $(MISC)frequency.o \
 	glad_glad.o \
 	stypox_fileManagement.o \
 	stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
@@ -48,102 +48,102 @@ $(EXECUTABLE_NAME): $(OBJECT_FILES)
 # src/
 
 # src/main.cpp
-main.o: $(SRC)main.cpp app_application.o
+main.o: $(SRC)main.cpp $(APP)application.o
 	$(CXX) $(CXXFLAGS) -c $(SRC)main.cpp -o main.o
 
 # src/app/
 
 # src/app/application.cpp
-app_application.o: $(APP)application.h $(APP)application.cpp app_arguments.o app_event_handler.o app_input_keys.o app_input_scroll.o app_input_mousemove.o rend_renderer.o app_debug.o
-	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp -o app_application.o
+$(APP)application.o: $(APP)application.h $(APP)application.cpp $(APP)arguments.o $(APP)event/handler.o $(APP)input/keys.o $(APP)input/scroll.o $(APP)input/mousemove.o $(REND)renderer.o $(APP)debug.o
+	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp -o $(APP)application.o
 
 # src/app/arguments.cpp
-app_arguments.o: $(APP)arguments.h $(APP)arguments.cpp app_debug.o
-	$(CXX) $(CXXFLAGS) -c $(APP)arguments.cpp -o app_arguments.o
+$(APP)arguments.o: $(APP)arguments.h $(APP)arguments.cpp $(APP)debug.o
+	$(CXX) $(CXXFLAGS) -c $(APP)arguments.cpp -o $(APP)arguments.o
 
 # src/app/debug.cpp
-app_debug.o: $(APP)debug.h $(APP)debug.cpp
-	$(CXX) $(CXXFLAGS) -c $(APP)debug.cpp -o app_debug.o
+$(APP)debug.o: $(APP)debug.h $(APP)debug.cpp
+	$(CXX) $(CXXFLAGS) -c $(APP)debug.cpp -o $(APP)debug.o
 
 # src/app/event/
 
 # src/app/event/event.cpp
-app_event_event.o: $(APP)event/event.h $(APP)event/event.cpp
-	$(CXX) $(CXXFLAGS) -c $(APP)event/event.cpp -o app_event_event.o
+$(APP)event/event.o: $(APP)event/event.h $(APP)event/event.cpp
+	$(CXX) $(CXXFLAGS) -c $(APP)event/event.cpp -o $(APP)event/event.o
 
 # src/app/event/handler.cpp
-app_event_handler.o: $(APP)event/handler.h $(APP)event/handler.cpp app_event_event.o
-	$(CXX) $(CXXFLAGS) -c $(APP)event/handler.cpp -o app_event_handler.o
+$(APP)event/handler.o: $(APP)event/handler.h $(APP)event/handler.cpp $(APP)event/event.o
+	$(CXX) $(CXXFLAGS) -c $(APP)event/handler.cpp -o $(APP)event/handler.o
 
 # src/app/input/
 
 # src/app/input/keys.cpp
-app_input_keys.o: $(APP)input/keys.h $(APP)input/keys.cpp $(APP)event/key.h app_event_event.o app_event_handler.o
-	$(CXX) $(CXXFLAGS) -c $(APP)input/keys.cpp -o app_input_keys.o
+$(APP)input/keys.o: $(APP)input/keys.h $(APP)input/keys.cpp $(APP)event/key.h $(APP)event/event.o $(APP)event/handler.o
+	$(CXX) $(CXXFLAGS) -c $(APP)input/keys.cpp -o $(APP)input/keys.o
 
 # src/app/input/scroll.cpp
-app_input_scroll.o: $(APP)input/scroll.h $(APP)input/scroll.cpp $(APP)event/scroll.h app_event_event.o app_event_handler.o
-	$(CXX) $(CXXFLAGS) -c $(APP)input/scroll.cpp -o app_input_scroll.o
+$(APP)input/scroll.o: $(APP)input/scroll.h $(APP)input/scroll.cpp $(APP)event/scroll.h $(APP)event/event.o $(APP)event/handler.o
+	$(CXX) $(CXXFLAGS) -c $(APP)input/scroll.cpp -o $(APP)input/scroll.o
 
 # src/app/input/mousemove.cpp
-app_input_mousemove.o: $(APP)input/mousemove.h $(APP)input/mousemove.cpp $(APP)event/mousemove.h app_event_event.o app_event_handler.o
-	$(CXX) $(CXXFLAGS) -c $(APP)input/mousemove.cpp -o app_input_mousemove.o
+$(APP)input/mousemove.o: $(APP)input/mousemove.h $(APP)input/mousemove.cpp $(APP)event/mousemove.h $(APP)event/event.o $(APP)event/handler.o
+	$(CXX) $(CXXFLAGS) -c $(APP)input/mousemove.cpp -o $(APP)input/mousemove.o
 
 # src/game
 
 # src/game/game.cpp
-game_game.o: $(GAME)game.h $(GAME)game.cpp $(GAME)entitiescontainer.h rend_items.o rend_movables.o
-	$(CXX) $(CXXFLAGS) -c $(GAME)game.cpp -o game_game.o
+$(GAME)game.o: $(GAME)game.h $(GAME)game.cpp $(GAME)entitiescontainer.h $(REND)items.o $(REND)movables.o
+	$(CXX) $(CXXFLAGS) -c $(GAME)game.cpp -o $(GAME)game.o
 
 # src/game/ent
 
 # src/game/ent/entity.cpp
-game_ent_entity.o: $(GAME)ent/entity.h $(GAME)ent/entity.cpp $(REND)shared.h
-	$(CXX) $(CXXFLAGS) -c $(GAME)ent/entity.cpp -o game_ent_entity.o
+$(GAME)ent/entity.o: $(GAME)ent/entity.h $(GAME)ent/entity.cpp $(REND)shared.h
+	$(CXX) $(CXXFLAGS) -c $(GAME)ent/entity.cpp -o $(GAME)ent/entity.o
 
 # src/game/ent/item.cpp
-game_ent_item.o: $(GAME)ent/item.h $(GAME)ent/item.cpp game_ent_entity.o
-	$(CXX) $(CXXFLAGS) -c $(GAME)ent/item.cpp -o game_ent_item.o
+$(GAME)ent/item.o: $(GAME)ent/item.h $(GAME)ent/item.cpp $(GAME)ent/entity.o
+	$(CXX) $(CXXFLAGS) -c $(GAME)ent/item.cpp -o $(GAME)ent/item.o
 
 # src/game/ent/mov
 
 # src/game/ent/mov/movable.cpp
-game_ent_mov_movable.o: $(GAME)ent/mov/movable.h $(GAME)ent/mov/movable.cpp game_ent_entity.o
-	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/movable.cpp -o game_ent_mov_movable.o
+$(GAME)ent/mov/movable.o: $(GAME)ent/mov/movable.h $(GAME)ent/mov/movable.cpp $(GAME)ent/entity.o
+	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/movable.cpp -o $(GAME)ent/mov/movable.o
 
 # src/game/ent/mov/rocket.cpp
-game_ent_mov_rocket.o: $(GAME)ent/mov/rocket.h $(GAME)ent/mov/rocket.cpp game_ent_mov_movable.o
-	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/rocket.cpp -o game_ent_mov_rocket.o
+$(GAME)ent/mov/rocket.o: $(GAME)ent/mov/rocket.h $(GAME)ent/mov/rocket.cpp $(GAME)ent/mov/movable.o
+	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/rocket.cpp -o $(GAME)ent/mov/rocket.o
 
 # src/game/world
 
 # src/game/world/chunk.cpp
-game_world_chunk.o: $(GAME)world/chunk.h $(GAME)world/chunk.cpp game_ent_entity.o game_ent_item.o app_arguments.o misc_random.o
-	$(CXX) $(CXXFLAGS) -c $(GAME)world/chunk.cpp -o game_world_chunk.o
+$(GAME)world/chunk.o: $(GAME)world/chunk.h $(GAME)world/chunk.cpp $(GAME)ent/entity.o $(GAME)ent/item.o $(APP)arguments.o $(MISC)random.o
+	$(CXX) $(CXXFLAGS) -c $(GAME)world/chunk.cpp -o $(GAME)world/chunk.o
 
 # src/rend
 
 # src/rend/renderer.cpp
-rend_renderer.o: $(REND)renderer.h $(REND)renderer.cpp
-	$(CXX) $(CXXFLAGS) -c $(REND)renderer.cpp -o rend_renderer.o
+$(REND)renderer.o: $(REND)renderer.h $(REND)renderer.cpp
+	$(CXX) $(CXXFLAGS) -c $(REND)renderer.cpp -o $(REND)renderer.o
 
 # src/rend/items.cpp
-rend_items.o: $(REND)items.h $(REND)items.cpp $(REND)shared.h rend_renderer.o game_ent_item.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o app_arguments.o
-	$(CXX) $(CXXFLAGS) -c $(REND)items.cpp -o rend_items.o
+$(REND)items.o: $(REND)items.h $(REND)items.cpp $(REND)shared.h $(REND)renderer.o $(GAME)ent/item.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o $(APP)arguments.o
+	$(CXX) $(CXXFLAGS) -c $(REND)items.cpp -o $(REND)items.o
 
 # src/rend/movables.cpp
-rend_movables.o: $(REND)movables.h $(REND)movables.cpp $(REND)shared.h rend_renderer.o game_ent_mov_movable.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o app_arguments.o
-	$(CXX) $(CXXFLAGS) -c $(REND)movables.cpp -o rend_movables.o
+$(REND)movables.o: $(REND)movables.h $(REND)movables.cpp $(REND)shared.h $(REND)renderer.o $(GAME)ent/mov/movable.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o $(APP)arguments.o
+	$(CXX) $(CXXFLAGS) -c $(REND)movables.cpp -o $(REND)movables.o
 
 # src/misc
 
 # src/misc/random.h
-misc_random.o: $(MISC)random.h $(MISC)random.cpp
-	$(CXX) $(CXXFLAGS) -c $(MISC)random.cpp -o misc_random.o
+$(MISC)random.o: $(MISC)random.h $(MISC)random.cpp
+	$(CXX) $(CXXFLAGS) -c $(MISC)random.cpp -o $(MISC)random.o
 
 # src/misc/random.h
-misc_frequency.o: $(MISC)frequency.h $(MISC)frequency.cpp $(MISC)clock.h
-	$(CXX) $(CXXFLAGS) -c $(MISC)frequency.cpp -o misc_frequency.o
+$(MISC)frequency.o: $(MISC)frequency.h $(MISC)frequency.cpp $(MISC)clock.h
+	$(CXX) $(CXXFLAGS) -c $(MISC)frequency.cpp -o $(MISC)frequency.o
 
 
 
@@ -185,5 +185,5 @@ stypox_gl_vbo.o: $(STYPOX_GL)vbo.h $(STYPOX_GL)vbo.cpp
 
 # remove all .o files
 clean:
-	rm ./*.o
+	rm $(OBJECT_FILES)
 	
