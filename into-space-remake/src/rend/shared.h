@@ -6,8 +6,8 @@
 #include <basicTypes.h>
 #include <GLFW/glfw3.h>
 
-namespace render {
-	const sp::Tpath shaderDir = "./into-space-remake/src/render/shader/";
+namespace rend {
+	const sp::Tpath shaderDir = "./into-space-remake/src/rend/shader/";
 
 	constexpr GLint itemsTexturePos = 0;
 	constexpr GLint movablesTexturePos = 1;

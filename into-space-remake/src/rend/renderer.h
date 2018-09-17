@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/mat4x4.hpp>
 
-namespace render {
+namespace rend {
 	class Renderer {
 	public:
 		static constexpr GLfloat optimalScreenRatio = 16.0/9.0;

@@ -1,9 +1,9 @@
 #ifndef _INTO_SPACE_REMAKE_GAME_ENTITY_ENTITY_H_
 #define _INTO_SPACE_REMAKE_GAME_ENTITY_ENTITY_H_
 
-#include "../../render/shared.h"
+#include "../../rend/shared.h"
 
-namespace game::entity {
+namespace game::ent {
 	class Entity {		
 	public:
 		virtual GLfloat x() const = 0;

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace game::entity::movable {
+namespace game::ent::mov {
 	void Rocket::pickUp(const Item& item) {
 		switch (item.type()) {
 		case Item::fuel0:
@@ -32,7 +32,7 @@ namespace game::entity::movable {
 	Rocket::Rocket() :
 		Movable{0.0, 0.0} {}
 
-	void Rocket::pickUpIntersecting(std::vector<std::unique_ptr<entity::Item>>& items) {
+	void Rocket::pickUpIntersecting(std::vector<std::unique_ptr<ent::Item>>& items) {
 		for (auto item = items.end(); item != items.begin(); --item) {
 			if (intersects(this, item->get())) {
 				pickUp(**item);

@@ -8,7 +8,7 @@
 #include "debug.h"
 #include "event/scroll.h"
 #include "event/mousemove.h"
-#include "../render/renderer.h"
+#include "../rend/renderer.h"
 #include "../game/game.h"
 #include "../misc/random.h"
 
@@ -60,7 +60,7 @@ namespace app {
 				throw std::runtime_error{"Unable to initialize glad, error " + std::to_string(errorCode)};
 			}
 
-			render::Renderer::updateScreenSize(Arguments::width, Arguments::height);
+			rend::Renderer::updateScreenSize(Arguments::width, Arguments::height);
 			m_initialized = true;
 		}
 	}
@@ -82,7 +82,7 @@ namespace app {
 				m_framerate.ping();
 
 				game.update();
-				game.render();
+				game.rend();
 
 				if (Arguments::verbosity == Gravity::info && ++frames > 1000) {
 					glfwSetWindowTitle(m_window, std::to_string(m_framerate.frequency()).c_str());
@@ -107,7 +107,7 @@ namespace app {
 	void Application::framebufferSizeCallback(GLFWwindow*, int width, int height) {
 		if (m_initialized) {
 			glViewport(0, 0, width, height);
-			render::Renderer::updateScreenSize(width, height);
+			rend::Renderer::updateScreenSize(width, height);
 	}
 	}
 

@@ -1,6 +1,6 @@
 #include "item.h"
 
-namespace game::entity {
+namespace game::ent {
 	Item::Item(Type type, float x, float y) :
 		m_type{type}, m_x{x},
 		m_y{y} {}

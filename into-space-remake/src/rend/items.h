@@ -9,9 +9,9 @@
 #include <gl-abstractions/vbo.h>
 #include <gl-abstractions/ebo.h>
 
-#include "../game/entity/item.h"
+#include "../game/ent/item.h"
 
-namespace render {
+namespace rend {
 	class Items {
 		sp::gl::Shader m_shader;
 		sp::gl::Texture2D m_texture;
@@ -22,7 +22,7 @@ namespace render {
 	public:
 		Items();
 
-		void draw(const std::vector<std::unique_ptr<game::entity::Item>>& items);
+		void draw(const std::vector<std::unique_ptr<game::ent::Item>>& items);
 	};
 }
 

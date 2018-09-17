@@ -1,6 +1,6 @@
 #include "movable.h"
 
-namespace game::entity::movable {
+namespace game::ent::mov {
 	Movable::Movable(GLfloat x, GLfloat y) :
 		m_x{x}, m_y{y} {}
 	

@@ -4,16 +4,16 @@
 #include <vector>
 #include <memory>
 
-#include "entity/item.h"
-#include "entity/movable/rocket.h"
+#include "ent/item.h"
+#include "ent/mov/rocket.h"
 
 namespace game {
 	struct EntitiesContainer {
-		std::unique_ptr<entity::movable::Rocket> rocket;
-		std::vector<std::unique_ptr<entity::Item>> items;
+		std::unique_ptr<ent::mov::Rocket> rocket;
+		std::vector<std::unique_ptr<ent::Item>> items;
 
 		inline EntitiesContainer() :
-			rocket{std::make_unique<entity::movable::Rocket>()} {}
+			rocket{std::make_unique<ent::mov::Rocket>()} {}
 	};
 }
 

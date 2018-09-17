@@ -4,22 +4,22 @@
 #include "renderer.h"
 #include "../app/arguments.h"
 
-namespace render {
+namespace rend {
 	using namespace sp::gl;
 
 	Items::Items() :
-	m_shader{render::shaderDir / "items.vert", render::shaderDir / "items.frag"}, m_texture{itemsTexturePos, "items.png", GL_RGBA, GL_REPEAT, GL_REPEAT, GL_NEAREST, GL_NEAREST},
+	m_shader{rend::shaderDir / "items.vert", rend::shaderDir / "items.frag"}, m_texture{itemsTexturePos, "items.png", GL_RGBA, GL_REPEAT, GL_REPEAT, GL_NEAREST, GL_NEAREST},
 	m_vao{}, m_verticesVbo{},
 	m_verticesEbo{}, m_dataVbo{} {
 		if (app::Gravity::info >= app::Arguments::verbosity) {
 			if (m_shader.errors())
-				app::debug(app::Gravity::error, "Items", m_shader.debugInfo("render::Items::m_shader"));
+				app::debug(app::Gravity::error, "Items", m_shader.debugInfo("rend::Items::m_shader"));
 			else
-				app::debug(app::Gravity::info, "Items", m_shader.debugInfo("render::Items::m_shader"));
+				app::debug(app::Gravity::info, "Items", m_shader.debugInfo("rend::Items::m_shader"));
 			if (m_texture.fileOk())
-				app::debug(app::Gravity::info, "Items", m_texture.debugInfo("render::Items::m_texture"));
+				app::debug(app::Gravity::info, "Items", m_texture.debugInfo("rend::Items::m_texture"));
 			else
-				app::debug(app::Gravity::error, "Items", m_texture.debugInfo("render::Items::m_texture"));
+				app::debug(app::Gravity::error, "Items", m_texture.debugInfo("rend::Items::m_texture"));
 		}
 
 		constexpr std::array<GLfloat, 16> vertices{
@@ -63,7 +63,7 @@ namespace render {
 		m_vao.attribDivisor(textureIndexIndex,	  1);
 	}
 
-	void Items::draw(const std::vector<std::unique_ptr<game::entity::Item>>& items) {
+	void Items::draw(const std::vector<std::unique_ptr<game::ent::Item>>& items) {
 		std::vector<GLfloat> itemsData;
 		itemsData.reserve(3 * items.size());
 		for (auto&& item : items) {
@@ -79,7 +79,7 @@ namespace render {
 		m_shader.uniform("projection", Renderer::projectionMatrix());
 		m_shader.uniform("view", Renderer::viewMatrix());
 		m_shader.uniform("itemsTexture", m_texture.position());
-		m_shader.uniform("nrPackedTextures", static_cast<GLint>(game::entity::Item::max) + 1);
+		m_shader.uniform("nrPackedTextures", static_cast<GLint>(game::ent::Item::max) + 1);
 
 		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr, items.size());
 	}

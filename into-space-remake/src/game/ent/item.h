@@ -5,7 +5,7 @@
 
 #include "entity.h"
 
-namespace game::entity {
+namespace game::ent {
 	class Item : public Entity {
 	public:
 		// the enum values represent the index in the packed texture file 

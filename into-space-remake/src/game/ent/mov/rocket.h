@@ -8,7 +8,7 @@
 #include "movable.h"
 #include "../item.h"
 
-namespace game::entity::movable {
+namespace game::ent::mov {
 	class Rocket : public Movable {
 		void pickUp(const Item& item);
 

@@ -1,6 +1,6 @@
 #include "entity.h"
 
-namespace game::entity {
+namespace game::ent {
 	bool intersects(Entity* a, Entity* b) {
 		// a and b are axis-aligned
 		return !(

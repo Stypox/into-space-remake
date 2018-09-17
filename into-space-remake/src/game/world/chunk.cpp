@@ -1,7 +1,7 @@
 #include "chunk.h"
 
 #include "../../misc/random.h"
-#include "../entity/item.h"
+#include "../ent/item.h"
 #include "../../app/arguments.h"
 
 using namespace misc;
@@ -16,8 +16,8 @@ namespace game::world {
 		for (int item = 0; item != nrEntities; ++item) {
 			int type = Random::range(1, app::Arguments::percItems + 1);
 			if (type < app::Arguments::percItems)
-				entities.items.emplace_back(new entity::Item{
-					static_cast<entity::Item::Type>(Random::range(entity::Item::Type::max)),
+				entities.items.emplace_back(new ent::Item{
+					static_cast<ent::Item::Type>(Random::range(ent::Item::Type::max)),
 					Random::range(static_cast<float>(m_x), m_x + 1.0f),
 					Random::range(static_cast<float>(m_y), m_y + 1.0f)});			
 		}

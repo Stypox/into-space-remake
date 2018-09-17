@@ -23,7 +23,7 @@ SRC = ./into-space-remake/src/
 STYPOX_GL := $(STYPOX)gl-abstractions/
 APP := $(SRC)app/
 GAME := $(SRC)game/
-RENDER := $(SRC)render/
+REND := $(SRC)rend/
 MISC := $(SRC)misc/
 
 EXECUTABLE_NAME := IntoSpaceRemake$(if $(filter $(OS),Windows_NT), .exe,)
@@ -32,10 +32,10 @@ OBJECT_FILES = main.o \
 		app_event_event.o app_event_handler.o \
 		app_input_keys.o app_input_scroll.o app_input_mousemove.o \
 	game_game.o \
-		game_entity_entity.o game_entity_item.o \
-			game_entity_movable_movable.o game_entity_movable_rocket.o \
+		game_ent_entity.o game_ent_item.o \
+			game_ent_mov_movable.o game_ent_mov_rocket.o \
 		game_world_chunk.o \
-	render_renderer.o render_items.o render_movables.o \
+	rend_renderer.o rend_items.o rend_movables.o \
 	misc_random.o misc_frequency.o \
 	glad_glad.o \
 	stypox_fileManagement.o \
@@ -54,7 +54,7 @@ main.o: $(SRC)main.cpp app_application.o
 # src/app/
 
 # src/app/application.cpp
-app_application.o: $(APP)application.h $(APP)application.cpp app_arguments.o app_event_handler.o app_input_keys.o app_input_scroll.o app_input_mousemove.o render_renderer.o app_debug.o
+app_application.o: $(APP)application.h $(APP)application.cpp app_arguments.o app_event_handler.o app_input_keys.o app_input_scroll.o app_input_mousemove.o rend_renderer.o app_debug.o
 	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp -o app_application.o
 
 # src/app/arguments.cpp
@@ -92,48 +92,48 @@ app_input_mousemove.o: $(APP)input/mousemove.h $(APP)input/mousemove.cpp $(APP)e
 # src/game
 
 # src/game/game.cpp
-game_game.o: $(GAME)game.h $(GAME)game.cpp $(GAME)entitiescontainer.h render_items.o render_movables.o
+game_game.o: $(GAME)game.h $(GAME)game.cpp $(GAME)entitiescontainer.h rend_items.o rend_movables.o
 	$(CXX) $(CXXFLAGS) -c $(GAME)game.cpp -o game_game.o
 
-# src/game/entity
+# src/game/ent
 
-# src/game/entity/entity.cpp
-game_entity_entity.o: $(GAME)entity/entity.h $(GAME)entity/entity.cpp $(RENDER)shared.h
-	$(CXX) $(CXXFLAGS) -c $(GAME)entity/entity.cpp -o game_entity_entity.o
+# src/game/ent/entity.cpp
+game_ent_entity.o: $(GAME)ent/entity.h $(GAME)ent/entity.cpp $(REND)shared.h
+	$(CXX) $(CXXFLAGS) -c $(GAME)ent/entity.cpp -o game_ent_entity.o
 
-# src/game/entity/item.cpp
-game_entity_item.o: $(GAME)entity/item.h $(GAME)entity/item.cpp game_entity_entity.o
-	$(CXX) $(CXXFLAGS) -c $(GAME)entity/item.cpp -o game_entity_item.o
+# src/game/ent/item.cpp
+game_ent_item.o: $(GAME)ent/item.h $(GAME)ent/item.cpp game_ent_entity.o
+	$(CXX) $(CXXFLAGS) -c $(GAME)ent/item.cpp -o game_ent_item.o
 
-# src/game/entity/movable
+# src/game/ent/mov
 
-# src/game/entity/movable/movable.cpp
-game_entity_movable_movable.o: $(GAME)entity/movable/movable.h $(GAME)entity/movable/movable.cpp game_entity_entity.o
-	$(CXX) $(CXXFLAGS) -c $(GAME)entity/movable/movable.cpp -o game_entity_movable_movable.o
+# src/game/ent/mov/movable.cpp
+game_ent_mov_movable.o: $(GAME)ent/mov/movable.h $(GAME)ent/mov/movable.cpp game_ent_entity.o
+	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/movable.cpp -o game_ent_mov_movable.o
 
-# src/game/entity/movable/rocket.cpp
-game_entity_movable_rocket.o: $(GAME)entity/movable/rocket.h $(GAME)entity/movable/rocket.cpp game_entity_movable_movable.o
-	$(CXX) $(CXXFLAGS) -c $(GAME)entity/movable/rocket.cpp -o game_entity_movable_rocket.o
+# src/game/ent/mov/rocket.cpp
+game_ent_mov_rocket.o: $(GAME)ent/mov/rocket.h $(GAME)ent/mov/rocket.cpp game_ent_mov_movable.o
+	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/rocket.cpp -o game_ent_mov_rocket.o
 
 # src/game/world
 
 # src/game/world/chunk.cpp
-game_world_chunk.o: $(GAME)world/chunk.h $(GAME)world/chunk.cpp game_entity_entity.o game_entity_item.o app_arguments.o misc_random.o
+game_world_chunk.o: $(GAME)world/chunk.h $(GAME)world/chunk.cpp game_ent_entity.o game_ent_item.o app_arguments.o misc_random.o
 	$(CXX) $(CXXFLAGS) -c $(GAME)world/chunk.cpp -o game_world_chunk.o
 
-# src/render
+# src/rend
 
-# src/render/renderer.cpp
-render_renderer.o: $(RENDER)renderer.h $(RENDER)renderer.cpp
-	$(CXX) $(CXXFLAGS) -c $(RENDER)renderer.cpp -o render_renderer.o
+# src/rend/renderer.cpp
+rend_renderer.o: $(REND)renderer.h $(REND)renderer.cpp
+	$(CXX) $(CXXFLAGS) -c $(REND)renderer.cpp -o rend_renderer.o
 
-# src/render/items.cpp
-render_items.o: $(RENDER)items.h $(RENDER)items.cpp $(RENDER)shared.h render_renderer.o game_entity_item.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o app_arguments.o
-	$(CXX) $(CXXFLAGS) -c $(RENDER)items.cpp -o render_items.o
+# src/rend/items.cpp
+rend_items.o: $(REND)items.h $(REND)items.cpp $(REND)shared.h rend_renderer.o game_ent_item.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o app_arguments.o
+	$(CXX) $(CXXFLAGS) -c $(REND)items.cpp -o rend_items.o
 
-# src/render/movables.cpp
-render_movables.o: $(RENDER)movables.h $(RENDER)movables.cpp $(RENDER)shared.h render_renderer.o game_entity_movable_movable.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o app_arguments.o
-	$(CXX) $(CXXFLAGS) -c $(RENDER)movables.cpp -o render_movables.o
+# src/rend/movables.cpp
+rend_movables.o: $(REND)movables.h $(REND)movables.cpp $(REND)shared.h rend_renderer.o game_ent_mov_movable.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o app_arguments.o
+	$(CXX) $(CXXFLAGS) -c $(REND)movables.cpp -o rend_movables.o
 
 # src/misc
 

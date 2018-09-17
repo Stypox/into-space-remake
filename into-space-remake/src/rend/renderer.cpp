@@ -1,6 +1,6 @@
 #include "renderer.h"
 
-namespace render {
+namespace rend {
 	int Renderer::m_width{};
 	int Renderer::m_height{};
 

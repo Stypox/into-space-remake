@@ -5,7 +5,7 @@
 
 #include "../entity.h"
 
-namespace game::entity::movable {
+namespace game::ent::mov {
 	class Movable : public Entity {
 		GLfloat m_x, m_y;
 	public:
