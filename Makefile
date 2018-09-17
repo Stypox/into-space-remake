@@ -128,11 +128,11 @@ render_renderer.o: $(RENDER)renderer.h $(RENDER)renderer.cpp
 	$(CXX) $(CXXFLAGS) -c $(RENDER)renderer.cpp -o render_renderer.o
 
 # src/render/items.cpp
-render_items.o: $(RENDER)items.h $(RENDER)items.cpp $(RENDER)shared.h game_entity_item.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o app_arguments.o
+render_items.o: $(RENDER)items.h $(RENDER)items.cpp $(RENDER)shared.h render_renderer.o game_entity_item.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o app_arguments.o
 	$(CXX) $(CXXFLAGS) -c $(RENDER)items.cpp -o render_items.o
 
 # src/render/movables.cpp
-render_movables.o: $(RENDER)movables.h $(RENDER)movables.cpp $(RENDER)shared.h game_entity_movable_movable.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o app_arguments.o
+render_movables.o: $(RENDER)movables.h $(RENDER)movables.cpp $(RENDER)shared.h render_renderer.o game_entity_movable_movable.o stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o app_arguments.o
 	$(CXX) $(CXXFLAGS) -c $(RENDER)movables.cpp -o render_movables.o
 
 # src/misc
