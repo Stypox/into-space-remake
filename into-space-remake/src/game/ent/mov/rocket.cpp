@@ -33,10 +33,10 @@ namespace game::ent::mov {
 		Movable{0.0, 0.0} {}
 
 	void Rocket::pickUpIntersecting(std::vector<std::unique_ptr<ent::Item>>& items) {
-		for (auto item = items.end(); item != items.begin(); --item) {
+		for (auto item = items.rbegin(); item != items.rend(); ++item) {
 			if (intersects(this, item->get())) {
 				pickUp(**item);
-				items.erase(item);
+				items.erase(std::next(item).base());
 			}
 		}
 	}
