@@ -13,6 +13,8 @@ namespace game::ent {
 	};
 	
 	bool intersects(Entity* a, Entity* b);
+	// Manhattan distance (Taxicab geometry)
+	float distance(Entity* a, Entity* b);
 }
 
 #endif
