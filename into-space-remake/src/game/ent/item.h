@@ -29,8 +29,8 @@ namespace game::ent {
 
 		GLfloat x() const override;
 		GLfloat y() const override;
-		GLfloat sizeX() const override { return 0.2f; }
-		GLfloat sizeY() const override { return 0.2f; }
+		GLfloat w() const override { return 0.2f; }
+		GLfloat h() const override { return 0.2f; }
 		GLfloat textureIndex() const;
 
 		Type type() const { return m_type; }

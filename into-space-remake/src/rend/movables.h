@@ -39,8 +39,8 @@ namespace rend {
 	inline void Movables::addMovable(const std::unique_ptr<T>& mov) {
 		m_data.push_back(mov->x());
 		m_data.push_back(mov->y());
-		m_data.push_back(mov->sizeX());
-		m_data.push_back(mov->sizeY());
+		m_data.push_back(mov->w());
+		m_data.push_back(mov->h());
 		m_data.push_back(mov->textureOffset());
 		m_data.push_back(mov->textureWidth());
 	}

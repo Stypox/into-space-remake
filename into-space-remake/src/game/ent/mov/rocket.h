@@ -15,8 +15,8 @@ namespace game::ent::mov {
 	public:
 		Rocket();
 
-		GLfloat sizeX() const override { return 0.2f; }
-		GLfloat sizeY() const override { return 0.4f; }
+		GLfloat w() const override { return 0.2f; }
+		GLfloat h() const override { return 0.4f; }
 		GLfloat textureOffset() const override { return 0.0f; }
 		GLfloat textureWidth() const override { return 1.0f; }
 
