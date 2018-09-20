@@ -1,11 +1,12 @@
 #include "game.h"
 
 namespace game {
-	Game::Game() {}
+	Game::Game() :
+		m_world{m_entities} {}
 
 	void Game::update() {
 		m_entities.rocket->pickUpIntersecting(m_entities.items);
-		// TODO update world
+		m_world.update();
 	}
 	void Game::render() {
 		m_itemsRenderer.draw(m_entities.items);
