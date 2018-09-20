@@ -34,7 +34,7 @@ OBJECT_FILES = $(SRC)main.o \
 	$(GAME)game.o \
 		$(GAME)ent/entity.o $(GAME)ent/item.o \
 			$(GAME)ent/mov/movable.o $(GAME)ent/mov/rocket.o \
-		$(GAME)world/chunk.o \
+		$(GAME)world/world.o $(GAME)world/chunk.o \
 	$(REND)renderer.o $(REND)items.o $(REND)movables.o \
 	$(MISC)random.o $(MISC)frequency.o \
 	glad_glad.o \
@@ -92,7 +92,7 @@ $(APP)input/mousemove.o: $(APP)input/mousemove.h $(APP)input/mousemove.cpp $(APP
 # src/game
 
 # src/game/game.cpp
-$(GAME)game.o: $(GAME)game.h $(GAME)game.cpp $(GAME)entitiescontainer.h $(REND)items.o $(REND)movables.o
+$(GAME)game.o: $(GAME)game.h $(GAME)game.cpp $(GAME)entitiescontainer.h $(REND)items.o $(REND)movables.o $(GAME)world/world.o
 	$(CXX) $(CXXFLAGS) -c $(GAME)game.cpp -o $(GAME)game.o
 
 # src/game/ent
@@ -120,6 +120,10 @@ $(GAME)ent/mov/rocket.o: $(GAME)ent/mov/rocket.h $(GAME)ent/mov/rocket.cpp $(GAM
 # src/game/world/chunk.cpp
 $(GAME)world/chunk.o: $(GAME)world/chunk.h $(GAME)world/chunk.cpp $(GAME)ent/entity.o $(GAME)ent/item.o $(APP)arguments.o $(MISC)random.o
 	$(CXX) $(CXXFLAGS) -c $(GAME)world/chunk.cpp -o $(GAME)world/chunk.o
+
+# src/game/world/world.cpp
+$(GAME)world/world.o: $(GAME)world/world.h $(GAME)world/world.cpp $(GAME)world/chunk.o $(GAME)entitiescontainer.h
+	$(CXX) $(CXXFLAGS) -c $(GAME)world/world.cpp -o $(GAME)world/world.o
 
 # src/rend
 
