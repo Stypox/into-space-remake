@@ -14,7 +14,7 @@ namespace game {
 		Game();
 
 		void update();
-		void rend();
+		void render();
 	};
 }
 

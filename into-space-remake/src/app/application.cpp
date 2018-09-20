@@ -82,7 +82,7 @@ namespace app {
 				m_framerate.ping();
 
 				game.update();
-				game.rend();
+				game.render();
 
 				if (Arguments::verbosity == Gravity::info && ++frames > 1000) {
 					glfwSetWindowTitle(m_window, std::to_string(m_framerate.frequency()).c_str());
@@ -108,7 +108,7 @@ namespace app {
 		if (m_initialized) {
 			glViewport(0, 0, width, height);
 			rend::Renderer::updateScreenSize(width, height);
-	}
+		}
 	}
 
 	int Application::run() {
