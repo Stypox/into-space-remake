@@ -14,7 +14,7 @@ uniform mat4 projection;
 uniform mat4 view;
 
 void main() {
-    gl_Position = projection * view * vec4(position.x * size.x + offset.x, position.y * size.y + offset.y, 0.0, 1.0);
+    gl_Position = projection * view * vec4(position.x * size.x * 0.5 + offset.x, position.y * size.y * 0.5 + offset.y, 0.0, 1.0);
 
 	if (position.x < 0.5)	// position.x is 0.0, thus < 0.5
 		vTexturePosition.x = abs(textureOffset);
