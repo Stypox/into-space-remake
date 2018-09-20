@@ -11,8 +11,10 @@ namespace game::world {
 	public:
 		Chunk(int x, int y);
 
-		void generate(EntitiesContainer& entities);
-		void remove(EntitiesContainer& entities);
+		void generate(EntitiesContainer& entities) const;
+
+		bool isAt(int x, int y) const;
+		bool isEmpty(EntitiesContainer& entities) const;
 	};
 }
 
