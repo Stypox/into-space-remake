@@ -50,7 +50,7 @@ namespace misc {
 
 	template <typename T>
 	inline auto Clock<T>::now() -> Clock<T>::Type {
-		return std::chrono::duration<Clock::Type>{std::chrono::high_resolution_clock::now() - m_start}.count();
+		return std::chrono::duration<Type>{std::chrono::high_resolution_clock::now() - m_start}.count();
 	}
 
 	template <typename T>
@@ -70,11 +70,11 @@ namespace misc {
 	template <typename T>
 	inline auto Chronometer<T>::now() -> Chronometer<T>::Type {
 		if (m_stopped)
-			return std::chrono::duration<Clock::Type>{m_start}.count();
-		else if (m_pause < 0) // not paused
-			return std::chrono::duration<Clock::Type>{std::chrono::high_resolution_clock::now() - m_start}.count();
-		else // paused
-			return std::chrono::duration<Clock::Type>{m_pause}.count();
+			return std::chrono::duration<Type>{m_start}.count();
+		else if (m_pause < std::chrono::time_point<std::chrono::high_resolution_clock>()) // not paused < 0;
+			return std::chrono::duration<Type>{std::chrono::high_resolution_clock::now() - m_start}.count();
+		else // paused >= 0
+			return std::chrono::duration<Type>{m_pause}.count();
 	}
 	template <typename T>
 	bool Chronometer<T>::stopped() {
@@ -82,7 +82,7 @@ namespace misc {
 	}
 	template <typename T>
 	bool Chronometer<T>::paused() {
-		return m_pause >= 0;
+		return m_pause >= std::chrono::time_point<std::chrono::high_resolution_clock>(); // >= 0
 	}
 	
 	template <typename T>
@@ -98,15 +98,15 @@ namespace misc {
 			m_start = std::chrono::high_resolution_clock::now() - m_start;
 			m_stopped = true;
 		}
-		return std::chrono::duration<Clock::Type>{m_start}.count();
+		return std::chrono::duration<Type>{m_start}.count();
 	}
 	template <typename T>
 	inline auto Chronometer<T>::pause() -> Chronometer<T>::Type {
-		if (m_pause < 0) { // not yet paused -> pause
+		if (m_pause < std::chrono::time_point<std::chrono::high_resolution_clock>()) { // not yet paused < 0 -> pause
 			m_pause = std::chrono::high_resolution_clock::now();
 			return m_pause;
 		}
-		else { // already paused -> set not paused
+		else { // already paused >= 0 -> set not paused
 			m_start += std::chrono::high_resolution_clock::now() - m_pause;
 			Type now = m_pause;
 			m_pause = -1.0f; // -1 < 0 -> not paused
