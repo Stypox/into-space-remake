@@ -9,7 +9,6 @@
 #include "event/scroll.h"
 #include "event/mousemove.h"
 #include "../rend/renderer.h"
-#include "../game/game.h"
 #include "../misc/random.h"
 
 namespace app {
@@ -25,6 +24,8 @@ namespace app {
 	}};
 	input::MouseMove Application::m_mouseMoveInput{m_window, m_eventHandler, 0, 0};
 	input::Scroll Application::m_scrollInput{m_window, m_eventHandler, 0, 0};
+
+	std::unique_ptr<game::Game> Application::m_game{nullptr};
 
 	bool Application::m_initialized{false};
 	
@@ -62,6 +63,8 @@ namespace app {
 
 			rend::Renderer::updateScreenSize(Arguments::width, Arguments::height);
 
+			m_game.reset(new game::Game{});
+
 			initInput();
 
 			m_initialized = true;
@@ -97,16 +100,15 @@ namespace app {
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-			game::Game game;
-
 			int frames = 0;
 			while (!glfwWindowShouldClose(m_window)) {
 				glClear(GL_COLOR_BUFFER_BIT);
 				m_framerate.ping();
 
-				game.update();
-				game.render();
 				updateInput();
+				processEvents();
+				m_game->update();
+				m_game->render();
 
 				if (Arguments::verbosity == Gravity::info && ++frames > 1000) {
 					glfwSetWindowTitle(m_window, std::to_string(m_framerate.frequency()).c_str());

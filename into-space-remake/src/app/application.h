@@ -9,6 +9,7 @@
 #include "input/keys.h"
 #include "input/mousemove.h"
 #include "input/scroll.h"
+#include "../game/game.h"
 
 namespace app {
 	constexpr const char * windowTitle = "Into Space remake";
@@ -23,6 +24,8 @@ namespace app {
 		static input::MouseMove m_mouseMoveInput;
 		static input::Scroll m_scrollInput;
 
+		static std::unique_ptr<game::Game> m_game;
+
 		static bool m_initialized;
 
 		static void init();
@@ -30,6 +33,7 @@ namespace app {
 
 		static void loop();
 		static void updateInput();
+		static void processEvents();
 
 		static void terminate();
 
