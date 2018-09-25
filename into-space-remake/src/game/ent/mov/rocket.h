@@ -39,6 +39,7 @@ namespace game::ent::mov {
 		}
 
 		void pickUp(const Item& item);
+		void damage(float velocity);
 
 	public:
 		Rocket();

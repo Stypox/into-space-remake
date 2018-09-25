@@ -1,6 +1,7 @@
 #include "rocket.h"
 
 #include <iostream>
+#include <math.h>
 
 namespace game::ent::mov {
 	void Rocket::pickUp(const Item& item) {
@@ -27,6 +28,9 @@ namespace game::ent::mov {
 			std::cout << "repair\n";
 			break;
 		}
+	}
+	void Rocket::damage(float velocity) {
+		m_integrity -= std::abs(velocity) * 0.1f;
 	}
 
 	Rocket::Rocket() :
