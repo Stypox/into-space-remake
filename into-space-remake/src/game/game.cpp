@@ -4,6 +4,9 @@ namespace game {
 	Game::Game() :
 		m_world{m_entities} {}
 
+	bool Game::process(std::shared_ptr<app::event::Event> eventHandler) {
+		return m_entities.rocket->process(eventHandler);
+	}
 	void Game::update() {
 		m_entities.rocket->pickUpIntersecting(m_entities.items);
 		m_world.update();
