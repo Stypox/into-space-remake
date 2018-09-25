@@ -1,5 +1,7 @@
 #include "entity.h"
 
+#include <math.h>
+
 namespace game::ent {
 	bool intersects(Entity* a, Entity* b) {
 		// assumes a and b are axis-aligned
@@ -12,6 +14,6 @@ namespace game::ent {
 	}
 	float distance(Entity* a, Entity* b) {
 		// Manhattan distance (Taxicab geometry)
-		return a->x() - b->x() + a->y() - b->y();
+		return std::abs(a->x() - b->x()) + std::abs(a->y() - b->y());
 	}
 }
