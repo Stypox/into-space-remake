@@ -71,6 +71,15 @@ $(APP)debug.o: $(APP)debug.h $(APP)debug.cpp
 $(APP)event/event.o: $(APP)event/event.h $(APP)event/event.cpp
 	$(CXX) $(CXXFLAGS) -c $(APP)event/event.cpp -o $(APP)event/event.o
 
+# src/app/event/key.h
+$(APP)event/key.h: $(APP)event/event.o
+
+# src/app/event/scroll.h
+$(APP)event/scroll.h: $(APP)event/event.o
+
+# src/app/event/mousemove.h
+$(APP)event/mousemove.h: $(APP)event/event.o
+
 # src/app/event/handler.cpp
 $(APP)event/handler.o: $(APP)event/handler.h $(APP)event/handler.cpp $(APP)event/event.o
 	$(CXX) $(CXXFLAGS) -c $(APP)event/handler.cpp -o $(APP)event/handler.o
@@ -94,6 +103,9 @@ $(APP)input/mousemove.o: $(APP)input/mousemove.h $(APP)input/mousemove.cpp $(APP
 # src/game/game.cpp
 $(GAME)game.o: $(GAME)game.h $(GAME)game.cpp $(GAME)entitiescontainer.h $(REND)items.o $(REND)movables.o $(GAME)world/world.o
 	$(CXX) $(CXXFLAGS) -c $(GAME)game.cpp -o $(GAME)game.o
+
+# src/game/entitiescontainer.h
+$(GAME)entitiescontainer.h: $(GAME)ent/item.o $(GAME)ent/mov/rocket.o
 
 # src/game/ent
 
