@@ -37,8 +37,8 @@ namespace misc {
 		AccelerationSum operator- (const AccelerationSum& accelerationSum) const;
 		AccelerationSum operator- (const Acceleration& acceleration) const;
 
-		inline Acceleration& operator+= (float acceleration);
-		inline Acceleration& operator-= (float acceleration);
+		Acceleration& operator+= (float acceleration);
+		Acceleration& operator-= (float acceleration);
 
 		inline bool operator== (float acceleration) const { return m_acceleration == acceleration; }
 		inline bool operator!= (float acceleration) const { return m_acceleration != acceleration; }
