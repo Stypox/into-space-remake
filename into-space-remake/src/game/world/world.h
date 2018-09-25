@@ -2,10 +2,9 @@
 #define _INTO_SPACE_REMAKE_GAME_WORLD_WORLD_H_
 
 #include <vector>
-#include <set>
+#include <map>
 
 #include "chunk.h"
-#include "../entitiescontainer.h"
 
 namespace game::world {
 	class World {
@@ -16,7 +15,7 @@ namespace game::world {
 		std::vector<Chunk> m_chunks;
 
 		void removeFarEntities();
-		void removeEmptyChunks(std::set<std::pair<int, int>> maybeEmptyChunks);
+		void removeEmptyChunks(std::map<int, int>& maybeEmptyChunks);
 		void genNearChunks();
 
 	public:
