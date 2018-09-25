@@ -61,9 +61,36 @@ namespace app {
 			}
 
 			rend::Renderer::updateScreenSize(Arguments::width, Arguments::height);
+
+			initInput();
+
 			m_initialized = true;
 		}
 	}
+	void Application::initInput() {
+		if (Arguments::wasd) {
+			std::cout << "WASD\n";
+			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_W,		false);
+			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_W,		false);
+			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_A,		false);
+			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_A,		false);
+			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_S,		false);
+			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_S,		false);
+			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_D,		false);
+			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_D,		false);
+		}
+		else {
+			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_UP,	false);
+			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_UP,	false);
+			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_LEFT,	false);
+			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_LEFT,	false);
+			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_DOWN,	false);
+			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_DOWN,	false);
+			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_RIGHT,	false);
+			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_RIGHT,	false);
+		}
+	}
+
 	void Application::loop() {
 		if (m_initialized) {
 			glClearColor(0.0, 0.86, 0.0, 1.0);
@@ -75,14 +102,11 @@ namespace app {
 			int frames = 0;
 			while (!glfwWindowShouldClose(m_window)) {
 				glClear(GL_COLOR_BUFFER_BIT);
-				glfwPollEvents();
-				m_keysInput.update();
-				m_mouseMoveInput.update();
-				m_scrollInput.update();
 				m_framerate.ping();
 
 				game.update();
 				game.render();
+				updateInput();
 
 				if (Arguments::verbosity == Gravity::info && ++frames > 1000) {
 					glfwSetWindowTitle(m_window, std::to_string(m_framerate.frequency()).c_str());
@@ -96,6 +120,24 @@ namespace app {
 			}
 		}
 	}
+	void Application::updateInput() {
+		glfwPollEvents();
+		m_keysInput.update();
+		m_mouseMoveInput.update();
+		m_scrollInput.update();
+	}
+	void Application::processEvents() {
+		while (1) {
+			auto event = m_eventHandler.getKeep();
+			if (*event) {
+				bool eventUsed = m_game->process(event);
+
+				m_eventHandler.get();
+			}
+			else break;
+		}
+	}
+
 	void Application::terminate() {
 		if (m_initialized) {
 			glfwDestroyWindow(m_window);

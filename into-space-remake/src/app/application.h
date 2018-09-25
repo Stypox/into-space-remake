@@ -26,7 +26,11 @@ namespace app {
 		static bool m_initialized;
 
 		static void init();
+		static void initInput();
+
 		static void loop();
+		static void updateInput();
+
 		static void terminate();
 
 		static void framebufferSizeCallback(GLFWwindow*, int width, int height);
