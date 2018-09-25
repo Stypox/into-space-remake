@@ -40,6 +40,7 @@ namespace game::ent::mov {
 		}
 
 		misc::Acceleration m_xAccel, m_yAccel;
+		float m_integrity;
 		void pickUp(const Item& item);
 		void damage(float velocity);
 
