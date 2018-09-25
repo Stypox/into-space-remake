@@ -38,7 +38,7 @@ namespace game::ent::mov {
 	}
 
 	Rocket::Rocket() :
-		Movable{0.0, 0.0} {}
+		Movable{0.0f, 0.0f}, m_onGround{true} {}
 
 	bool Rocket::process(std::shared_ptr<Event> event) {
 		if (event->type == Event::key) {
@@ -90,6 +90,40 @@ namespace game::ent::mov {
 			}
 		}
 		else return false;
+	}
+	void Rocket::updatePosition(float deltaTime) {
+		// calculate velocity along x and y
+		float vX = m_xAccel.velocity();
+		float vY = m_yAccel.velocity();
+
+		// update position
+		m_x += vX * deltaTime;
+		m_y += vY * deltaTime;
+
+		std::cout << "  vY: " << vY << "  vX: " << vX << "  aY: " << m_yAccel;
+		if (m_y < 0.0f) {
+			m_onGround = true;
+			m_y = 0.0f;
+			damage(vY);
+			vY = 0.0f;
+			m_yAccel.reset();
+		}
+		else if (m_onGround) {
+			m_onGround = false;
+			//m_accelerations[negY] = g;
+		}
+
+		// update air friction
+		float v = sqrt(vX * vX + vY * vY);
+		std::cout << " Velocity: " << v;
+		if (round(v * 10000.0f) / 10000.0f != 0) {
+			float dragAccel = airDrag(v, m_y) / m;
+
+			m_xAccel -= (dragAccel * vX) / (v);
+			m_yAccel -= (dragAccel * vY) / (v);
+			std::cout << " Drag: " << dragAccel;
+		}
+		std::cout << "                          ";
 	}
 
 	void Rocket::pickUpIntersecting(std::vector<std::unique_ptr<ent::Item>>& items) {

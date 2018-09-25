@@ -7,6 +7,7 @@
 
 #include "movable.h"
 #include "../item.h"
+#include "../../../misc/acceleration.h"
 #include "../../../app/event/event.h"
 
 namespace game::ent::mov {
@@ -40,7 +41,10 @@ namespace game::ent::mov {
 		}
 
 		misc::Acceleration m_xAccel, m_yAccel;
+		bool m_onGround;
+
 		float m_integrity;
+		
 		void pickUp(const Item& item);
 		void damage(float velocity);
 
@@ -53,6 +57,8 @@ namespace game::ent::mov {
 		GLfloat textureWidth() const override { return 1.0f; }
 
 		bool process(std::shared_ptr<app::event::Event> event);
+		void updatePosition(float deltaTime) override;
+
 		void pickUpIntersecting(std::vector<std::unique_ptr<Item>>& items);
 	};
 }
