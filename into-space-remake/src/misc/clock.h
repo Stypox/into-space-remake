@@ -64,52 +64,58 @@ namespace misc {
 
 	template <typename T>
 	inline Chronometer<T>::Chronometer() :
-		m_start{std::chrono::high_resolution_clock::now()}, m_pause{-1.0f},
-		m_stopped{false} {}
+		m_start{std::chrono::high_resolution_clock::now()}, m_stopped{false},
+		m_pause{std::chrono::seconds{-1}} {}
 	
 	template <typename T>
 	inline auto Chronometer<T>::now() -> Chronometer<T>::Type {
+		using namespace std::chrono;
 		if (m_stopped)
-			return std::chrono::duration<Type>{m_start}.count();
-		else if (m_pause < std::chrono::time_point<std::chrono::high_resolution_clock>()) // not paused < 0;
-			return std::chrono::duration<Type>{std::chrono::high_resolution_clock::now() - m_start}.count();
+			return duration<Type>{m_start.time_since_epoch()}.count();
+		else if (m_pause < time_point<high_resolution_clock>()) // not paused < 0;
+			return duration<Type>{high_resolution_clock::now() - m_start}.count();
 		else // paused >= 0
-			return std::chrono::duration<Type>{m_pause}.count();
+			return duration<Type>{m_pause.time_since_epoch()}.count();
 	}
 	template <typename T>
 	bool Chronometer<T>::stopped() {
+		using namespace std::chrono;
 		return m_stopped;
 	}
 	template <typename T>
 	bool Chronometer<T>::paused() {
-		return m_pause >= std::chrono::time_point<std::chrono::high_resolution_clock>(); // >= 0
+		using namespace std::chrono;
+		return m_pause >= time_point<high_resolution_clock>{}; // >= 0
 	}
 	
 	template <typename T>
 	inline auto Chronometer<T>::restart() -> Chronometer<T>::Type {
+		using namespace std::chrono;
 		Type oldNow = now();
-		m_start = std::chrono::high_resolution_clock::now();
-		m_pause = -1.0f;
+		m_start = high_resolution_clock::now();
+		m_pause = time_point<high_resolution_clock>{seconds{-1}};
 		return oldNow;
 	}
 	template <typename T>
 	inline auto Chronometer<T>::stop() -> Chronometer<T>::Type {
+		using namespace std::chrono;
 		if (!m_stopped) {
-			m_start = std::chrono::high_resolution_clock::now() - m_start;
+			m_start = time_point<high_resolution_clock>{high_resolution_clock::now().time_since_epoch() - m_start.time_since_epoch()};
 			m_stopped = true;
 		}
-		return std::chrono::duration<Type>{m_start}.count();
+		return duration<Type>{m_start.time_since_epoch()}.count();
 	}
 	template <typename T>
 	inline auto Chronometer<T>::pause() -> Chronometer<T>::Type {
-		if (m_pause < std::chrono::time_point<std::chrono::high_resolution_clock>()) { // not yet paused < 0 -> pause
-			m_pause = std::chrono::high_resolution_clock::now();
-			return m_pause;
+		using namespace std::chrono;
+		if (m_pause < time_point<high_resolution_clock>{}) { // not yet paused < 0 -> pause
+			m_pause = high_resolution_clock::now();
+			return duration<Type>{m_pause.time_since_epoch()}.count();
 		}
 		else { // already paused >= 0 -> set not paused
-			m_start += std::chrono::high_resolution_clock::now() - m_pause;
-			Type now = m_pause;
-			m_pause = -1.0f; // -1 < 0 -> not paused
+			m_start = time_point<high_resolution_clock>{high_resolution_clock::now().time_since_epoch() - m_pause.time_since_epoch() + m_start.time_since_epoch()};
+			Type now = duration<Type>{m_pause.time_since_epoch()}.count();
+			m_pause = time_point<high_resolution_clock>{seconds{-1}}; // -1 < 0 -> not paused
 			return now;
 		}
 	}
