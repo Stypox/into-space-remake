@@ -11,6 +11,7 @@
 namespace app {
 	enum class BoolArg {
 		help,
+		wasd,
 	};
 	enum class ValueArg {
 		verbosity,
@@ -30,6 +31,7 @@ namespace app {
 		"\n"
 		"Boolean settings:\n"
 		"   -h, --help         shows this screen\n"
+		"       --wasd         use WASD instead of arrow keys"
 		"\n"
 		"Value settings: (I = integer, D = decimal)\n"
 		"   -v=I --verbosity=I verbosity (0-3); default: 0\n"
@@ -45,6 +47,7 @@ namespace app {
 		static sp::Tstr errorMessage;
 
 		static bool help;
+		static bool wasd;
 
 		static Gravity verbosity;
 		static uint16_t width;

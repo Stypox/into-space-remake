@@ -10,6 +10,7 @@ namespace app {
 	
 	const std::map<BoolArg, std::vector<Tstr>> boolArgs {
 		{BoolArg::help, {"-h", "--help"}},
+		{BoolArg::wasd, {"--wasd"}},
 	};
 	const std::map<ValueArg, std::vector<Tstr>> valueArgs {
 		{ValueArg::verbosity, {"-v=", "--verbosity="}},
@@ -25,6 +26,7 @@ namespace app {
 	Tstr Arguments::errorMessage = "";
 
 	bool Arguments::help = false;
+	bool Arguments::wasd = false;
 
 	Gravity Arguments::verbosity = Gravity::critical;
 	uint16_t Arguments::width = 480;
@@ -77,6 +79,10 @@ namespace app {
 
 	void Arguments::parse(std::vector<Tstr> arguments) {
 		help = findArg(BoolArg::help, arguments);
+
+		size_t fWasd = findArg(BoolArg::wasd, arguments);
+		if (fWasd > 1) errorMessage += "Argument wasd used multiple times\n";
+		else wasd = fWasd;
 
 
 		using ValueFound = std::pair<int, Tstr>;
@@ -222,6 +228,7 @@ namespace app {
 		}
 
 		debug(Gravity::info, "Arguments", "Value of help: " + std::to_string(help));
+		debug(Gravity::info, "Arguments", "Value of wasd: " + std::to_string(help));
 		debug(Gravity::info, "Arguments", "Value of verbosity: " + std::to_string(static_cast<int>(verbosity)));
 		debug(Gravity::info, "Arguments", "Value of width: " + std::to_string(width));
 		debug(Gravity::info, "Arguments", "Value of height: " + std::to_string(height));
