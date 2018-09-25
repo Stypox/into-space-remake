@@ -7,7 +7,7 @@
 
 namespace misc {
 	class FrequencyNr {
-		static Clock m_clock;
+		static Clock<> m_clock;
 
 		std::vector<float> m_pings;
 		unsigned int m_currentPing;
@@ -23,7 +23,7 @@ namespace misc {
 
 
 	class FrequencyTime {
-		static Clock m_clock;
+		static Clock<> m_clock;
 
 		std::vector<float> m_pings;
 		float m_timeMax;

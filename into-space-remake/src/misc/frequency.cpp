@@ -3,8 +3,8 @@
 #include <algorithm>
 
 namespace misc {
-	Clock<float> FrequencyNr::m_clock{};
-	Clock<float> FrequencyTime::m_clock{};
+	Clock<> FrequencyNr::m_clock{};
+	Clock<> FrequencyTime::m_clock{};
 
 	FrequencyNr::FrequencyNr(const int nrPings) :
 		m_pings{}, m_currentPing{0} {
