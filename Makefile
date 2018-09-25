@@ -124,7 +124,7 @@ $(GAME)ent/mov/movable.o: $(GAME)ent/mov/movable.h $(GAME)ent/mov/movable.cpp $(
 	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/movable.cpp -o $(GAME)ent/mov/movable.o
 
 # src/game/ent/mov/rocket.cpp
-$(GAME)ent/mov/rocket.o: $(GAME)ent/mov/rocket.h $(GAME)ent/mov/rocket.cpp $(GAME)ent/mov/movable.o
+$(GAME)ent/mov/rocket.o: $(GAME)ent/mov/rocket.h $(GAME)ent/mov/rocket.cpp $(GAME)ent/mov/movable.o $(MISC)acceleration.o
 	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/rocket.cpp -o $(GAME)ent/mov/rocket.o
 
 # src/game/world
@@ -134,7 +134,7 @@ $(GAME)world/chunk.o: $(GAME)world/chunk.h $(GAME)world/chunk.cpp $(GAME)ent/ent
 	$(CXX) $(CXXFLAGS) -c $(GAME)world/chunk.cpp -o $(GAME)world/chunk.o
 
 # src/game/world/world.cpp
-$(GAME)world/world.o: $(GAME)world/world.h $(GAME)world/world.cpp $(GAME)world/chunk.o $(GAME)entitiescontainer.h
+$(GAME)world/world.o: $(GAME)world/world.h $(GAME)world/world.cpp $(GAME)world/chunk.o
 	$(CXX) $(CXXFLAGS) -c $(GAME)world/world.cpp -o $(GAME)world/world.o
 
 # src/rend
