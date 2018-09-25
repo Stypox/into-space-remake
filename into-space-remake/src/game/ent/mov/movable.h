@@ -7,6 +7,7 @@
 
 namespace game::ent::mov {
 	class Movable : public Entity {
+	protected:
 		GLfloat m_x, m_y;
 	public:
 		Movable(GLfloat x, GLfloat y);
@@ -17,6 +18,8 @@ namespace game::ent::mov {
 		virtual GLfloat h() const = 0;
 		virtual GLfloat textureOffset() const = 0;
 		virtual GLfloat textureWidth() const = 0;
+
+		virtual void updatePosition(float deltaTime) = 0;
 	};
 }
 
