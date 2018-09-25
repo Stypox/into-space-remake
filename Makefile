@@ -36,7 +36,7 @@ OBJECT_FILES = $(SRC)main.o \
 			$(GAME)ent/mov/movable.o $(GAME)ent/mov/rocket.o \
 		$(GAME)world/world.o $(GAME)world/chunk.o \
 	$(REND)renderer.o $(REND)items.o $(REND)movables.o \
-	$(MISC)random.o $(MISC)frequency.o \
+	$(MISC)random.o $(MISC)frequency.o $(MISC)acceleration.o \
 	glad_glad.o \
 	stypox_fileManagement.o \
 	stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
@@ -160,6 +160,10 @@ $(MISC)random.o: $(MISC)random.h $(MISC)random.cpp
 # src/misc/random.h
 $(MISC)frequency.o: $(MISC)frequency.h $(MISC)frequency.cpp $(MISC)clock.h
 	$(CXX) $(CXXFLAGS) -c $(MISC)frequency.cpp -o $(MISC)frequency.o
+
+# src/misc/acceleration.h
+$(MISC)acceleration.o: $(MISC)acceleration.h $(MISC)acceleration.cpp $(MISC)clock.h
+	$(CXX) $(CXXFLAGS) -c $(MISC)acceleration.cpp -o $(MISC)acceleration.o
 
 
 
