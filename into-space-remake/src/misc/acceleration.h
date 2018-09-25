@@ -3,49 +3,72 @@
 
 #include <ostream>
 
-#include "clock.h"
-
 namespace misc {
-	class Acceleration {
-		Chronometer<> m_clock;
-		float m_acceleration;
-		float m_maxVelocity;
-		float m_startVelocity;
+	class AccelerationSum;
 
-		float velocity(float time);
+	class Acceleration {
+		float m_acceleration;
+		float m_rotation;
+		bool m_active = true;
 
 	public:
-		Acceleration();
-		Acceleration(float acceleration);
-		Acceleration(float acceleration, float maxVelocity, float startVelocity = 0.0f);
+		Acceleration(float acceleration = 0.0f, float radiansRotation = 0.0f);
 
-		float velocity();
+		inline float a() const { return m_acceleration * m_active; }
+		inline operator float() const { return a(); }
+		inline float operator()() const { return a(); }
+		float ax() const;
+		float ay() const;
 
-		float restart();
-		float reset();
-		float stop();
-		float pause();
-		bool stopped();
-		bool paused();
+		inline float operator* (float deltaTime) const { return deltav(deltaTime); }
+		float deltav(float deltaTime) const;
+		float deltavx(float deltaTime) const;
+		float deltavy(float deltaTime) const;
 
-		void setMaxVelocity();
-		void setMaxVelocity(float maxVelocity);
-		bool reachedMaxVelocity();
+		inline float rotation() const { return m_rotation; }
+		inline bool active() const { return m_active; }	
 		
-		float change(float acceleration);
-		float change(float acceleration, float maxVelocity);
-		float change(float acceleration, float maxVelocity, float startVelocity);
+		inline void set(float acceleration) { m_acceleration = acceleration; }
+		inline void setRotation(float radiansRotation) { m_rotation = radiansRotation; }
+		void toggleActive();
 
-		Acceleration& operator= (float acceleration);
-		Acceleration& operator+= (float acceleration);
-		Acceleration& operator-= (float acceleration);
+		AccelerationSum operator+ (const AccelerationSum& accelerationSum) const;
+		AccelerationSum operator+ (const Acceleration& acceleration) const;
+		AccelerationSum operator- (const AccelerationSum& accelerationSum) const;
+		AccelerationSum operator- (const Acceleration& acceleration) const;
 
-		bool operator== (float acceleration);
-		bool operator!= (float acceleration);
+		inline Acceleration& operator+= (float acceleration);
+		inline Acceleration& operator-= (float acceleration);
 
-		operator float();
-		float acceleration();
+		inline bool operator== (float acceleration) const { return m_acceleration == acceleration; }
+		inline bool operator!= (float acceleration) const { return m_acceleration != acceleration; }
+
 		friend std::ostream& operator<< (std::ostream& stream, const Acceleration& acceleration);
+	};
+
+	class AccelerationSum {
+		float m_ax, m_ay;
+
+	public:
+		explicit AccelerationSum();
+		explicit AccelerationSum(float ax, float ay);
+
+		float a() const;
+		inline float ax() const { return m_ax; }
+		inline float ay() const { return m_ay; }
+		inline float deltav(float deltaTime) const { return a() * deltaTime; }
+		inline float deltavx(float deltaTime) const { return m_ax * deltaTime; }
+		inline float deltavy(float deltaTime) const { return m_ay * deltaTime; }
+
+		AccelerationSum operator+ (const AccelerationSum& accelerationSum) const;
+		AccelerationSum operator+ (const Acceleration& acceleration) const;
+		AccelerationSum operator- (const AccelerationSum& accelerationSum) const;
+		AccelerationSum operator- (const Acceleration& acceleration) const;
+
+		AccelerationSum& operator+= (const AccelerationSum& accelerationSum);
+		AccelerationSum& operator+= (const Acceleration& acceleration);
+		AccelerationSum& operator-= (const AccelerationSum& accelerationSum);
+		AccelerationSum& operator-= (const Acceleration& acceleration);
 	};
 }
 

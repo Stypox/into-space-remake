@@ -1,117 +1,100 @@
 #include "acceleration.h"
 
-#include <algorithm>
+#include <math.h>
 
 namespace misc {
-	float Acceleration::velocity(float time) {
-		if (m_acceleration >= 0)
-			return std::min(m_acceleration * time + m_startVelocity, m_maxVelocity);
-		else
-			return std::max(m_acceleration * time + m_startVelocity, m_maxVelocity);
+	Acceleration::Acceleration(float acceleration, float radiansRotation) :
+		m_acceleration{acceleration}, m_rotation{radiansRotation} {}
+
+	float Acceleration::ax() const {
+		return a() * std::cos(m_rotation);
+	}
+	float Acceleration::ay() const {
+		return a() * std::sin(m_rotation);
+	}
+	float Acceleration::deltav(float deltaTime) const {
+		return a() * deltaTime;
+	}
+	float Acceleration::deltavx(float deltaTime) const {
+		return ax() * deltaTime;
+	}
+	float Acceleration::deltavy(float deltaTime) const {
+		return ay() * deltaTime;
 	}
 
-	Acceleration::Acceleration() :
-		Acceleration{0.0f} {}
-	Acceleration::Acceleration(float acceleration) :
-		Acceleration{acceleration, std::numeric_limits<float>::infinity() * (acceleration >= 0 ? 1 : -1)} {}
-	Acceleration::Acceleration(float acceleration, float maxVelocity, float startVelocity) :
-		m_clock{}, m_acceleration{acceleration},
-		m_maxVelocity{maxVelocity}, m_startVelocity{startVelocity} {}
-
-	float Acceleration::velocity() {
-		return velocity(m_clock.now());
+	void Acceleration::toggleActive() {
+		m_active = !m_active;
 	}
 
-	float Acceleration::restart() {
-		return velocity(m_clock.restart());
+	AccelerationSum Acceleration::operator+ (const AccelerationSum& accelerationSum) const {
+		return AccelerationSum{ax() + accelerationSum.ax(), ay() + accelerationSum.ay()};
 	}
-	float Acceleration::reset() {
-		float velocityOld = velocity(m_clock.restart());
-		m_acceleration = 0.0f;
-		m_maxVelocity = std::numeric_limits<float>::infinity();
-		m_startVelocity = 0.0f;
-		return velocityOld;
+	AccelerationSum Acceleration::operator+ (const Acceleration& acceleration) const {
+		return AccelerationSum{ax() + acceleration.ax(), ay() + acceleration.ay()};
 	}
-	float Acceleration::stop() {
-		return velocity(m_clock.stop());
+	AccelerationSum Acceleration::operator- (const AccelerationSum& accelerationSum) const {
+		return AccelerationSum{ax() - accelerationSum.ax(), ay() - accelerationSum.ay()};
 	}
-	float Acceleration::pause() {
-		return velocity(m_clock.pause());
-	}
-	bool Acceleration::stopped() {
-		return m_clock.stopped();
-	}
-	bool Acceleration::paused() {
-		return m_clock.paused();
+	AccelerationSum Acceleration::operator- (const Acceleration& acceleration) const {
+		return AccelerationSum{ax() - acceleration.ax(), ay() - acceleration.ay()};
 	}
 
-
-	void Acceleration::setMaxVelocity() {
-		m_maxVelocity = std::numeric_limits<float>::infinity() * (m_acceleration >= 0 ? 1 : -1);
-	}
-	void Acceleration::setMaxVelocity(float maxVelocity) {
-		m_maxVelocity = maxVelocity;
-	}
-	bool Acceleration::reachedMaxVelocity() {
-		return m_maxVelocity == velocity();
-	}
-
-	float Acceleration::change(float acceleration) {
-		m_startVelocity = velocity();
-		m_acceleration = acceleration;
-		if (m_maxVelocity == std::numeric_limits<float>::infinity() || m_maxVelocity == -std::numeric_limits<float>::infinity())
-			m_maxVelocity = std::numeric_limits<float>::infinity() * (acceleration >= 0 ? 1 : -1);
-
-		m_clock.restart();
-		return m_startVelocity;
-	}
-	float Acceleration::change(float acceleration, float maxVelocity) {
-		m_startVelocity = velocity();
-		m_acceleration = acceleration;
-		m_maxVelocity = maxVelocity;
-
-		m_clock.restart();
-		return m_startVelocity;
-	}
-	float Acceleration::change(float acceleration, float maxVelocity, float startVelocity) {
-		float velocityOld = velocity();
-
-		m_acceleration = acceleration;
-		m_maxVelocity = maxVelocity;
-		m_startVelocity = startVelocity;
-		
-		m_clock.restart();
-		return velocityOld;
-	}
-
-	Acceleration& Acceleration::operator= (float acceleration) {
-		change(acceleration);
-		return *this;
-	}
 	Acceleration& Acceleration::operator+= (float acceleration) {
-		change(m_acceleration + acceleration);
+		m_acceleration += acceleration;
 		return *this;
 	}
 	Acceleration& Acceleration::operator-= (float acceleration) {
-		change(m_acceleration - acceleration);
+		m_acceleration -= acceleration;
 		return *this;
 	}
 
-	bool Acceleration::operator== (float acceleration) {
-		return m_acceleration == acceleration;
-	}
-	bool Acceleration::operator!= (float acceleration) {
-		return m_acceleration != acceleration;
+	std::ostream& operator<< (std::ostream& stream, const Acceleration& acceleration) {
+		stream << acceleration.m_acceleration << '*' << acceleration.m_active;
+		return stream;
 	}
 
-	Acceleration::operator float() {
-		return m_acceleration;
+
+
+	AccelerationSum::AccelerationSum() :
+		AccelerationSum{0.0f, 0.0f} {}
+	AccelerationSum::AccelerationSum(float ax, float ay) :
+		m_ax{ax}, m_ay{ay} {}
+
+	float AccelerationSum::a() const {
+		return std::sqrt(m_ax * m_ax + m_ay * m_ay);
 	}
-	float Acceleration::acceleration() {
-		return m_acceleration;
+
+	AccelerationSum AccelerationSum::operator+ (const AccelerationSum& accelerationSum) const {
+		return AccelerationSum{m_ax + accelerationSum.ax(), m_ay + accelerationSum.ay()};
 	}
-	std::ostream& operator<< (std::ostream& stream, const Acceleration& acceleration) {
-		stream << acceleration.m_acceleration;
-		return stream;
+	AccelerationSum AccelerationSum::operator+ (const Acceleration& acceleration) const {
+		return AccelerationSum{m_ax + acceleration.ax(), m_ay + acceleration.ay()};
+	}
+	AccelerationSum AccelerationSum::operator- (const AccelerationSum& accelerationSum) const {
+		return AccelerationSum{m_ax - accelerationSum.ax(), m_ay - accelerationSum.ay()};
+	}
+	AccelerationSum AccelerationSum::operator- (const Acceleration& acceleration) const {
+		return AccelerationSum{m_ax - acceleration.ax(), m_ay - acceleration.ay()};
+	}
+
+	AccelerationSum& AccelerationSum::operator+= (const AccelerationSum& accelerationSum) {
+		m_ax += accelerationSum.m_ax;
+		m_ay += accelerationSum.m_ay;
+		return *this;
+	}
+	AccelerationSum& AccelerationSum::operator+= (const Acceleration& acceleration) {
+		m_ax += acceleration.ax();
+		m_ay += acceleration.ay();
+		return *this;
+	}
+	AccelerationSum& AccelerationSum::operator-= (const AccelerationSum& accelerationSum) {
+		m_ax -= accelerationSum.m_ax;
+		m_ay -= accelerationSum.m_ay;
+		return *this;
+	}
+	AccelerationSum& AccelerationSum::operator-= (const Acceleration& acceleration) {
+		m_ax -= acceleration.ax();
+		m_ay -= acceleration.ay();
+		return *this;
 	}
 }
