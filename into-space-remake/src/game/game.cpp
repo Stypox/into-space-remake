@@ -8,8 +8,12 @@ namespace game {
 		return m_entities.rocket->process(eventHandler);
 	}
 	void Game::update() {
+		float deltaTime = m_deltaClock.restart();
+
 		m_entities.rocket->pickUpIntersecting(m_entities.items);
 		m_world.update();
+
+		m_entities.rocket->updatePosition(deltaTime);
 	}
 	void Game::render() {
 		m_itemsRenderer.draw(m_entities.items);
