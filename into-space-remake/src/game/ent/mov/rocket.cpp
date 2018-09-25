@@ -3,7 +3,11 @@
 #include <iostream>
 #include <math.h>
 
+#include "../../../app/event/key.h"
+
 namespace game::ent::mov {
+	using namespace app::event;
+
 	void Rocket::pickUp(const Item& item) {
 		switch (item.type()) {
 		case Item::fuel0:
@@ -35,6 +39,58 @@ namespace game::ent::mov {
 
 	Rocket::Rocket() :
 		Movable{0.0, 0.0} {}
+
+	bool Rocket::process(std::shared_ptr<Event> event) {
+		if (event->type == Event::key) {
+			Key* keyEvent = dynamic_cast<Key*>(event.get());
+			switch (keyEvent->key) {
+			case GLFW_KEY_W: case GLFW_KEY_UP:
+				switch (keyEvent->type) {
+				case Key::press:
+					m_yAccel += yAcceleration;
+					return true;
+				case Key::release:
+					m_yAccel -= yAcceleration;
+					return true;
+				default:
+					return false;
+				}
+			case GLFW_KEY_A: case GLFW_KEY_LEFT:
+				switch (keyEvent->type) {
+				case Key::press:
+					m_xAccel -= xAcceleration;
+					return true;
+				case Key::release:
+					m_xAccel += xAcceleration;
+					return true;
+				default:
+					return false;
+				}
+			case GLFW_KEY_S: case GLFW_KEY_DOWN:
+				switch (keyEvent->type) {
+				case Key::press:
+					// TODO turn off engine
+					return true;
+				default:
+					return false;
+				}
+			case GLFW_KEY_D: case GLFW_KEY_RIGHT:
+				switch (keyEvent->type) {
+				case Key::press:
+					m_xAccel += xAcceleration;
+					return true;
+				case Key::release:
+					m_xAccel -= xAcceleration;
+					return true;
+				default:
+					return false;
+				}
+			default:
+				return false;
+			}
+		}
+		else return false;
+	}
 
 	void Rocket::pickUpIntersecting(std::vector<std::unique_ptr<ent::Item>>& items) {
 		for (auto item = items.rbegin(); item != items.rend(); ++item) {

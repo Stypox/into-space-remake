@@ -7,6 +7,7 @@
 
 #include "movable.h"
 #include "../item.h"
+#include "../../../app/event/event.h"
 
 namespace game::ent::mov {
 	class Rocket : public Movable {
@@ -38,6 +39,7 @@ namespace game::ent::mov {
 			return 0.5 * airDensity(h) * v * v * Cd * A;
 		}
 
+		misc::Acceleration m_xAccel, m_yAccel;
 		void pickUp(const Item& item);
 		void damage(float velocity);
 
@@ -49,6 +51,7 @@ namespace game::ent::mov {
 		GLfloat textureOffset() const override { return 0.0f; }
 		GLfloat textureWidth() const override { return 1.0f; }
 
+		bool process(std::shared_ptr<app::event::Event> event);
 		void pickUpIntersecting(std::vector<std::unique_ptr<Item>>& items);
 	};
 }
