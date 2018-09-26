@@ -26,10 +26,6 @@ namespace misc {
 		return ay() * deltaTime;
 	}
 
-	void Acceleration::toggleActive() {
-		m_active = !m_active;
-	}
-
 	AccelerationSum Acceleration::operator+ (const AccelerationSum& accelerationSum) const {
 		return AccelerationSum{ax() + accelerationSum.ax(), ay() + accelerationSum.ay()};
 	}

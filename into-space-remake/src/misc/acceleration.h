@@ -32,7 +32,8 @@ namespace misc {
 		
 		inline void set(float acceleration) { m_acceleration = acceleration; }
 		inline void setRotation(float radiansRotation) { m_rotation = radiansRotation; }
-		void toggleActive();
+		inline void activate() { m_active = true; }
+		inline void deactivate() { m_active = false; }
 
 		AccelerationSum operator+ (const AccelerationSum& accelerationSum) const;
 		AccelerationSum operator+ (const Acceleration& acceleration) const;
