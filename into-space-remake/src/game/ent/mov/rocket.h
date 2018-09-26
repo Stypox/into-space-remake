@@ -22,8 +22,7 @@ namespace game::ent::mov {
 							   L = 0.0065f,				// Temperature lapse rate (K/m)
 							   R = 8.31447f,			// Ideal gas constant (J/(mol * K))
 							   M = 0.0289644f,			// Molar mass of dry air (kg/mol)
-							   xAcceleration = 1.0f, 	// (m/s^2)
-							   yAcceleration = 15.0f;	// (m/s^2)
+							   defaultRotationVelocity = M_PI / 12; 	// (rad/s)
 
 		// see https://en.wikipedia.org/wiki/Density_of_air
 		static constexpr float airTemperature(float h) {
@@ -40,8 +39,9 @@ namespace game::ent::mov {
 			return 0.5 * airDensity(h) * v * v * Cd * A;
 		}
 
-		misc::Acceleration m_xAccel, m_yAccel;
-		bool m_onGround;
+		float m_vx, m_vy;
+		misc::Acceleration m_engine, m_drag, m_gravity;
+		float m_rotationVelocity;
 
 		float m_integrity;
 		

@@ -38,7 +38,12 @@ namespace game::ent::mov {
 	}
 
 	Rocket::Rocket() :
-		Movable{0.0f, 0.0f}, m_onGround{true} {}
+		Movable{0.0f, 0.0f}, m_vx{0.0f},
+		m_vy{0.0f}, m_engine{/*TODO*/12.0f, 0.5f * M_PI},
+		m_drag{}, m_gravity{g, 1.5 * M_PI},
+		m_rotationVelocity{0.0f}, m_integrity{/*TODO*/0.0f} {
+		m_engine.deactivate();
+	}
 
 	bool Rocket::process(std::shared_ptr<Event> event) {
 		if (event->type == Event::key) {
@@ -47,10 +52,10 @@ namespace game::ent::mov {
 			case GLFW_KEY_W: case GLFW_KEY_UP:
 				switch (keyEvent->type) {
 				case Key::press:
-					m_yAccel += yAcceleration;
+					m_engine.activate();
 					return true;
 				case Key::release:
-					m_yAccel -= yAcceleration;
+					m_engine.deactivate();
 					return true;
 				default:
 					return false;
@@ -58,10 +63,10 @@ namespace game::ent::mov {
 			case GLFW_KEY_A: case GLFW_KEY_LEFT:
 				switch (keyEvent->type) {
 				case Key::press:
-					m_xAccel -= xAcceleration;
+					m_rotationVelocity += defaultRotationVelocity;
 					return true;
 				case Key::release:
-					m_xAccel += xAcceleration;
+					m_rotationVelocity -= defaultRotationVelocity;
 					return true;
 				default:
 					return false;
@@ -69,7 +74,7 @@ namespace game::ent::mov {
 			case GLFW_KEY_S: case GLFW_KEY_DOWN:
 				switch (keyEvent->type) {
 				case Key::press:
-					// TODO turn off engine
+					m_engine.deactivate();
 					return true;
 				default:
 					return false;
@@ -77,10 +82,10 @@ namespace game::ent::mov {
 			case GLFW_KEY_D: case GLFW_KEY_RIGHT:
 				switch (keyEvent->type) {
 				case Key::press:
-					m_xAccel += xAcceleration;
+					m_rotationVelocity -= defaultRotationVelocity;
 					return true;
 				case Key::release:
-					m_xAccel -= xAcceleration;
+					m_rotationVelocity += defaultRotationVelocity;
 					return true;
 				default:
 					return false;
@@ -92,38 +97,33 @@ namespace game::ent::mov {
 		else return false;
 	}
 	void Rocket::updatePosition(float deltaTime) {
-		// calculate velocity along x and y
-		float vX = m_xAccel.velocity();
-		float vY = m_yAccel.velocity();
+		// calculate acceleration sum
+		m_engine.setRotation(m_engine.rotation() + m_rotationVelocity * deltaTime);
+		auto accelSum = m_engine /*+ m_drag*/ + m_gravity;
+
+		// update velocity
+		m_vx += accelSum.deltavx(deltaTime);
+		m_vy += accelSum.deltavy(deltaTime);
 
 		// update position
-		m_x += vX * deltaTime;
-		m_y += vY * deltaTime;
+		m_x += m_vx * deltaTime;
+		m_y += m_vy * deltaTime;
 
-		std::cout << "  vY: " << vY << "  vX: " << vX << "  aY: " << m_yAccel;
 		if (m_y < 0.0f) {
-			m_onGround = true;
 			m_y = 0.0f;
-			damage(vY);
-			vY = 0.0f;
-			m_yAccel.reset();
+			damage(m_vy);
+			m_vy = 0.0f;
+			m_gravity.deactivate();
 		}
-		else if (m_onGround) {
-			m_onGround = false;
-			//m_accelerations[negY] = g;
+		else if (m_y > 0.0f) {
+			m_gravity.activate();
 		}
 
 		// update air friction
-		float v = sqrt(vX * vX + vY * vY);
-		std::cout << " Velocity: " << v;
-		if (round(v * 10000.0f) / 10000.0f != 0) {
-			float dragAccel = airDrag(v, m_y) / m;
+		float v = sqrt(m_x * m_x + m_y * m_y);
+		m_drag = airDrag(v, m_y) / m;
 
-			m_xAccel -= (dragAccel * vX) / (v);
-			m_yAccel -= (dragAccel * vY) / (v);
-			std::cout << " Drag: " << dragAccel;
-		}
-		std::cout << "                          ";
+		std::cout << "\r                vx: " << m_vx << "  vy: " << m_vy << "   a: " << accelSum << "   v: " << v << " drag: " << m_drag;
 	}
 
 	void Rocket::pickUpIntersecting(std::vector<std::unique_ptr<ent::Item>>& items) {
