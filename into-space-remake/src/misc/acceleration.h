@@ -73,6 +73,8 @@ namespace misc {
 		AccelerationSum& operator+= (const Acceleration& acceleration);
 		AccelerationSum& operator-= (const AccelerationSum& accelerationSum);
 		AccelerationSum& operator-= (const Acceleration& acceleration);
+
+		friend std::ostream& operator<< (std::ostream& stream, const AccelerationSum& acceleration);
 	};
 }
 

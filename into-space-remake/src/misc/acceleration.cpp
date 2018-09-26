@@ -101,4 +101,9 @@ namespace misc {
 		m_ay -= acceleration.ay();
 		return *this;
 	}
+
+	std::ostream& operator<< (std::ostream& stream, const AccelerationSum& acceleration) {
+		stream << "x=" << acceleration.m_ax << ",y=" << acceleration.m_ay;
+		return stream;
+	}
 }
