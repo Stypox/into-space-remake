@@ -123,14 +123,15 @@ namespace game::ent::mov {
 		m_y += m_vy * deltaTime;
 
 		// check if rocket is below ground
-		if (m_y < 0.0f) {
-			m_y = 0.0f;
+		if (m_y < 0.2f) {
+			m_y = 0.2f;
 			damage(m_vy);
+
 			m_vy = 0.0f;
 			m_vx = 0.0f;
 			m_gravity.deactivate();
 		}
-		else if (m_y > 0.0f) {
+		else if (m_y > 0.2f) {
 			m_gravity.activate();
 		}
 
