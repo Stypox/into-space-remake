@@ -16,6 +16,7 @@ namespace game::ent::mov {
 		GLfloat y() const override;
 		virtual GLfloat w() const = 0;
 		virtual GLfloat h() const = 0;
+		virtual GLfloat rotation() const = 0;
 		virtual GLfloat textureOffset() const = 0;
 		virtual GLfloat textureWidth() const = 0;
 

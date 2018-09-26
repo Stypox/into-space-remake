@@ -53,6 +53,7 @@ namespace game::ent::mov {
 
 		GLfloat w() const override { return 0.2f; }
 		GLfloat h() const override { return 0.4f; }
+		GLfloat rotation() const override { return m_engine.rotation(); };
 		GLfloat textureOffset() const override { return 0.0f; }
 		GLfloat textureWidth() const override { return 1.0f; }
 
