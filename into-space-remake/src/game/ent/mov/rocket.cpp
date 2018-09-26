@@ -117,6 +117,7 @@ namespace game::ent::mov {
 			m_y = 0.0f;
 			damage(m_vy);
 			m_vy = 0.0f;
+			m_vx = 0.0f;
 			m_gravity.deactivate();
 		}
 		else if (m_y > 0.0f) {
