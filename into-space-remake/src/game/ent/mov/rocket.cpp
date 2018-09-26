@@ -97,9 +97,12 @@ namespace game::ent::mov {
 		else return false;
 	}
 	void Rocket::updatePosition(float deltaTime) {
-		// calculate acceleration sum
+		// update rotation
 		m_engine.setRotation(m_engine.rotation() + m_rotationVelocity * deltaTime);
-		auto accelSum = m_engine /*+ m_drag*/ + m_gravity;
+		m_drag.setRotation((m_vy == 0.0f && m_vx == 0.0f) ? 0.0f : std::atan(m_vy / m_vx));
+
+		// calculate acceleration sum
+		auto accelSum = m_engine + m_drag + m_gravity;
 
 		// update velocity
 		m_vx += accelSum.deltavx(deltaTime);
