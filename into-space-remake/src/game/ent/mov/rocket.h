@@ -41,7 +41,7 @@ namespace game::ent::mov {
 
 		float m_vx, m_vy;
 		misc::Acceleration m_engine, m_drag, m_gravity;
-		float m_rotationVelocity;
+		float m_rotation, m_rotationVelocity;
 
 		float m_integrity;
 		
@@ -53,7 +53,7 @@ namespace game::ent::mov {
 
 		GLfloat w() const override { return 0.2f; }
 		GLfloat h() const override { return 0.4f; }
-		GLfloat rotation() const override { return m_engine.rotation(); };
+		GLfloat rotation() const override { return m_rotation; };
 		GLfloat textureOffset() const override { return 0.0f; }
 		GLfloat textureWidth() const override { return 1.0f; }
 

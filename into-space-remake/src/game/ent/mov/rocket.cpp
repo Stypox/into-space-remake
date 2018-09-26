@@ -41,7 +41,8 @@ namespace game::ent::mov {
 		Movable{0.0f, 0.0f}, m_vx{0.0f},
 		m_vy{0.0f}, m_engine{/*TODO*/12.0f, 0.5f * M_PI},
 		m_drag{}, m_gravity{g, 1.5 * M_PI},
-		m_rotationVelocity{0.0f}, m_integrity{/*TODO*/0.0f} {
+		m_rotation{0.0f}, m_rotationVelocity{0.0f},
+		m_integrity{/*TODO*/0.0f} {
 		m_engine.deactivate();
 	}
 
@@ -98,7 +99,16 @@ namespace game::ent::mov {
 	}
 	void Rocket::updatePosition(float deltaTime) {
 		// update rotation
-		m_engine.setRotation(m_engine.rotation() + m_rotationVelocity * deltaTime);
+		if (m_gravity.active()) {
+			m_rotation += m_rotationVelocity * deltaTime;
+		}
+		else {
+			if (m_rotation > 0.0f)
+				m_rotation -= std::max(m_rotation * deltaTime * 10, M_PIf32 / 9 * deltaTime * 10);
+			else
+				m_rotation -= std::min(m_rotation * deltaTime * 10, M_PIf32 / 9 * deltaTime * -10);
+		}
+		m_engine.setRotation(m_rotation + 0.5f * M_PI); // the rocket rotation is 0 when it is vertical, not horizontal (along x axis), so summing 90°
 		m_drag.setRotation((m_vy == 0.0f && m_vx == 0.0f) ? 0.0f : std::atan(m_vy / m_vx));
 
 		// calculate acceleration sum
