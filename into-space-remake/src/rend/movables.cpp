@@ -56,19 +56,23 @@ namespace rend {
 		m_dataVbo.bind();
 		GLint offsetIndex =			 m_shader.getAttribLocation("offset");
 		m_vao.enableAttrib(offsetIndex);
-		m_vao.attribPointer(offsetIndex,		  2, GL_FLOAT, 6, 0);
+		m_vao.attribPointer(offsetIndex,		  2, GL_FLOAT, m_movableSize, 0);
 		m_vao.attribDivisor(offsetIndex,		  1);
 		GLint sizeIndex =			 m_shader.getAttribLocation("size");
 		m_vao.enableAttrib(sizeIndex);
-		m_vao.attribPointer(sizeIndex,			  2, GL_FLOAT, 6, 2);
+		m_vao.attribPointer(sizeIndex,			  2, GL_FLOAT, m_movableSize, 2);
 		m_vao.attribDivisor(sizeIndex,			  1);
+		GLint rotationIndex =		 m_shader.getAttribLocation("rotation");
+		m_vao.enableAttrib(rotationIndex);
+		m_vao.attribPointer(rotationIndex,		  1, GL_FLOAT, m_movableSize, 4);
+		m_vao.attribDivisor(rotationIndex,		  1);
 		GLint textureOffsetIndex =	 m_shader.getAttribLocation("textureOffset");
 		m_vao.enableAttrib(textureOffsetIndex);
-		m_vao.attribPointer(textureOffsetIndex,	  1, GL_FLOAT, 6, 4);
+		m_vao.attribPointer(textureOffsetIndex,	  1, GL_FLOAT, m_movableSize, 5);
 		m_vao.attribDivisor(textureOffsetIndex,	  1);
 		GLint textureWidthIndex =	 m_shader.getAttribLocation("textureWidth");
 		m_vao.enableAttrib(textureWidthIndex);
-		m_vao.attribPointer(textureWidthIndex,	  1, GL_FLOAT, 6, 5);
+		m_vao.attribPointer(textureWidthIndex,	  1, GL_FLOAT, m_movableSize, 6);
 		m_vao.attribDivisor(textureWidthIndex,	  1);
 	}
 
@@ -84,8 +88,6 @@ namespace rend {
 		m_shader.uniform("projection", Renderer::projectionMatrix());
 		m_shader.uniform("view", Renderer::viewMatrix());
 		m_shader.uniform("movablesTexture", m_texture.position());
-
-		if (GLenum e = glGetError(); e) std::cout << "Error " << e << " in game loop\n";
 
 		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr, m_data.size() / m_movableSize);
 		

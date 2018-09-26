@@ -5,6 +5,7 @@ in vec2 texturePosition;
 
 in vec2 offset;
 in vec2 size;
+in float rotation;
 in float textureOffset;
 in float textureWidth;
 
@@ -14,7 +15,13 @@ uniform mat4 projection;
 uniform mat4 view;
 
 void main() {
-    gl_Position = projection * view * vec4(position.x * size.x * 0.5 + offset.x, position.y * size.y * 0.5 + offset.y, 0.0, 1.0);
+	vec2 rotatedPosition = position * size * 0.5 *
+		mat2( // rotation matrix
+			cos(rotation), -sin(rotation),
+			sin(rotation),  cos(rotation)
+		);
+
+    gl_Position = projection * view * vec4(rotatedPosition + offset, 0.0, 1.0);
 
 	if (position.x < 0.5)	// position.x is 0.0, thus < 0.5
 		vTexturePosition.x = abs(textureOffset);

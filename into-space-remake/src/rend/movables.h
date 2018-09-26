@@ -13,7 +13,7 @@
 
 namespace rend {
 	class Movables {
-		static constexpr size_t m_movableSize = 6;
+		static constexpr size_t m_movableSize = 7;
 
 		sp::gl::Shader m_shader;
 		sp::gl::Texture2D m_texture;
@@ -41,6 +41,7 @@ namespace rend {
 		m_data.push_back(mov->y());
 		m_data.push_back(mov->w());
 		m_data.push_back(mov->h());
+		m_data.push_back(mov->rotation());
 		m_data.push_back(mov->textureOffset());
 		m_data.push_back(mov->textureWidth());
 	}
