@@ -5,6 +5,7 @@
 #include "../rend/movables.h"
 #include "entitiescontainer.h"
 #include "world/world.h"
+#include "../misc/clock.h"
 
 namespace game {
 	class Game {
