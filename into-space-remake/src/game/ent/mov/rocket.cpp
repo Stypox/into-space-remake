@@ -109,6 +109,7 @@ namespace game::ent::mov {
 		m_x += m_vx * deltaTime;
 		m_y += m_vy * deltaTime;
 
+		// check if rocket is below ground
 		if (m_y < 0.0f) {
 			m_y = 0.0f;
 			damage(m_vy);
@@ -120,7 +121,7 @@ namespace game::ent::mov {
 		}
 
 		// update air friction
-		float v = sqrt(m_x * m_x + m_y * m_y);
+		float v = sqrt(m_vx * m_vx + m_vy * m_vy);
 		m_drag = airDrag(v, m_y) / m;
 
 		std::cout << "\r                vx: " << m_vx << "  vy: " << m_vy << "   a: " << accelSum << "   v: " << v << " drag: " << m_drag;
