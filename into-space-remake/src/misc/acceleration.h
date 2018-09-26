@@ -12,7 +12,9 @@ namespace misc {
 		bool m_active = true;
 
 	public:
-		Acceleration(float acceleration = 0.0f, float radiansRotation = 0.0f);
+		Acceleration();
+		explicit Acceleration(float acceleration);
+		Acceleration(float acceleration, float radiansRotation);
 
 		inline float a() const { return m_acceleration * m_active; }
 		inline operator float() const { return a(); }
@@ -39,6 +41,7 @@ namespace misc {
 
 		Acceleration& operator+= (float acceleration);
 		Acceleration& operator-= (float acceleration);
+		Acceleration& operator= (float acceleration);
 
 		inline bool operator== (float acceleration) const { return m_acceleration == acceleration; }
 		inline bool operator!= (float acceleration) const { return m_acceleration != acceleration; }

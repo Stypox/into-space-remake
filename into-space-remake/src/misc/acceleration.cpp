@@ -3,6 +3,10 @@
 #include <math.h>
 
 namespace misc {
+	Acceleration::Acceleration() :
+		Acceleration{0.0f, 0.0f} {}
+	Acceleration::Acceleration(float acceleration) :
+		Acceleration{acceleration, 0.0f} {}
 	Acceleration::Acceleration(float acceleration, float radiansRotation) :
 		m_acceleration{acceleration}, m_rotation{radiansRotation} {}
 
@@ -45,6 +49,10 @@ namespace misc {
 	}
 	Acceleration& Acceleration::operator-= (float acceleration) {
 		m_acceleration -= acceleration;
+		return *this;
+	}
+	Acceleration& Acceleration::operator= (float acceleration) {
+		m_acceleration = acceleration;
 		return *this;
 	}
 
