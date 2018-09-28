@@ -48,6 +48,7 @@ namespace game::ent::mov {
 		float m_integrity;
 		
 		void pickUp(const Item& item);
+		void updateRotation(float deltaTime);
 		void damage(float velocity);
 
 	public:

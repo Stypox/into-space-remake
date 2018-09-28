@@ -33,6 +33,47 @@ namespace game::ent::mov {
 			break;
 		}
 	}
+	void Rocket::updateRotation(float deltaTime) {
+		if (m_gravity.active()) {
+			m_rotation += m_rotationVelocity * deltaTime;
+		}
+		else {
+			//normalize rotation
+			m_rotation -= std::floor(m_rotation / (2.0f * M_PI)) * 2.0f * M_PI;
+
+			// the inclination at which the Rocket laying direction changes
+			// (when the Rocket is / it falls right; \ -> left)
+			constexpr float barycenterOnYAxis = 0.463647609f; // = std::atan(width / height)
+			// the rocket should fall anticlockwise
+			if	   ((m_rotation > 0.0f								&& m_rotation <					barycenterOnYAxis	) ||
+					(m_rotation > 0.5f * M_PI						&& m_rotation < M_PI		  - barycenterOnYAxis	) ||
+					(m_rotation > M_PI								&& m_rotation < M_PI		  + barycenterOnYAxis	) ||
+					(m_rotation > 1.5f * M_PI						&& m_rotation < 2.0f * M_PI	  - barycenterOnYAxis	)) {
+				m_rotation -= 5.0f * M_PI * deltaTime;
+			}
+			// the rocket should fall clockwise
+			else if((m_rotation > 				barycenterOnYAxis	&& m_rotation < 0.5f * M_PI							) ||
+					(m_rotation > M_PI		  - barycenterOnYAxis	&& m_rotation < M_PI								) ||
+					(m_rotation > M_PI		  + barycenterOnYAxis	&& m_rotation < 1.5f * M_PI							) ||
+					(m_rotation > 2.0f * M_PI -	barycenterOnYAxis	&& m_rotation < 2.0f * M_PI							)) {
+				m_rotation += 10.0f * M_PI * deltaTime;
+			}
+
+			// round rotation if near axes
+			constexpr float roundingValue = 0.05f; // (rad)
+			if ((m_rotation > 2.0f * M_PI - roundingValue && m_rotation < 0.0f) || (m_rotation > 0.0f && m_rotation < roundingValue))
+				m_rotation = 0.0f;
+			else if (m_rotation > 0.5f * M_PI - roundingValue && m_rotation < 0.5f * M_PI + roundingValue)
+				m_rotation = 0.5f * M_PI;
+			else if (m_rotation > 1.0f * M_PI - roundingValue && m_rotation < 1.0f * M_PI + roundingValue)
+				m_rotation = 1.0f * M_PI;
+			else if (m_rotation > 1.5f * M_PI - roundingValue && m_rotation < 1.5f * M_PI + roundingValue)
+				m_rotation = 1.5f * M_PI;
+		}
+
+		m_engine.setRotation(m_rotation + 0.5f * M_PI); // the rocket rotation is 0 when it is vertical, not horizontal (along x axis), so summing 90°
+		m_drag.setRotation((m_vy == 0.0f && m_vx == 0.0f) ? 0.0f : std::atan(m_vy / m_vx));
+	}
 	void Rocket::damage(float velocity) {
 		m_integrity -= std::abs(velocity) * 0.1f;
 	}
@@ -98,18 +139,7 @@ namespace game::ent::mov {
 		else return false;
 	}
 	void Rocket::updatePosition(float deltaTime) {
-		// update rotation
-		if (m_gravity.active()) {
-			m_rotation += m_rotationVelocity * deltaTime;
-		}
-		else {
-			if (m_rotation > 0.0f)
-				m_rotation -= std::max(m_rotation * deltaTime * 10, M_PIf32 / 9 * deltaTime * 10);
-			else
-				m_rotation -= std::min(m_rotation * deltaTime * 10, M_PIf32 / 9 * deltaTime * -10);
-		}
-		m_engine.setRotation(m_rotation + 0.5f * M_PI); // the rocket rotation is 0 when it is vertical, not horizontal (along x axis), so summing 90°
-		m_drag.setRotation((m_vy == 0.0f && m_vx == 0.0f) ? 0.0f : std::atan(m_vy / m_vx));
+		updateRotation(deltaTime);
 
 		// calculate acceleration sum
 		auto accelSum = m_engine + m_drag + m_gravity;
