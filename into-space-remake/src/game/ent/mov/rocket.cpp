@@ -118,21 +118,20 @@ namespace game::ent::mov {
 		m_vx += accelSum.deltavx(deltaTime);
 		m_vy += accelSum.deltavy(deltaTime);
 
-		// update position
-		m_x += m_vx * deltaTime;
+		// update position and check if rocket is below ground
 		m_y += m_vy * deltaTime;
-
-		// check if rocket is below ground
-		if (m_y < 0.2f) {
+		if (m_y >= 0.2f) {
+			m_x += m_vx * deltaTime;
+			m_gravity.activate();
+		}
+		else {
 			m_y = 0.2f;
-			damage(m_vy);
+			if (m_vy < 0)
+				damage(m_vy);
 
 			m_vy = 0.0f;
 			m_vx = 0.0f;
 			m_gravity.deactivate();
-		}
-		else if (m_y > 0.2f) {
-			m_gravity.activate();
 		}
 
 		// update air friction
