@@ -3,11 +3,18 @@
 namespace rend {
 	int Renderer::m_width{};
 	int Renderer::m_height{};
+	float Renderer::m_x{};
+	float Renderer::m_y{};
 
 	void Renderer::updateScreenSize(int width, int height) {
 		m_width = width;
 		m_height = height;
 	}
+	void Renderer::moveCameraToRocket(const std::unique_ptr<game::ent::mov::Rocket>& rocket) {
+		m_x = rocket->x();
+		m_y = rocket->y() + 0.5f;
+	}
+
 	GLfloat Renderer::screenRatio() {
 		return static_cast<GLfloat>(m_width) / static_cast<GLfloat>(m_height);
 	}
@@ -39,7 +46,11 @@ namespace rend {
 		}
 	}
 	glm::mat4 Renderer::viewMatrix() {
-		//TODO
-		return glm::mat4{1.0f};
+		return glm::mat4{
+			1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f,
+			-m_x, -m_y, 0.0f, 1.0f,
+		};
 	}
 }

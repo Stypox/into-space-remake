@@ -1,5 +1,7 @@
 #include "game.h"
 
+#include "../rend/renderer.h"
+
 namespace game {
 	Game::Game() :
 		m_world{m_entities} {}
@@ -16,6 +18,8 @@ namespace game {
 		m_entities.rocket->updatePosition(deltaTime);
 	}
 	void Game::render() {
+		rend::Renderer::moveCameraToRocket(m_entities.rocket);
+
 		m_itemsRenderer.draw(m_entities.items);
 		m_movablesRenderer.reserve(1 + m_entities.items.size());
 		m_movablesRenderer.addMovable(m_entities.rocket);
