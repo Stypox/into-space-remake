@@ -44,18 +44,18 @@ namespace game::ent::mov {
 			// the inclination at which the Rocket laying direction changes
 			// (when the Rocket is / it falls right; \ -> left)
 			constexpr float barycenterOnYAxis = 0.463647609f; // = std::atan(width / height)
-			// the rocket should fall anticlockwise
 			if	   ((m_rotation > 0.0f								&& m_rotation <					barycenterOnYAxis	) ||
 					(m_rotation > 0.5f * M_PI						&& m_rotation < M_PI		  - barycenterOnYAxis	) ||
 					(m_rotation > M_PI								&& m_rotation < M_PI		  + barycenterOnYAxis	) ||
 					(m_rotation > 1.5f * M_PI						&& m_rotation < 2.0f * M_PI	  - barycenterOnYAxis	)) {
+				// the rocket should fall anticlockwise
 				m_rotation -= 5.0f * M_PI * deltaTime;
 			}
-			// the rocket should fall clockwise
 			else if((m_rotation > 				barycenterOnYAxis	&& m_rotation < 0.5f * M_PI							) ||
 					(m_rotation > M_PI		  - barycenterOnYAxis	&& m_rotation < M_PI								) ||
 					(m_rotation > M_PI		  + barycenterOnYAxis	&& m_rotation < 1.5f * M_PI							) ||
 					(m_rotation > 2.0f * M_PI -	barycenterOnYAxis	&& m_rotation < 2.0f * M_PI							)) {
+				// the rocket should fall clockwise
 				m_rotation += 10.0f * M_PI * deltaTime;
 			}
 
@@ -70,8 +70,8 @@ namespace game::ent::mov {
 			else if (m_rotation > 1.5f * M_PI - roundingValue && m_rotation < 1.5f * M_PI + roundingValue)
 				m_rotation = 1.5f * M_PI;
 		}
-
-		m_engine.setRotation(m_rotation + 0.5f * M_PI); // the rocket rotation is 0 when it is vertical, not horizontal (along x axis), so summing 90°
+		// the rocket rotation is 0 when it is vertical, not horizontal (along x axis), so summing 90°
+		m_engine.setRotation(m_rotation + 0.5f * M_PI);
 		m_drag.setRotation((m_vy == 0.0f && m_vx == 0.0f) ? 0.0f : std::atan(m_vy / m_vx));
 	}
 	void Rocket::damage(float velocity) {
@@ -167,8 +167,6 @@ namespace game::ent::mov {
 		// update air friction
 		float v = sqrt(m_vx * m_vx + m_vy * m_vy);
 		m_drag = airDrag(v, m_y) / m;
-
-		std::cout << "\r                vx: " << m_vx << "  vy: " << m_vy << "   a: " << accelSum << "   v: " << v << " drag: " << m_drag;
 	}
 
 	void Rocket::pickUpIntersecting(std::vector<std::unique_ptr<ent::Item>>& items) {
