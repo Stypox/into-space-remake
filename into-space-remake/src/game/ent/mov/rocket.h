@@ -22,6 +22,8 @@ namespace game::ent::mov {
 							   L = 0.0065f,				// Temperature lapse rate (K/m)
 							   R = 8.31447f,			// Ideal gas constant (J/(mol * K))
 							   M = 0.0289644f,			// Molar mass of dry air (kg/mol)
+							   width = 0.2f,			// (hm)
+							   height = 0.4f,			// (hm)
 							   defaultRotationVelocity = M_PI / 12; 	// (rad/s)
 
 		// see https://en.wikipedia.org/wiki/Density_of_air
@@ -51,8 +53,8 @@ namespace game::ent::mov {
 	public:
 		Rocket();
 
-		GLfloat w() const override { return 0.2f; }
-		GLfloat h() const override { return 0.4f; }
+		GLfloat w() const override { return width; }
+		GLfloat h() const override { return height; }
 		GLfloat rotation() const override { return m_rotation; };
 		GLfloat textureOffset() const override { return 0.0f; }
 		GLfloat textureWidth() const override { return 1.0f; }
