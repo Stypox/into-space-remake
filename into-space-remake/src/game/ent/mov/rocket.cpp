@@ -72,7 +72,18 @@ namespace game::ent::mov {
 		}
 		// the rocket rotation is 0 when it is vertical, not horizontal (along x axis), so summing 90°
 		m_engine.setRotation(m_rotation + 0.5f * M_PI);
-		m_drag.setRotation((m_vy == 0.0f && m_vx == 0.0f) ? 0.0f : std::atan(m_vy / m_vx));
+		if (m_vx < 0.01f && m_vx > -0.01f) {
+			if (m_vy < 0.0f)
+				m_drag.setRotation(0.5f * M_PI);
+			else
+				m_drag.setRotation(-0.5f * M_PI);
+		}
+		else {
+			if (m_vx < 0.0f)
+				m_drag.setRotation(std::atan(m_vy / m_vx));
+			else
+				m_drag.setRotation(std::atan(m_vy / m_vx) + M_PI);
+		}		
 	}
 	void Rocket::damage(float velocity) {
 		m_integrity -= std::abs(velocity) * 0.1f;
