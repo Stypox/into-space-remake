@@ -24,7 +24,8 @@ namespace game::ent::mov {
 							   M = 0.0289644f,			// Molar mass of dry air (kg/mol)
 							   width = 0.2f,			// (hm)
 							   height = 0.4f,			// (hm)
-							   defaultRotationVelocity = M_PI / 12; 	// (rad/s)
+							   defaultRotationVelocity = M_PI / 12, // (rad/s)
+							   groundLevel = 0.0f;		// (hm)
 
 		// see https://en.wikipedia.org/wiki/Density_of_air
 		static constexpr float airTemperature(float h) {

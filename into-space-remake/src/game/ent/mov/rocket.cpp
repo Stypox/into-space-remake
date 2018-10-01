@@ -91,7 +91,7 @@ namespace game::ent::mov {
 	}
 
 	Rocket::Rocket() :
-		Movable{0.0f, 0.2f}, m_vx{0.0f},
+		Movable{0.0f, groundLevel}, m_vx{0.0f},
 		m_vy{0.0f}, m_engine{/*TODO*/10.2f, 0.5f * M_PI},
 		m_drag{}, m_gravity{g, 1.5 * M_PI},
 		m_rotation{0.0f}, m_rotationVelocity{0.0f},
@@ -164,12 +164,12 @@ namespace game::ent::mov {
 
 		// update position and check if rocket is below ground
 		m_y += m_vy * deltaTime;
-		if (m_y > 0.2f) {
+		if (m_y > groundLevel) {
 			m_x += m_vx * deltaTime;
 			m_gravity.activate();
 		}
 		else {
-			m_y = 0.2f;
+			m_y = groundLevel;
 			if (m_vy < 0)
 				damage(m_vy);
 
