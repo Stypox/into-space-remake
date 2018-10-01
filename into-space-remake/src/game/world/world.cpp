@@ -34,6 +34,8 @@ namespace game::world {
 			for (int y : sp::range(abs(x) - m_maxGenDistance, -abs(x) + m_maxGenDistance + 1)) {
 				int posX = x + floor(m_entities.rocket->x()),
 					posY = y + floor(m_entities.rocket->y());
+				if (posY < 0) // not generating chunks under ground level
+					continue;
 				if (std::find_if(m_chunks.begin(), m_chunks.end(), [posX, posY](const Chunk& chunk){
 						return chunk.isAt(posX, posY);
 					}) == m_chunks.end()) {
