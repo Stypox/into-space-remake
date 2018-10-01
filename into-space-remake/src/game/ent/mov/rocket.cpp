@@ -91,13 +91,14 @@ namespace game::ent::mov {
 	}
 
 	Rocket::Rocket() :
-		Movable{0.0f, 0.0f}, m_vx{0.0f},
+		Movable{0.0f, 0.2f}, m_vx{0.0f},
 		m_vy{0.0f}, m_engine{/*TODO*/10.2f, 0.5f * M_PI},
 		m_drag{}, m_gravity{g, 1.5 * M_PI},
 		m_rotation{0.0f}, m_rotationVelocity{0.0f},
 		m_fuel{/*TODO*/10.0f}, m_collectedMoney{/*TODO*/0},
 		m_integrity{/*TODO*/0.0f} {
 		m_engine.deactivate();
+		m_gravity.deactivate();
 	}
 
 	bool Rocket::process(std::shared_ptr<Event> event) {
