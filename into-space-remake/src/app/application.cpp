@@ -3,6 +3,9 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
 
 #include "arguments.h"
 #include "debug.h"
@@ -61,6 +64,13 @@ namespace app {
 				throw std::runtime_error{"Unable to initialize glad, error " + std::to_string(errorCode)};
 			}
 
+			IMGUI_CHECKVERSION();
+			ImGui::CreateContext();
+			ImGuiIO& io = ImGui::GetIO(); (void)io;
+			ImGui_ImplGlfw_InitForOpenGL(m_window, true);
+			ImGui_ImplOpenGL3_Init("#version 150");
+			ImGui::StyleColorsClassic();
+
 			rend::Renderer::updateScreenSize(Arguments::width, Arguments::height);
 
 			m_game.reset(new game::Game{});
@@ -106,9 +116,18 @@ namespace app {
 				m_framerate.ping();
 
 				updateInput();
+
+				ImGui_ImplOpenGL3_NewFrame();
+				ImGui_ImplGlfw_NewFrame();
+				ImGui::NewFrame();
+
 				processEvents();
+
 				m_game->update();
+
 				m_game->render();
+				ImGui::Render();
+				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 				if (Arguments::verbosity == Gravity::info && ++frames > 1000) {
 					glfwSetWindowTitle(m_window, std::to_string(m_framerate.frequency()).c_str());

@@ -2,10 +2,12 @@
 
 
 *.o
+*.ini
 IntoSpaceRemake*
 
 stypoxincludepath.txt
 gladpath.txt
+imguipath.txt
 GPATH
 GRTAGS
 GTAGS

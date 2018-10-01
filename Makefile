@@ -4,18 +4,24 @@ READFILE := $(if $(filter $(OS),Windows_NT),type,cat)
 # stypox libraries include path
 STYPOX_INCLUDE_PATH_FILE = stypoxincludepath.txt
 # if this doesn't work just replace the following line with: STYPOX = path/to/include/stypox/
-STYPOX := $(shell $(READFILE) $(STYPOX_INCLUDE_PATH_FILE))
+STYPOX := $(shell $(READFILE) $(STYPOX_INCLUDE_PATH_FILE))/
 $(info Using stypox include path: $(STYPOX))
 
 # glad include path
 GLAD_INCLUDE_PATH_FILE = gladpath.txt
 # if this doesn't work just replace the following line with: GLAD = path/to/glad/
-GLAD := $(shell $(READFILE) $(GLAD_INCLUDE_PATH_FILE))
+GLAD := $(shell $(READFILE) $(GLAD_INCLUDE_PATH_FILE))/
 $(info Using glad include path: $(GLAD))
+
+# imgui include path
+IMGUI_INCLUDE_PATH_FILE = imguipath.txt
+# if this doesn't work just replace the following line with: IMGUI = path/to/imgui/
+IMGUI := $(shell $(READFILE) $(IMGUI_INCLUDE_PATH_FILE))/
+$(info Using ImGui include path: $(IMGUI))
 
 # compiler options and settings
 CXX = g++
-CXXFLAGS := -Wall -g -std=c++17 -I$(STYPOX) -I$(GLAD)include/
+CXXFLAGS := -Wall -g -std=c++17 -I$(STYPOX) -I$(GLAD)include/ -I$(IMGUI) -I$(IMGUI)examples/
 CXXLIBS = -lstdc++fs -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor -lSOIL
 
 # source code paths
@@ -38,6 +44,7 @@ OBJECT_FILES = $(SRC)main.o \
 	$(REND)renderer.o $(REND)items.o $(REND)movables.o \
 	$(MISC)random.o $(MISC)frequency.o $(MISC)acceleration.o \
 	glad_glad.o \
+	imgui_imgui.o imgui_imgui_demo.o imgui_imgui_draw.o imgui_imgui_widgets.o imgui_impl_glfw.o imgui_impl_opengl3.o \
 	stypox_fileManagement.o \
 	stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
 
@@ -167,10 +174,35 @@ $(MISC)acceleration.o: $(MISC)acceleration.h $(MISC)acceleration.cpp $(MISC)cloc
 
 
 
-# glad_path/src/glad/
+# glad_path/src/glad.c
 glad_glad.o: $(GLAD)include/glad/glad.h $(GLAD)src/glad.c
 	$(CXX) $(CXXFLAGS) -c $(GLAD)src/glad.c -o glad_glad.o
 
+
+
+# imgui_imgui/imgui.cpp
+imgui_imgui.o:
+	$(CXX) $(CXXFLAGS) -c $(IMGUI)imgui.cpp -o imgui_imgui.o
+
+# imgui_imgui/imgui_demo.cpp
+imgui_imgui_demo.o:
+	$(CXX) $(CXXFLAGS) -c $(IMGUI)imgui_demo.cpp -o imgui_imgui_demo.o
+
+# imgui_imgui/imgui_draw.cpp
+imgui_imgui_draw.o:
+	$(CXX) $(CXXFLAGS) -c $(IMGUI)imgui_draw.cpp -o imgui_imgui_draw.o
+
+# imgui_imgui/imgui_widgets.cpp
+imgui_imgui_widgets.o:
+	$(CXX) $(CXXFLAGS) -c $(IMGUI)imgui_widgets.cpp -o imgui_imgui_widgets.o
+
+# imgui_path/examples/imgui_impl_opengl3.cpp
+imgui_impl_glfw.o:
+	$(CXX) $(CXXFLAGS) -c $(IMGUI)examples/imgui_impl_glfw.cpp -o imgui_impl_glfw.o
+
+# imgui_path/examples/imgui_impl_opengl3.cpp
+imgui_impl_opengl3.o:
+	$(CXX) $(CXXFLAGS) -c $(IMGUI)examples/imgui_impl_opengl3.cpp -o imgui_impl_opengl3.o
 
 
 
