@@ -57,6 +57,18 @@ debug: CXXFLAGS += -g -DDEBUG
 debug: $(EXECUTABLE_NAME)
 	$(info Compiling debug version)
 
+# arguments
+VERBOSE := $(VERBOSE)
+ifneq (,$(filter $(VERBOSE), true 1))
+$(info Running $(CXX) with -v flag (verbose))
+CXXFLAGS += -v
+else
+ifneq ($(VERBOSE),)
+$(error Invalid VERBOSE value: "$(VERBOSE)" (valid values: "true" "1"))
+endif
+endif
+
+
 # executable
 $(EXECUTABLE_NAME): $(OBJECT_FILES)
 	$(CXX) $(CXXFLAGS) -o $(EXECUTABLE_NAME) $(OBJECT_FILES) $(CXXLIBS)
