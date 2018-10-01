@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <math.h>
+#include <imgui.h>
 
 #include "../../../app/event/key.h"
 
@@ -178,6 +179,17 @@ namespace game::ent::mov {
 		// update air friction
 		float v = sqrt(m_vx * m_vx + m_vy * m_vy);
 		m_drag = airDrag(v, m_y) / m;
+
+#ifdef DEBUG
+		{
+			ImGui::Begin("Rocket debug");
+			ImGui::Text("x=%.2f " "y=%.2f\n" "rotation=%.3f\n" "v=%.2f " "(vx=%.2f " "vy=%.2f)\n" "drag=%.2f, " "(rotation=%.3f)",
+						m_x,	  m_y,		 m_rotation,	   v,		 m_vx,		 m_vy,		  m_drag.a(),	m_drag.rotation());
+			ImGui::Text("integrity=%.2f\n",
+						m_integrity);
+			ImGui::End();
+		}
+#endif
 	}
 
 	void Rocket::pickUpIntersecting(std::vector<std::unique_ptr<ent::Item>>& items) {
