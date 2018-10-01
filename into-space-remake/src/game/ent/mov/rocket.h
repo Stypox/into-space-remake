@@ -13,8 +13,8 @@
 namespace game::ent::mov {
 	class Rocket : public Movable {
 		// constants 
-		static constexpr float m = 1000.0,				// Rocket mass (kg)
-							   Cd = 0.3f,				// Air drag coefficient
+		static constexpr float m = 1000.0f,				// Rocket mass (kg)
+							   Cd = 0.8f,				// Air drag coefficient
 							   A = 5.0f,				// Rocket frontal area (m^2)
 							   p0 = 101325.0f,			// Sea level air pressure (Pa)
 							   T0 = 188.25f,			// Sea level temperature (K)

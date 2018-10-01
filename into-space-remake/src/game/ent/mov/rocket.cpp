@@ -92,7 +92,7 @@ namespace game::ent::mov {
 
 	Rocket::Rocket() :
 		Movable{0.0f, 0.0f}, m_vx{0.0f},
-		m_vy{0.0f}, m_engine{/*TODO*/12.0f, 0.5f * M_PI},
+		m_vy{0.0f}, m_engine{/*TODO*/10.2f, 0.5f * M_PI},
 		m_drag{}, m_gravity{g, 1.5 * M_PI},
 		m_rotation{0.0f}, m_rotationVelocity{0.0f},
 		m_integrity{/*TODO*/0.0f} {
@@ -178,7 +178,7 @@ namespace game::ent::mov {
 
 		// update air friction
 		float v = sqrt(m_vx * m_vx + m_vy * m_vy);
-		m_drag = airDrag(v, m_y) / m;
+		m_drag = airDrag(v * 5.0f, m_y) / m;
 
 #ifdef DEBUG
 		{
