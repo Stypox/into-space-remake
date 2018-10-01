@@ -151,7 +151,7 @@ namespace app {
 		while (1) {
 			auto event = m_eventHandler.getKeep();
 			if (*event) {
-				bool eventUsed = m_game->process(event);
+				m_game->process(event);
 
 				m_eventHandler.get();
 			}
