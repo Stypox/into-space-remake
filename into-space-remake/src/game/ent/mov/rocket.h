@@ -45,6 +45,8 @@ namespace game::ent::mov {
 		misc::Acceleration m_engine, m_drag, m_gravity;
 		float m_rotation, m_rotationVelocity;
 
+		float m_fuel;
+		int m_collectedMoney;
 		float m_integrity;
 		
 		void pickUp(const Item& item);

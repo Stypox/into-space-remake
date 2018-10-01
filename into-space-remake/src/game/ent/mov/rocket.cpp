@@ -95,6 +95,7 @@ namespace game::ent::mov {
 		m_vy{0.0f}, m_engine{/*TODO*/10.2f, 0.5f * M_PI},
 		m_drag{}, m_gravity{g, 1.5 * M_PI},
 		m_rotation{0.0f}, m_rotationVelocity{0.0f},
+		m_fuel{/*TODO*/10.0f}, m_collectedMoney{/*TODO*/0},
 		m_integrity{/*TODO*/0.0f} {
 		m_engine.deactivate();
 	}
@@ -185,8 +186,8 @@ namespace game::ent::mov {
 			ImGui::Begin("Rocket debug");
 			ImGui::Text("x=%.2f " "y=%.2f\n" "rotation=%.3f\n" "v=%.2f " "(vx=%.2f " "vy=%.2f)\n" "drag=%.2f, " "(rotation=%.3f)",
 						m_x,	  m_y,		 m_rotation,	   v,		 m_vx,		 m_vy,		  m_drag.a(),	m_drag.rotation());
-			ImGui::Text("integrity=%.2f\n",
-						m_integrity);
+			ImGui::Text("fuel=%.2f\n" "collected money=%i\n" "integrity=%.2f\n",
+						m_fuel,		  m_collectedMoney,		 m_integrity);
 			ImGui::End();
 		}
 #endif
