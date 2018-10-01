@@ -21,7 +21,7 @@ $(info Using ImGui include path: $(IMGUI))
 
 # compiler options and settings
 CXX = g++
-CXXFLAGS := -Wall -g -std=c++17 -I$(STYPOX) -I$(GLAD)include/ -I$(IMGUI) -I$(IMGUI)examples/
+CXXFLAGS := -Wall -std=c++17 -I$(STYPOX) -I$(GLAD)include/ -I$(IMGUI) -I$(IMGUI)examples/
 CXXLIBS = -lstdc++fs -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor -lSOIL
 
 # source code paths
@@ -47,6 +47,15 @@ OBJECT_FILES = $(SRC)main.o \
 	imgui_imgui.o imgui_imgui_demo.o imgui_imgui_draw.o imgui_imgui_widgets.o imgui_impl_glfw.o imgui_impl_opengl3.o \
 	stypox_fileManagement.o \
 	stypox_gl_ebo.o stypox_gl_shader.o stypox_gl_texture.o stypox_gl_vao.o stypox_gl_vbo.o
+
+
+# targets
+release: $(EXECUTABLE_NAME)
+	$(info Compiling release version)
+
+debug: CXXFLAGS += -g -DDEBUG
+debug: $(EXECUTABLE_NAME)
+	$(info Compiling debug version)
 
 # executable
 $(EXECUTABLE_NAME): $(OBJECT_FILES)
