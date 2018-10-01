@@ -12,25 +12,25 @@ namespace game::ent::mov {
 	void Rocket::pickUp(const Item& item) {
 		switch (item.type()) {
 		case Item::fuel0:
-			std::cout << "fuel 0\n";
+			m_fuel += 1.0f;
 			break;
 		case Item::fuel1:
-			std::cout << "fuel 1\n";
+			m_fuel += 3.0f;
 			break;
 		case Item::fuel2:
-			std::cout << "fuel 2\n";
+			m_fuel += 10.0f;
 			break;
 		case Item::money0:
-			std::cout << "money 0\n";
+			m_collectedMoney += 5;
 			break;
 		case Item::money1:
-			std::cout << "money 1\n";
+			m_collectedMoney += 20;
 			break;
 		case Item::money2:
-			std::cout << "money 2\n";
+			m_collectedMoney += 100;
 			break;
 		case Item::repair:
-			std::cout << "repair\n";
+			m_integrity += 1.0f;
 			break;
 		}
 	}
