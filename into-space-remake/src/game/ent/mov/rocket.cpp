@@ -162,7 +162,7 @@ namespace game::ent::mov {
 
 		// update position and check if rocket is below ground
 		m_y += m_vy * deltaTime;
-		if (m_y >= 0.2f) {
+		if (m_y > 0.2f) {
 			m_x += m_vx * deltaTime;
 			m_gravity.activate();
 		}
