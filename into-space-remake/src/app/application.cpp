@@ -21,7 +21,7 @@ namespace app {
 
 	event::Handler Application::m_eventHandler{};
 	input::Keys Application::m_keysInput{m_window, m_eventHandler, Arguments::doubleClickDelay, {
-
+		{event::Key::press, GLFW_KEY_F11, false}
 	}, {
 
 	}};
@@ -31,6 +31,7 @@ namespace app {
 	std::unique_ptr<game::Game> Application::m_game{nullptr};
 
 	bool Application::m_initialized{false};
+	bool Application::m_fullscreen{false};
 	
 
 
@@ -121,7 +122,7 @@ namespace app {
 				ImGui_ImplGlfw_NewFrame();
 				ImGui::NewFrame();
 
-				processEvents();
+				delegateEvents();
 
 				m_game->update();
 
@@ -147,15 +148,38 @@ namespace app {
 		m_mouseMoveInput.update();
 		m_scrollInput.update();
 	}
-	void Application::processEvents() {
+	bool Application::process(std::shared_ptr<event::Event> event) {
+		if (event->type == event::Event::key) {
+			switch (event::Key* keyEvent = dynamic_cast<event::Key*>(event.get()); keyEvent->key) {
+			case GLFW_KEY_F11: {
+				m_fullscreen = !m_fullscreen;
+				updateFullscreen();
+				return true;
+			}
+			}
+		}
+		return false;
+	}
+	void Application::delegateEvents() {
 		while (1) {
 			auto event = m_eventHandler.getKeep();
 			if (*event) {
+				process(event) ||
 				m_game->process(event);
 
 				m_eventHandler.get();
 			}
 			else break;
+		}
+	}
+	void Application::updateFullscreen() {
+		if (m_fullscreen) {
+			int w, h;
+			glfwGetWindowSize(m_window, &w, &h);
+			glfwSetWindowMonitor(m_window, glfwGetPrimaryMonitor(), 0, 0, w, h, 0);
+		}
+		else {
+			glfwSetWindowMonitor(m_window, nullptr, 0, 0, Arguments::width, Arguments::height, 0);
 		}
 	}
 

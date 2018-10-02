@@ -27,13 +27,16 @@ namespace app {
 		static std::unique_ptr<game::Game> m_game;
 
 		static bool m_initialized;
+		static bool m_fullscreen;
 
 		static void init();
 		static void initInput();
 
 		static void loop();
 		static void updateInput();
-		static void processEvents();
+		static bool process(std::shared_ptr<event::Event> event);
+		static void delegateEvents();
+		static void updateFullscreen();
 
 		static void terminate();
 

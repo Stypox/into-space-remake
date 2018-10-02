@@ -103,8 +103,7 @@ namespace game::ent::mov {
 
 	bool Rocket::process(std::shared_ptr<Event> event) {
 		if (event->type == Event::key) {
-			Key* keyEvent = dynamic_cast<Key*>(event.get());
-			switch (keyEvent->key) {
+			switch (Key* keyEvent = dynamic_cast<Key*>(event.get()); keyEvent->key) {
 			case GLFW_KEY_W: case GLFW_KEY_UP:
 				switch (keyEvent->type) {
 				case Key::press:
