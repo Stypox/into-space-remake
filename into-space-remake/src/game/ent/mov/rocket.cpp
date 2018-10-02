@@ -169,7 +169,7 @@ namespace game::ent::mov {
 		}
 		else {
 			m_y = groundLevel;
-			if (m_vy < 0)
+			if (m_vy < accelSum.deltavy(deltaTime))
 				damage(m_vy);
 
 			m_vy = 0.0f;
