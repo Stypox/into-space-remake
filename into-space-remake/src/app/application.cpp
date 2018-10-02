@@ -69,7 +69,7 @@ namespace app {
 			ImGui::CreateContext();
 			ImGuiIO& io = ImGui::GetIO(); (void)io;
 			ImGui_ImplGlfw_InitForOpenGL(m_window, true);
-			ImGui_ImplOpenGL3_Init("#version 150");
+			ImGui_ImplOpenGL3_Init("#version 330 core");
 			ImGui::StyleColorsClassic();
 
 			rend::Renderer::updateScreenSize(Arguments::width, Arguments::height);
