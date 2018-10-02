@@ -25,4 +25,8 @@ namespace game {
 		m_movablesRenderer.addMovable(m_entities.rocket);
 		m_movablesRenderer.draw();
 	}
+
+	void Game::pause() {
+		m_deltaClock.stop();
+	}
 }

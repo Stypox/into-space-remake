@@ -13,13 +13,15 @@ namespace game {
 		world::World m_world;
 		rend::Items m_itemsRenderer;
 		rend::Movables m_movablesRenderer;
-		misc::Clock<> m_deltaClock;
+		misc::Chronometer<> m_deltaClock;
 	public:
 		Game();
 
 		bool process(std::shared_ptr<app::event::Event> eventHandler);
 		void update();
 		void render();
+
+		void pause();
 	};
 }
 
