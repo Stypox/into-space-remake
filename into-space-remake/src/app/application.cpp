@@ -161,6 +161,8 @@ namespace app {
 			switch (event::Key* keyEvent = dynamic_cast<event::Key*>(event.get()); keyEvent->key) {
 			case GLFW_KEY_F11: {
 				m_fullscreen = !m_fullscreen;
+				debug(Gravity::info, "Application", "Fullscreen is now " + std::string{m_fullscreen ? "active" : "inactive"});
+
 				updateFullscreen();
 				m_game->pause();
 				return true;

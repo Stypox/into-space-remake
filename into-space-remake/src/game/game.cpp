@@ -3,6 +3,7 @@
 
 #include "../rend/renderer.h"
 #include "../app/event/key.h"
+#include "../app/debug.h"
 
 namespace game {
 	void Game::update(float deltaTime) {
@@ -45,5 +46,6 @@ namespace game {
 
 	void Game::pause() {
 		m_paused = !m_paused;
+		app::debug(app::Gravity::info, "Game", m_paused ? "Paused" : "Unpaused");
 	}
 }
