@@ -41,11 +41,13 @@ OBJECT_FILES_GENERATED_BY_LIBS = $(LIBS_PATH)file-management/file_management.o $
 
 
 # targets
-release: $(EXECUTABLE_NAME)
+release: release_print $(EXECUTABLE_NAME)
+release_print:
 	$(info Compiling release version)
 
 debug: CXXFLAGS += -g -DDEBUG
-debug: $(EXECUTABLE_NAME)
+debug: debug_print $(EXECUTABLE_NAME)	
+debug_print:
 	$(info Compiling debug version)
 
 # arguments
