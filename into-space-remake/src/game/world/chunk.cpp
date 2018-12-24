@@ -1,7 +1,6 @@
 #include "chunk.h"
 
 #include "../../misc/random.h"
-#include "../ent/item.h"
 #include "../../app/arguments.h"
 
 using namespace misc;

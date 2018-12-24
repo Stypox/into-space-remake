@@ -10,7 +10,6 @@ namespace game::ent {
 			a->x() - 0.5f * a->w() < b->x() + 0.5f * b->w() &&
 			a->y() + 0.5f * a->h() > b->y() - 0.5f * b->h() &&
 			a->y() - 0.5f * a->h() < b->y() + 0.5f * b->h();
-
 	}
 	float distance(Entity* a, Entity* b) {
 		// Manhattan distance (Taxicab geometry)

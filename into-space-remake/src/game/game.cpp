@@ -1,4 +1,7 @@
+#include "../rend/items.h"
+#include "../rend/movables.h"
 #include "game.h"
+
 #include <iostream>
 
 #include "../rend/renderer.h"

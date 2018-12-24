@@ -9,10 +9,9 @@
 
 #include "arguments.h"
 #include "debug.h"
-#include "event/scroll.h"
-#include "event/mousemove.h"
 #include "../rend/renderer.h"
-#include "../misc/random.h"
+#include "../rend/items.h"
+#include "../rend/movables.h"
 #include "../misc/get_current_monitor.h"
 
 namespace app {
