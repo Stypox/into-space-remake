@@ -203,10 +203,10 @@ namespace app {
 
 	int Application::run() {
 		if (Arguments::help) {
-			std::cout << helpScreen;
+			std::cout << Arguments::helpScreen();
 			return 0;
 		}
-		if (Arguments::errorMessage != "") {
+		if (!Arguments::errorMessage.empty()) {
 			std::cout << Arguments::errorMessage;
 			return 0;
 		}

@@ -1,231 +1,63 @@
 #include "arguments.h"
 
-#include <algorithm>
-#include <iostream>
-#include <range.h>
-
 namespace app {
-	using namespace sp;
+	std::string Arguments::errorMessage = "";
 
-	
-	const std::map<BoolArg, std::vector<Tstr>> boolArgs {
-		{BoolArg::help, {"-h", "--help"}},
-		{BoolArg::wasd, {"--wasd"}},
+	stypox::ArgParser Arguments::m_parser{
+		"Into Space! remake by Stypox",
+		{
+			{"help", "shows this screen and exit", {"-?", "-h", "--help"}},
+			{"wasd", "use WASD instead of arrow keys", {"--wasd"}},
+			{"fullscreen", "start in fullscreen mode", {"--fullscreen"}},
+		}, {
+			{"verbosity", "verbosity (0-3; default=0)", {"-v=", "--verbosity="}, 0, [](int value){ return value >= 0 && value <= 3; }},
+			{"width", "window starting width in pixel (default=480)", {"-w=", "--width="}, 480, [](int value){ return value > 0; }},
+			{"height", "window starting height in pixel (default=480)", {"-h=", "--height="}, 480, [](int value){ return value > 0; }},
+			{"entitiesPerChunk", "entities per chunk (default=1)", {"-e=", "--entities="}, 1, [](int value){ return value >= 0; }},
+			{"percItems", "item generation probability (0-255, default=50)", {"--%items="}, 50, [](int value){ return value >= 0 && value <= 255; }}
+		}, {
+			{"zoom", "game starting zoom (0.5-2.0; default=1.0)", {"-z=", "--zoom="}, 1.0f, [](float value){ return value >= 0.5f && value <= 2.0f; }},
+			{"doubleClickDelay", "double click/press delay in seconds (default=0.5)", {"--dc-delay="}, 0.5f, [](int value){ return value >= 0.0f; }},
+		}, {				
+		}
 	};
-	const std::map<ValueArg, std::vector<Tstr>> valueArgs {
-		{ValueArg::verbosity, {"-v=", "--verbosity="}},
-		{ValueArg::width, {"-w=", "--width="}},
-		{ValueArg::height, {"-h=", "--height="}},
-		{ValueArg::zoom, {"-z=", "--zoom="}},
-		{ValueArg::doubleClickDelay, {"--dc-delay="}},
-		{ValueArg::entitiesPerChunk, {"-e=", "--entities="}},
-		{ValueArg::percItems, {"--%items="}},
-	};
 
+	bool Arguments::help{};
+	bool Arguments::wasd{};
+	bool Arguments::fullscreen{};
 
-	Tstr Arguments::errorMessage = "";
+	Gravity Arguments::verbosity{};
+	uint16_t Arguments::width{}; 
+	uint16_t Arguments::height{};
+	uint16_t Arguments::entitiesPerChunk{};
+	uint8_t Arguments::percItems{};
 
-	bool Arguments::help = false;
-	bool Arguments::wasd = false;
+	float Arguments::zoom{};
+	float Arguments::doubleClickDelay{};
 
-	Gravity Arguments::verbosity = Gravity::critical;
-	uint16_t Arguments::width = 480;
-	uint16_t Arguments::height = 480;
-	float Arguments::zoom = 1.0f;
-	float Arguments::doubleClickDelay = 0.5f;
-	uint16_t Arguments::entitiesPerChunk = 1;
-	uint8_t Arguments::percItems = 50;
-
-
-
-
-	size_t findArg(BoolArg argType, std::vector<Tstr>& arguments) {
-		int nrFoundIndices = 0;
-		
-		for (auto&& argString : boolArgs.at(argType)) {
-			while (1) {
-				auto index = std::find(arguments.begin(), arguments.end(), argString);
-				if (index == arguments.end())
-					break;
-				else {
-					arguments.erase(index);
-					++nrFoundIndices;
-				}
-			}
-		}			
-
-		return nrFoundIndices;
-	}
-	std::pair<int, Tstr> findArg(ValueArg argType, std::vector<Tstr>& arguments) {
-		int nrFoundIndices = 0;
-		Tstr value;
-		
-		for (auto&& argString : valueArgs.at(argType)) {
-			while (1) {
-				auto index = std::find_if(arguments.begin(), arguments.end(), [&argString](const Tstr& arg) { return !arg.compare(0, argString.size(), argString); });
-				if (index == arguments.end())
-					break;
-				else {
-					value = index->substr(argString.size());
-					arguments.erase(index);
-					++nrFoundIndices;
-				}
-			}
+	void Arguments::parse(int argc, char const* argv[]) {
+		try {
+			m_parser.parse(argc, argv);
+			m_parser.validate();
+		}
+		catch (std::runtime_error& error) {
+			errorMessage = error.what();
+			debug(Gravity::error, "Arguments", errorMessage);
+			return;
 		}
 
-		return {nrFoundIndices, value};
-	}
-	
+		help = m_parser.getBool("help");
+		wasd = m_parser.getBool("wasd");
+		fullscreen = m_parser.getBool("fullscreen");
 
-	void Arguments::parse(std::vector<Tstr> arguments) {
-		help = findArg(BoolArg::help, arguments);
+		verbosity = static_cast<Gravity>(3 - m_parser.getInt("verbosity"));
+		width = m_parser.getInt("width");
+		height = m_parser.getInt("height");
+		entitiesPerChunk = m_parser.getInt("entitiesPerChunk");
+		percItems = m_parser.getInt("percItems");
 
-		size_t fWasd = findArg(BoolArg::wasd, arguments);
-		if (fWasd > 1) errorMessage += "Argument wasd used multiple times\n";
-		else wasd = fWasd;
-
-
-		using ValueFound = std::pair<int, Tstr>;
-
-		//verbosity
-		switch (ValueFound fVerbosity = findArg(ValueArg::verbosity, arguments); std::get<int>(fVerbosity)) {
-			case 0:
-				break;
-			case 1: {
-				try {
-					int tempVerbosity = std::stoi(std::get<Tstr>(fVerbosity));
-					if (tempVerbosity < 0 || tempVerbosity > static_cast<int>(Gravity::max))
-						throw std::invalid_argument{""};
-					verbosity = static_cast<Gravity>(-tempVerbosity + 3);
-				}
-				catch (const std::invalid_argument&) {
-					errorMessage += "Invalid value of argument verbosity\n";
-				}
-				break;
-			}
-			default:
-				errorMessage += "Argument verbosity used multiple times\n";
-		}
-
-		//screen width
-		switch (ValueFound fWidth = findArg(ValueArg::width, arguments); std::get<int>(fWidth)) {
-			case 0:
-				break;
-			case 1: {
-				try {
-					int tempWidth = std::stoi(std::get<Tstr>(fWidth));
-					if (tempWidth < 0)
-						throw std::invalid_argument{""};
-					width = static_cast<uint16_t>(tempWidth);
-				}
-				catch (const std::invalid_argument&) {
-					errorMessage += "Invalid value of argument width\n";
-				}
-				break;
-			}
-			default:
-				errorMessage += "Argument width used multiple times\n";
-		}
-
-		//screen height
-		switch (ValueFound fHeight = findArg(ValueArg::height, arguments); std::get<int>(fHeight)) {
-			case 0:
-				break;
-			case 1: {
-				try {
-					int tempHeight = std::stoi(std::get<Tstr>(fHeight));
-					if (tempHeight < 0)
-						throw std::invalid_argument{""};
-					height = static_cast<uint16_t>(tempHeight);
-				}
-				catch (const std::invalid_argument&) {
-					errorMessage += "Invalid value of argument height\n";
-				}
-				break;
-			}
-			default:
-				errorMessage += "Argument height used multiple times\n";
-		}
-
-		//zoom
-		switch (ValueFound fZoom = findArg(ValueArg::zoom, arguments); std::get<int>(fZoom)) {
-			case 0:
-				break;
-			case 1: {
-				try {
-					float tempZoom = std::stof(std::get<Tstr>(fZoom));
-					if (tempZoom < 0.5f || tempZoom > 2.0f)
-						throw std::invalid_argument{""};
-					zoom = tempZoom;
-				}
-				catch (const std::invalid_argument&) {
-					errorMessage += "Invalid value of argument zoom\n";
-				}
-				break;
-			}
-			default:
-				errorMessage += "Argument zoom used multiple times\n";
-		}
-
-		//doubleClickDelay
-		switch (ValueFound fDoubleClickDelay = findArg(ValueArg::doubleClickDelay, arguments); std::get<int>(fDoubleClickDelay)) {
-			case 0:
-				break;
-			case 1: {
-				try {
-					float tempDoubleClickDelay = std::stof(std::get<Tstr>(fDoubleClickDelay));
-					if (tempDoubleClickDelay < 0.0f)
-						throw std::invalid_argument{""};
-					doubleClickDelay = tempDoubleClickDelay;
-				}
-				catch (const std::invalid_argument&) {
-					errorMessage += "Invalid value of argument doubleClickDelay\n";
-				}
-				break;
-			}
-			default:
-				errorMessage += "Argument doubleClickDelay used multiple times\n";
-		}
-
-		//entitiesPerChunk
-		switch (ValueFound fEntitiesPerChunk = findArg(ValueArg::entitiesPerChunk, arguments); std::get<int>(fEntitiesPerChunk)) {
-			case 0:
-				break;
-			case 1: {
-				try {
-					int tempEntitiesPerChunk = std::stoi(std::get<Tstr>(fEntitiesPerChunk));
-					if (tempEntitiesPerChunk < 0)
-						throw std::invalid_argument{""};
-					entitiesPerChunk = static_cast<uint16_t>(tempEntitiesPerChunk);
-				}
-				catch (const std::invalid_argument&) {
-					errorMessage += "Invalid value of argument entitiesPerChunk\n";
-				}
-				break;
-			}
-			default:
-				errorMessage += "Argument entitiesPerChunk used multiple times\n";
-		}
-
-		//percItems
-		switch (ValueFound fPercItems = findArg(ValueArg::percItems, arguments); std::get<int>(fPercItems)) {
-			case 0:
-				break;
-			case 1: {
-				try {
-					int tempPercItems = std::stoi(std::get<Tstr>(fPercItems));
-					if (tempPercItems < 0 || tempPercItems > 255)
-						throw std::invalid_argument{""};
-					percItems = static_cast<uint8_t>(tempPercItems);
-				}
-				catch (const std::invalid_argument&) {
-					errorMessage += "Invalid value of argument percItems\n";
-				}
-				break;
-			}
-			default:
-				errorMessage += "Argument percItems used multiple times\n";
-		}
+		zoom = m_parser.getFloat("zoom");
+		doubleClickDelay = m_parser.getFloat("doubleClickDelay");
 
 		debug(Gravity::info, "Arguments", "Value of help: " + std::to_string(help));
 		debug(Gravity::info, "Arguments", "Value of wasd: " + std::to_string(help));
@@ -236,7 +68,5 @@ namespace app {
 		debug(Gravity::info, "Arguments", "Value of doubleClickDelay: " + std::to_string(doubleClickDelay));
 		debug(Gravity::info, "Arguments", "Value of entitiesPerChunk: " + std::to_string(entitiesPerChunk));
 		debug(Gravity::info, "Arguments", "Value of percItems: " + std::to_string(static_cast<int>(percItems)));
-		if (!errorMessage.empty())
-			debug(Gravity::error, "Arguments", errorMessage);
 	}
 }
