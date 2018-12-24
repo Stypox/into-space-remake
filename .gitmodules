@@ -1,0 +1,15 @@
+[submodule "libs/file-management"]
+	path = libs/file-management
+	url = https://gitlab.com/Stypox/file-management
+[submodule "libs/gl-abstractions"]
+	path = libs/gl-abstractions
+	url = https://gitlab.com/Stypox/gl-abstractions
+[submodule "imgui"]
+	path = libs/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "libs/stock-container"]
+	path = libs/stock-container
+	url = https://gitlab.com/Stypox/stock-container
+[submodule "libs/arg-parser"]
+	path = libs/arg-parser
+	url = https://gitlab.com/Stypox/arg-parser

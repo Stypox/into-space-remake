@@ -13,6 +13,7 @@
 #include "event/mousemove.h"
 #include "../rend/renderer.h"
 #include "../misc/random.h"
+#include "../misc/get_current_monitor.h"
 
 namespace app {
 	GLFWwindow* Application::m_window{nullptr};
@@ -173,13 +174,15 @@ namespace app {
 		}
 	}
 	void Application::updateFullscreen() {
+		GLFWmonitor* currentMonitor = misc::getCurrentMonitor(m_window);
 		if (m_fullscreen) {
-			int w, h;
-			glfwGetWindowSize(m_window, &w, &h);
-			glfwSetWindowMonitor(m_window, glfwGetPrimaryMonitor(), 0, 0, w, h, 0);
+			const GLFWvidmode* mode = glfwGetVideoMode(currentMonitor);
+			glfwSetWindowMonitor(m_window, currentMonitor, 0, 0, mode->width, mode->height, 0);
 		}
 		else {
-			glfwSetWindowMonitor(m_window, nullptr, 0, 0, Arguments::width, Arguments::height, 0);
+			int xMonitor, yMonitor;
+			glfwGetMonitorPos(currentMonitor, &xMonitor, &yMonitor);
+			glfwSetWindowMonitor(m_window, nullptr, xMonitor, yMonitor, Arguments::width, Arguments::height, 0);
 		}
 	}
 
