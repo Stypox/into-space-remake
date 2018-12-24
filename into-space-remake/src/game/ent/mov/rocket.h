@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <math.h>
+#include <stypox/stock_container.h>
 
 #include "movable.h"
 #include "../item.h"
@@ -13,38 +14,18 @@
 namespace game::ent::mov {
 	class Rocket : public Movable {
 		// constants 
-		static constexpr float m = 1000.0f,				// Rocket mass (kg)
-							   Cd = 0.8f,				// Air drag coefficient
-							   A = 5.0f,				// Rocket frontal area (m^2)
-							   p0 = 101325.0f,			// Sea level air pressure (Pa)
-							   T0 = 188.25f,			// Sea level temperature (K)
-							   g = 9.80665f,			// Gravitational acceleration (m/s^2)
-							   L = 0.0065f,				// Temperature lapse rate (K/m)
-							   R = 8.31447f,			// Ideal gas constant (J/(mol * K))
-							   M = 0.0289644f,			// Molar mass of dry air (kg/mol)
-							   width = 0.2f,			// (hm)
-							   height = 0.4f,			// (hm)
-							   defaultRotationVelocity = M_PI / 12, // (rad/s)
-							   groundLevel = 0.0f;		// (hm)
-
-		// see https://en.wikipedia.org/wiki/Density_of_air
-		static constexpr float airTemperature(float h) {
-			return T0 - L * h > 0 ? T0 - L * h : 1.0f;
-		}
-		static constexpr float airPressure(float h) {
-			return p0 * pow(1 - (L * h) / (T0), (g * M) / (R * L));
-		}
-		static constexpr float airDensity(float h) {
-			return (airPressure(h) * M) / (R * airTemperature(h));
-		}
-		// see https://en.wikipedia.org/wiki/Drag_%28physics%29
-		static constexpr float airDrag(float v, float h) {
-			return 0.5 * airDensity(h) * v * v * Cd * A;
-		}
+		static constexpr float g = 9.8f,							// gravity (m/s^2)
+							   width = 0.2f,						// (hm)
+							   height = 0.4f,						// (hm)
+							   maxSpeedUp = 1.0f,					// (m/s)
+							   maxSpeedDown = 8.0f,					// (m/s)
+							   maxHorizontalSpeed = 1.0f,			// (m/s)
+							   defaultRotationVelocity = M_PI / 12,	// (rad/s)
+							   groundLevel = 0.0f;					// (hm)
 
 		float m_vx, m_vy;
-		misc::Acceleration m_engine, m_drag, m_gravity;
-		float m_rotation, m_rotationVelocity;
+		misc::Acceleration m_engine, m_gravity;
+		float m_rotationVelocity;
 
 		float m_fuel;
 		int m_collectedMoney;
@@ -56,12 +37,6 @@ namespace game::ent::mov {
 
 	public:
 		Rocket();
-
-		GLfloat w() const override { return width; }
-		GLfloat h() const override { return height; }
-		GLfloat rotation() const override { return m_rotation; };
-		GLfloat textureOffset() const override { return 0.0f; }
-		GLfloat textureWidth() const override { return 1.0f; }
 
 		bool process(std::shared_ptr<app::event::Event> event);
 		void updatePosition(float deltaTime) override;

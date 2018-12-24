@@ -22,7 +22,8 @@ namespace app {
 
 	event::Handler Application::m_eventHandler{};
 	input::Keys Application::m_keysInput{m_window, m_eventHandler, Arguments::doubleClickDelay, {
-		{event::Key::press, GLFW_KEY_F11, false}
+		{event::Key::press, GLFW_KEY_F11, false},
+		{event::Key::press, GLFW_KEY_ESCAPE, false}
 	}, {
 
 	}};
@@ -38,20 +39,22 @@ namespace app {
 
 	void Application::init() {
 		if (!m_initialized) {
+			// GLFW initialization
 			if (int errorCode = glfwInit(); !errorCode)
 				throw std::runtime_error{"Unable to initialize glfw, error " + std::to_string(errorCode)};
-
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
+			// window creation with GLFW
 			m_window = glfwCreateWindow(Arguments::width, Arguments::height, windowTitle, nullptr, nullptr);
 			if (m_window == nullptr) {
 				glfwTerminate();
 				throw std::runtime_error{"Unable to create glfw window."};
 			}
 
+			// context settings
 			glfwSetInputMode(m_window, GLFW_STICKY_KEYS, GLFW_TRUE);
 			glfwSetInputMode(m_window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE);
 			glfwMakeContextCurrent(m_window);
@@ -60,12 +63,14 @@ namespace app {
 			glfwSetFramebufferSizeCallback(m_window, framebufferSizeCallback);
 			m_scrollInput.activateWindowCallback();
 
+			// GLAD initialization
 			if (int errorCode = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress); !errorCode) {
 				glfwDestroyWindow(m_window);
 				glfwTerminate();
 				throw std::runtime_error{"Unable to initialize glad, error " + std::to_string(errorCode)};
 			}
 
+			// ImGui initialization
 			IMGUI_CHECKVERSION();
 			ImGui::CreateContext();
 			ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -73,7 +78,10 @@ namespace app {
 			ImGui_ImplOpenGL3_Init("#version 330 core");
 			ImGui::StyleColorsClassic();
 
+			// render engine initialization
 			rend::Renderer::updateScreenSize(Arguments::width, Arguments::height);
+			rend::Items::init();
+			rend::Movables::init();
 
 			m_game.reset(new game::Game{});
 
@@ -84,7 +92,6 @@ namespace app {
 	}
 	void Application::initInput() {
 		if (Arguments::wasd) {
-			std::cout << "WASD\n";
 			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_W,		false);
 			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_W,		false);
 			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_A,		false);
@@ -108,7 +115,7 @@ namespace app {
 
 	void Application::loop() {
 		if (m_initialized) {
-			glClearColor(0.0, 0.86, 0.0, 1.0);
+			glClearColor(0.0625, 0.0625, 0.0625, 1.0);
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -155,6 +162,7 @@ namespace app {
 			case GLFW_KEY_F11: {
 				m_fullscreen = !m_fullscreen;
 				updateFullscreen();
+				m_game->pause();
 				return true;
 			}
 			}

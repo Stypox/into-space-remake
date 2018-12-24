@@ -36,65 +36,52 @@ namespace game::ent::mov {
 	}
 	void Rocket::updateRotation(float deltaTime) {
 		if (m_gravity.active()) {
-			m_rotation += m_rotationVelocity * deltaTime;
+			m_renderData->rotation += m_rotationVelocity * deltaTime;
 		}
 		else {
 			//normalize rotation
-			m_rotation -= std::floor(m_rotation / (2.0f * M_PI)) * 2.0f * M_PI;
+			m_renderData->rotation -= std::floor(m_renderData->rotation / (2.0f * M_PI)) * 2.0f * M_PI;
 
 			// the inclination at which the Rocket laying direction changes
 			// (when the Rocket is / it falls right; \ -> left)
 			constexpr float barycenterOnYAxis = 0.463647609f; // = std::atan(width / height)
-			if	   ((m_rotation > 0.0f								&& m_rotation <					barycenterOnYAxis	) ||
-					(m_rotation > 0.5f * M_PI						&& m_rotation < M_PI		  - barycenterOnYAxis	) ||
-					(m_rotation > M_PI								&& m_rotation < M_PI		  + barycenterOnYAxis	) ||
-					(m_rotation > 1.5f * M_PI						&& m_rotation < 2.0f * M_PI	  - barycenterOnYAxis	)) {
+			if	   ((m_renderData->rotation > 0.0f								&& m_renderData->rotation <					barycenterOnYAxis	) ||
+					(m_renderData->rotation > 0.5f * M_PI						&& m_renderData->rotation < M_PI		  - barycenterOnYAxis	) ||
+					(m_renderData->rotation > M_PI								&& m_renderData->rotation < M_PI		  + barycenterOnYAxis	) ||
+					(m_renderData->rotation > 1.5f * M_PI						&& m_renderData->rotation < 2.0f * M_PI	  - barycenterOnYAxis	)) {
 				// the rocket should fall anticlockwise
-				m_rotation -= 5.0f * M_PI * deltaTime;
+				m_renderData->rotation -= 10.0f * M_PI * deltaTime;
 			}
-			else if((m_rotation > 				barycenterOnYAxis	&& m_rotation < 0.5f * M_PI							) ||
-					(m_rotation > M_PI		  - barycenterOnYAxis	&& m_rotation < M_PI								) ||
-					(m_rotation > M_PI		  + barycenterOnYAxis	&& m_rotation < 1.5f * M_PI							) ||
-					(m_rotation > 2.0f * M_PI -	barycenterOnYAxis	&& m_rotation < 2.0f * M_PI							)) {
+			else if((m_renderData->rotation > 				barycenterOnYAxis	&& m_renderData->rotation < 0.5f * M_PI							) ||
+					(m_renderData->rotation > M_PI		  - barycenterOnYAxis	&& m_renderData->rotation < M_PI								) ||
+					(m_renderData->rotation > M_PI		  + barycenterOnYAxis	&& m_renderData->rotation < 1.5f * M_PI							) ||
+					(m_renderData->rotation > 2.0f * M_PI -	barycenterOnYAxis	&& m_renderData->rotation < 2.0f * M_PI							)) {
 				// the rocket should fall clockwise
-				m_rotation += 10.0f * M_PI * deltaTime;
+				m_renderData->rotation += 10.0f * M_PI * deltaTime;
 			}
 
 			// round rotation if near axes
-			constexpr float roundingValue = 0.05f; // (rad)
-			if ((m_rotation > 2.0f * M_PI - roundingValue && m_rotation < 0.0f) || (m_rotation > 0.0f && m_rotation < roundingValue))
-				m_rotation = 0.0f;
-			else if (m_rotation > 0.5f * M_PI - roundingValue && m_rotation < 0.5f * M_PI + roundingValue)
-				m_rotation = 0.5f * M_PI;
-			else if (m_rotation > 1.0f * M_PI - roundingValue && m_rotation < 1.0f * M_PI + roundingValue)
-				m_rotation = 1.0f * M_PI;
-			else if (m_rotation > 1.5f * M_PI - roundingValue && m_rotation < 1.5f * M_PI + roundingValue)
-				m_rotation = 1.5f * M_PI;
+			constexpr float roundingValue = 0.1f; // (rad)
+			if ((m_renderData->rotation > 2.0f * M_PI - roundingValue && m_renderData->rotation < 0.0f) || (m_renderData->rotation > 0.0f && m_renderData->rotation < roundingValue))
+				m_renderData->rotation = 0.0f;
+			else if (m_renderData->rotation > 0.5f * M_PI - roundingValue && m_renderData->rotation < 0.5f * M_PI + roundingValue)
+				m_renderData->rotation = 0.5f * M_PI;
+			else if (m_renderData->rotation > 1.0f * M_PI - roundingValue && m_renderData->rotation < 1.0f * M_PI + roundingValue)
+				m_renderData->rotation = 1.0f * M_PI;
+			else if (m_renderData->rotation > 1.5f * M_PI - roundingValue && m_renderData->rotation < 1.5f * M_PI + roundingValue)
+				m_renderData->rotation = 1.5f * M_PI;
 		}
 		// the rocket rotation is 0 when it is vertical, not horizontal (along x axis), so summing 90°
-		m_engine.setRotation(m_rotation + 0.5f * M_PI);
-		if (m_vx < 0.01f && m_vx > -0.01f) {
-			if (m_vy < 0.0f)
-				m_drag.setRotation(0.5f * M_PI);
-			else
-				m_drag.setRotation(-0.5f * M_PI);
-		}
-		else {
-			if (m_vx < 0.0f)
-				m_drag.setRotation(std::atan(m_vy / m_vx));
-			else
-				m_drag.setRotation(std::atan(m_vy / m_vx) + M_PI);
-		}		
+		m_engine.setRotation(m_renderData->rotation + 0.5f * M_PI);
 	}
 	void Rocket::damage(float velocity) {
 		m_integrity -= std::abs(velocity) * 0.1f;
 	}
 
 	Rocket::Rocket() :
-		Movable{0.0f, groundLevel}, m_vx{0.0f},
+		Movable{RenderData{0.0f, groundLevel, width, height, 0.0f, 0.0f, 1.0f}}, m_vx{0.0f},
 		m_vy{0.0f}, m_engine{/*TODO*/10.2f, 0.5f * M_PI},
-		m_drag{}, m_gravity{g, 1.5 * M_PI},
-		m_rotation{0.0f}, m_rotationVelocity{0.0f},
+		m_gravity{g, 1.5 * M_PI}, m_rotationVelocity{0.0f},
 		m_fuel{/*TODO*/10.0f}, m_collectedMoney{/*TODO*/0},
 		m_integrity{/*TODO*/0.0f} {
 		m_engine.deactivate();
@@ -155,20 +142,28 @@ namespace game::ent::mov {
 		updateRotation(deltaTime);
 
 		// calculate acceleration sum
-		auto accelSum = m_engine + m_drag + m_gravity;
+		auto accelSum = m_engine + m_gravity;
 
 		// update velocity
 		m_vx += accelSum.deltavx(deltaTime);
 		m_vy += accelSum.deltavy(deltaTime);
+		if (m_vx > maxHorizontalSpeed)
+			m_vx = maxHorizontalSpeed;
+		else if (m_vx < -maxHorizontalSpeed)
+			m_vx = -maxHorizontalSpeed;
+		if (m_vy > maxSpeedUp)
+			m_vy = maxSpeedUp;
+		else if (m_vy < -maxSpeedDown)
+			m_vy = -maxSpeedDown;
 
 		// update position and check if rocket is below ground
-		m_y += m_vy * deltaTime;
-		if (m_y > groundLevel) {
-			m_x += m_vx * deltaTime;
+		m_renderData->y += m_vy * deltaTime;
+		if (m_renderData->y > groundLevel) {
+			m_renderData->x += m_vx * deltaTime;
 			m_gravity.activate();
 		}
 		else {
-			m_y = groundLevel;
+			m_renderData->y = groundLevel;
 			if (m_vy < accelSum.deltavy(deltaTime))
 				damage(m_vy);
 
@@ -177,15 +172,11 @@ namespace game::ent::mov {
 			m_gravity.deactivate();
 		}
 
-		// update air friction
-		float v = sqrt(m_vx * m_vx + m_vy * m_vy);
-		m_drag = airDrag(v * 5.0f, m_y) / m;
-
 #ifdef DEBUG
 		{
 			ImGui::Begin("Rocket debug");
-			ImGui::Text("x=%.2f " "y=%.2f\n" "rotation=%.3f\n" "v=%.2f " "(vx=%.2f " "vy=%.2f)\n" "drag=%.2f, " "(rotation=%.3f)",
-						m_x,	  m_y,		 m_rotation,	   v,		 m_vx,		 m_vy,		  m_drag.a(),	m_drag.rotation());
+			ImGui::Text("x=%.2f " "y=%.2f\n" "rotation=%.3f\n" "v=%.2f " "(vx=%.2f " "vy=%.2f)\n",
+						m_renderData->x, m_renderData->y, m_renderData->rotation, std::sqrt(m_vx*m_vx + m_vy*m_vy), m_vx, m_vy);
 			ImGui::Text("fuel=%.2f\n" "collected money=%i\n" "integrity=%.2f\n",
 						m_fuel,		  m_collectedMoney,		 m_integrity);
 			ImGui::End();

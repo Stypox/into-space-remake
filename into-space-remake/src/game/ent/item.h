@@ -2,6 +2,7 @@
 #define _INTO_SPACE_REMAKE_GAME_ENTITY_ITEM_H_
 
 #include <GLFW/glfw3.h>
+#include <stypox/stock_container.h>
 
 #include "entity.h"
 
@@ -19,19 +20,23 @@ namespace game::ent {
 			repair = 6,
 			max = repair,
 		};
+
+		struct RenderData {
+			GLfloat x, y, textureIndex;
+		};
 		
 	private:
 		const Type m_type;
-		const GLfloat m_x, m_y;
+		stypox::StockContainer<RenderData>::handler m_renderData;
 
 	public:
 		Item(Type type, float x, float y);
 
-		GLfloat x() const override;
-		GLfloat y() const override;
+		GLfloat x() const override { return m_renderData->x; }
+		GLfloat y() const override { return m_renderData->y; }
 		GLfloat w() const override { return 0.2f; }
 		GLfloat h() const override { return 0.2f; }
-		GLfloat textureIndex() const;
+		GLfloat textureIndex() const { return m_renderData->textureIndex; }
 
 		Type type() const { return m_type; }
 	};

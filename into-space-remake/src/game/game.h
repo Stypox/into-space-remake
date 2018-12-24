@@ -9,11 +9,17 @@
 
 namespace game {
 	class Game {
+		// when the framerate is lower than 60fps the game is updated more than once per frame
+		static constexpr float maxDeltaTime = 1.0f/60.0f; // (s)
+
 		EntitiesContainer m_entities;
 		world::World m_world;
-		rend::Items m_itemsRenderer;
-		rend::Movables m_movablesRenderer;
+
 		misc::Chronometer<> m_deltaClock;
+		bool m_paused;
+
+		void update(float deltaTime);
+
 	public:
 		Game();
 

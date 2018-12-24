@@ -1,6 +1,5 @@
 #include "world.h"
 
-#include <range.h>
 #include <algorithm>
 #include <math.h>
 
@@ -30,8 +29,8 @@ namespace game::world {
 		}
 	}
 	void World::genNearChunks() {
-		for (int x : sp::range(-m_maxGenDistance, m_maxGenDistance + 1)) {
-			for (int y : sp::range(abs(x) - m_maxGenDistance, -abs(x) + m_maxGenDistance + 1)) {
+		for (int x = -m_maxGenDistance; x <= m_maxGenDistance; ++x) {
+			for (int y = abs(x) - m_maxGenDistance; y <= -abs(x) + m_maxGenDistance; ++y) {
 				int posX = x + floor(m_entities.rocket->x()),
 					posY = y + floor(m_entities.rocket->y());
 				if (posY < 0) // not generating chunks under ground level
