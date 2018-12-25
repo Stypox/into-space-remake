@@ -4,7 +4,6 @@
 #include <vector>
 #include <memory>
 #include <math.h>
-#include <stypox/stock_container.h>
 
 #include "movable.h"
 #include "../item.h"

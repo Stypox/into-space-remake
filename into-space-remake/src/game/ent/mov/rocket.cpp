@@ -79,7 +79,7 @@ namespace game::ent::mov {
 	}
 
 	Rocket::Rocket() :
-		Movable{RenderData{0.0f, groundLevel, width, height, 0.0f, 0.0f, 1.0f}}, m_vx{0.0f},
+		Movable{RenderData{0.0f, groundLevel, width, height, 0.0f, 0.0f, 0.2f}}, m_vx{0.0f},
 		m_vy{0.0f}, m_engine{/*TODO*/10.2f, 0.5f * M_PI},
 		m_gravity{g, 1.5 * M_PI}, m_rotationVelocity{0.0f},
 		m_fuel{/*TODO*/10.0f}, m_collectedMoney{/*TODO*/0},

@@ -29,7 +29,7 @@ OBJECT_FILES = \
 		$(APP)input/keys.o $(APP)input/scroll.o $(APP)input/mousemove.o \
 	$(GAME)game.o \
 		$(GAME)ent/entity.o $(GAME)ent/item.o \
-			$(GAME)ent/mov/movable.o $(GAME)ent/mov/rocket.o \
+			$(GAME)ent/mov/movable.o $(GAME)ent/mov/rocket.o $(GAME)ent/mov/cloud.o \
 		$(GAME)world/world.o $(GAME)world/chunk.o \
 	$(REND)renderer.o $(REND)items.o $(REND)movables.o \
 	$(MISC)random.o $(MISC)frequency.o $(MISC)acceleration.o $(MISC)get_current_monitor.o \
@@ -126,6 +126,9 @@ $(GAME)ent/mov/movable.o: $(GAME)ent/mov/movable.h $(GAME)ent/mov/movable.cpp $(
 $(GAME)ent/mov/rocket.h: $(GAME)ent/mov/movable.h $(GAME)ent/item.h $(MISC)acceleration.h $(APP)event/event.h
 $(GAME)ent/mov/rocket.o: $(GAME)ent/mov/rocket.h $(GAME)ent/mov/rocket.cpp $(APP)event/key.h
 	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/rocket.cpp -o $(GAME)ent/mov/rocket.o
+$(GAME)ent/mov/cloud.h: $(GAME)ent/mov/movable.h
+$(GAME)ent/mov/cloud.o: $(GAME)ent/mov/cloud.h $(GAME)ent/mov/cloud.cpp $(MISC)random.h
+	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/cloud.cpp -o $(GAME)ent/mov/cloud.o
 
 # src/game/world
 $(GAME)world/chunk.h: $(GAME)entitiescontainer.h
