@@ -1,5 +1,5 @@
-#ifndef _INTO_SPACE_REMAKE_GAME_ENTITY_ITEM_H_
-#define _INTO_SPACE_REMAKE_GAME_ENTITY_ITEM_H_
+#ifndef _INTO_SPACE_REMAKE_GAME_ENT_ITEM_H_
+#define _INTO_SPACE_REMAKE_GAME_ENT_ITEM_H_
 
 #include <GLFW/glfw3.h>
 #include <stypox/stock_container.h>
