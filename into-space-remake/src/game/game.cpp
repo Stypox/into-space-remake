@@ -9,8 +9,9 @@
 #include "../app/debug.h"
 
 namespace game {
-	void Game::update(float deltaTime) {
+	void Game::update(float deltaTime, float timeNow) {
 		m_entities.rocket->pickUpIntersecting(m_entities.items);
+		m_entities.rocket->runIntoIntersecting(m_entities.clouds, timeNow);
 		m_world.update();
 
 		m_entities.rocket->updatePosition(deltaTime);
@@ -32,12 +33,15 @@ namespace game {
 		return m_entities.rocket->process(event);
 	}
 	void Game::update() {
+		static float totalTime = 0.0f;
+
 		float deltaTime = m_deltaClock.restart();
 		if (!m_paused) {
 			float timeConsumed = maxDeltaTime;
 			for (; timeConsumed < deltaTime; timeConsumed += maxDeltaTime)
-				update(maxDeltaTime);
-			update(deltaTime - timeConsumed + maxDeltaTime);
+				update(maxDeltaTime, totalTime += maxDeltaTime);
+			deltaTime = deltaTime - timeConsumed + maxDeltaTime;
+			update(deltaTime, totalTime += deltaTime);
 		}
 	}
 	void Game::render() {

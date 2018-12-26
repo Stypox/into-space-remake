@@ -107,9 +107,9 @@ $(APP)input/mousemove.o: $(APP)input/mousemove.h $(APP)input/mousemove.cpp $(APP
 
 # src/game
 $(GAME)game.h: $(GAME)entitiescontainer.h $(GAME)world/world.h $(MISC)clock.h
-$(GAME)game.o: $(GAME)game.h $(GAME)game.cpp $(REND)items.h $(REND)movables.h $(REND)renderer.h $(APP)event/key.h $(APP)debug.h
+$(GAME)game.o: $(GAME)game.h $(GAME)game.cpp $(REND)items.h $(REND)movables.h $(REND)renderer.h $(APP)event/key.h $(APP)debug.h 
 	$(CXX) $(CXXFLAGS) -c $(GAME)game.cpp -o $(GAME)game.o
-$(GAME)entitiescontainer.h: $(GAME)ent/item.h $(GAME)ent/mov/rocket.h
+$(GAME)entitiescontainer.h: $(GAME)ent/item.h $(GAME)ent/mov/rocket.h $(GAME)ent/mov/cloud.h
 
 # src/game/ent
 $(GAME)ent/entity.h:

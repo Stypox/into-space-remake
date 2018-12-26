@@ -6,11 +6,13 @@
 
 #include "ent/item.h"
 #include "ent/mov/rocket.h"
+#include "ent/mov/cloud.h"
 
 namespace game {
 	struct EntitiesContainer {
 		std::unique_ptr<ent::mov::Rocket> rocket;
 		std::vector<std::unique_ptr<ent::Item>> items;
+		std::vector<std::unique_ptr<ent::mov::Cloud>> clouds;
 
 		inline EntitiesContainer() :
 			rocket{std::make_unique<ent::mov::Rocket>()} {}

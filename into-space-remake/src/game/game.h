@@ -16,7 +16,7 @@ namespace game {
 		misc::Chronometer<> m_deltaClock;
 		bool m_paused;
 
-		void update(float deltaTime);
+		void update(float deltaTime, float timeNow);
 
 	public:
 		Game();
