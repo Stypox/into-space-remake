@@ -7,6 +7,7 @@
 
 #include "movable.h"
 #include "../item.h"
+#include "cloud.h"
 #include "../../../misc/acceleration.h"
 #include "../../../app/event/event.h"
 
@@ -41,6 +42,7 @@ namespace game::ent::mov {
 		void updatePosition(float deltaTime) override;
 
 		void pickUpIntersecting(std::vector<std::unique_ptr<Item>>& items);
+		void runIntoIntersecting(const std::vector<std::unique_ptr<Cloud>>& clouds, float timeNow);
 	};
 }
 

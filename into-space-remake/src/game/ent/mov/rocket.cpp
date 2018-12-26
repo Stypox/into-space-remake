@@ -192,4 +192,14 @@ namespace game::ent::mov {
 			}
 		}
 	}
+	void Rocket::runIntoIntersecting(const std::vector<std::unique_ptr<Cloud>>& clouds, float timeNow) {
+		float timeCanRunInto = timeNow - 0.7f; // Run into clouds only if 0.7 seconds have passed since the last time the rocket run into them
+		for (auto&& cloud : clouds) {
+			if (intersects(this, cloud.get()) && cloud->lastTimeRanInto < timeCanRunInto) {
+				m_vy -= 0.6f; /* TODO */
+				m_integrity -= 0.05f; /* TODO */
+				cloud->lastTimeRanInto = timeNow;
+			}
+		}
+	}
 }

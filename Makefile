@@ -123,7 +123,7 @@ $(GAME)ent/item.o: $(GAME)ent/item.h $(GAME)ent/item.cpp $(REND)items.h
 $(GAME)ent/mov/movable.h: $(GAME)ent/entity.h
 $(GAME)ent/mov/movable.o: $(GAME)ent/mov/movable.h $(GAME)ent/mov/movable.cpp $(REND)movables.h
 	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/movable.cpp -o $(GAME)ent/mov/movable.o
-$(GAME)ent/mov/rocket.h: $(GAME)ent/mov/movable.h $(GAME)ent/item.h $(MISC)acceleration.h $(APP)event/event.h
+$(GAME)ent/mov/rocket.h: $(GAME)ent/mov/movable.h $(GAME)ent/item.h $(GAME)ent/mov/cloud.h $(MISC)acceleration.h $(APP)event/event.h
 $(GAME)ent/mov/rocket.o: $(GAME)ent/mov/rocket.h $(GAME)ent/mov/rocket.cpp $(APP)event/key.h
 	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/rocket.cpp -o $(GAME)ent/mov/rocket.o
 $(GAME)ent/mov/cloud.h: $(GAME)ent/mov/movable.h
