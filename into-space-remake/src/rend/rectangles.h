@@ -15,6 +15,7 @@ namespace rend {
 		GLfloat x, y, w, h,
 			rotation, textureOffset, textureWidth;
 	};
+	static_assert(sizeof(RectangleRenderData) == 7*sizeof(GLfloat), "RectangleRenderData has padding bytes");
 
 	class RectangleRender {
 	protected:

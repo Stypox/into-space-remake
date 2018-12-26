@@ -13,6 +13,7 @@ namespace rend {
 	struct ItemRenderData {
 		GLfloat x, y, textureIndex;
 	};
+	static_assert(sizeof(ItemRenderData) == 3*sizeof(GLfloat), "ItemRenderData has padding bytes");
 
 	class ItemRender {
 	protected:
