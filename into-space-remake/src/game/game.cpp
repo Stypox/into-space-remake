@@ -1,5 +1,5 @@
 #include "../rend/items.h"
-#include "../rend/movables.h"
+#include "../rend/rectangles.h"
 #include "game.h"
 
 #include <iostream>
@@ -25,7 +25,7 @@ namespace game {
 		if (event->type == app::event::Event::key) {
 			switch (app::event::Key* keyEvent = static_cast<app::event::Key*>(event.get()); keyEvent->key) {
 			case GLFW_KEY_ESCAPE: {
-				pause();
+				togglePause();
 				return true;
 			}
 			}
@@ -48,10 +48,14 @@ namespace game {
 		rend::Renderer::moveCameraToRocket(m_entities.rocket);
 
 		rend::Items::draw();
-		rend::Movables::draw();
+		rend::Rectangles::draw();
 	}
 
 	void Game::pause() {
+		m_paused = true;
+		app::debug(app::Gravity::info, "Game", "Paused");
+	}
+	void Game::togglePause() {
 		m_paused = !m_paused;
 		app::debug(app::Gravity::info, "Game", m_paused ? "Paused" : "Unpaused");
 	}

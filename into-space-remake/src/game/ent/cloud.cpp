@@ -1,10 +1,11 @@
+#include <glad/glad.h>
 #include "cloud.h"
 
-#include "../../../misc/random.h"
+#include "../../misc/random.h"
 
-namespace game::ent::mov {
+namespace game::ent {
 	Cloud::Cloud(float x, float y) :
-		Movable{RenderData{x, y, 0.0f, 0.0f, 0.0f, 0.2f, 0.8f}}, lastTimeRanInto{0.0f} {
+		RectangleRender{rend::RectangleRenderData{x, y, 0.0f, 0.0f, 0.0f, 0.2f, 0.8f}}, m_lastTimeRanInto{0.0f} {
 		float size = misc::Random::range(0.3f, 0.4f);
 		m_renderData->h = size;
 		m_renderData->w = size * widthHeightRatio;

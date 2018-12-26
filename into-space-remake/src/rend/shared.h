@@ -9,7 +9,7 @@ namespace rend {
 	const std::filesystem::path shaderDir = "./into-space-remake/src/rend/shader/";
 
 	constexpr GLint itemsTexturePos = 0;
-	constexpr GLint movablesTexturePos = 1;
+	constexpr GLint rectanglesTexturePos = 1;
 }
 
 #endif

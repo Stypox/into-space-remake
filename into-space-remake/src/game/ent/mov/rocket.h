@@ -7,12 +7,12 @@
 
 #include "movable.h"
 #include "../item.h"
-#include "cloud.h"
+#include "../cloud.h"
 #include "../../../misc/acceleration.h"
 #include "../../../app/event/event.h"
 
 namespace game::ent::mov {
-	class Rocket : public Movable {
+	class Rocket : public Movable, public rend::RectangleRender {
 		// constants 
 		static constexpr float g = 9.8f,							// gravity (m/s^2)
 							   width = 0.2f,						// (hm)
@@ -37,6 +37,12 @@ namespace game::ent::mov {
 
 	public:
 		Rocket();
+
+		GLfloat x() const override { return m_renderData->x; }
+		GLfloat y() const override { return m_renderData->y; }
+		GLfloat w() const override { return m_renderData->w; }
+		GLfloat h() const override { return m_renderData->h; }
+		GLfloat rotation() const override { return m_renderData->rotation; };
 
 		bool process(std::shared_ptr<app::event::Event> event);
 		void updatePosition(float deltaTime) override;

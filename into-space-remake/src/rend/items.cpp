@@ -9,13 +9,17 @@
 namespace rend {
 	using namespace stypox::gl;
 
+	ItemRender::ItemRender(const ItemRenderData& renderData) :
+		m_renderData{Items::renderData.emplace(renderData)} {}
+
 	std::unique_ptr<Shader> Items::m_shader = nullptr;
 	std::unique_ptr<Texture2D> Items::m_texture = nullptr;
 	std::unique_ptr<Vao> Items::m_vao = nullptr;
 	std::unique_ptr<Vbo> Items::m_verticesVbo = nullptr;
 	std::unique_ptr<Ebo> Items::m_verticesEbo = nullptr;
 	std::unique_ptr<Vbo> Items::m_dataVbo = nullptr;
-	stypox::StockContainer<game::ent::Item::RenderData> Items::renderData{};
+
+	stypox::StockContainer<ItemRenderData> Items::renderData{};
 
 	void Items::init() {
 		// acquire resources
@@ -68,14 +72,15 @@ namespace rend {
 		m_vao->attribPointer(texturePositionIndex, 2, GL_FLOAT, 4, 2);
 		m_vao->attribDivisor(texturePositionIndex, 0);
 
+		constexpr size_t nrOfFloats = sizeof(ItemRenderData) / sizeof(GLfloat);
 		m_dataVbo->bind();
 		GLint offsetIndex =       m_shader->getAttribLocation("offset");
 		m_vao->enableAttrib(offsetIndex);
-		m_vao->attribPointer(offsetIndex,          2, GL_FLOAT, m_itemSize, 0);
+		m_vao->attribPointer(offsetIndex,          2, GL_FLOAT, nrOfFloats, 0);
 		m_vao->attribDivisor(offsetIndex,          1);
 		GLint textureIndexIndex = m_shader->getAttribLocation("textureIndex");
 		m_vao->enableAttrib(textureIndexIndex);
-		m_vao->attribPointer(textureIndexIndex,	   1, GL_FLOAT, m_itemSize, 2);
+		m_vao->attribPointer(textureIndexIndex,	   1, GL_FLOAT, nrOfFloats, 2);
 		m_vao->attribDivisor(textureIndexIndex,	   1);
 	}
 

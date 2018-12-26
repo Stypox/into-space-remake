@@ -10,6 +10,7 @@ namespace game::ent {
 		virtual GLfloat y() const = 0;
 		virtual GLfloat w() const = 0;
 		virtual GLfloat h() const = 0;
+		virtual GLfloat rotation() const = 0;
 	};
 	
 	bool intersects(Entity* a, Entity* b);

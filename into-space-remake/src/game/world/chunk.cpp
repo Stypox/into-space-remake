@@ -1,3 +1,4 @@
+#include <glad/glad.h>
 #include "chunk.h"
 
 #include "../../misc/random.h"
@@ -21,7 +22,7 @@ namespace game::world {
 					Random::range(static_cast<float>(m_x), m_x + 1.0f),
 					Random::range(static_cast<float>(m_y), m_y + 1.0f)});
 			else if (type < percItemsClouds)
-				entities.clouds.emplace_back(new ent::mov::Cloud{
+				entities.clouds.emplace_back(new ent::Cloud{
 					Random::range(static_cast<float>(m_x), m_x + 1.0f),
 					Random::range(static_cast<float>(m_y), m_y + 1.0f)});
 		}

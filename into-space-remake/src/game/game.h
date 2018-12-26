@@ -26,6 +26,7 @@ namespace game {
 		void render();
 
 		void pause();
+		void togglePause();
 	};
 }
 

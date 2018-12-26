@@ -1,3 +1,4 @@
+#include <glad/glad.h>
 #include "rocket.h"
 
 #include <iostream>
@@ -79,7 +80,7 @@ namespace game::ent::mov {
 	}
 
 	Rocket::Rocket() :
-		Movable{RenderData{0.0f, groundLevel, width, height, 0.0f, 0.0f, 0.2f}}, m_vx{0.0f},
+		RectangleRender{rend::RectangleRenderData{0.0f, groundLevel, width, height, 0.0f, 0.0f, 0.2f}}, m_vx{0.0f},
 		m_vy{0.0f}, m_engine{/*TODO*/10.2f, 0.5f * M_PI},
 		m_gravity{g, 1.5 * M_PI}, m_rotationVelocity{0.0f},
 		m_fuel{/*TODO*/10.0f}, m_collectedMoney{/*TODO*/0},
@@ -195,10 +196,10 @@ namespace game::ent::mov {
 	void Rocket::runIntoIntersecting(const std::vector<std::unique_ptr<Cloud>>& clouds, float timeNow) {
 		float timeCanRunInto = timeNow - 0.7f; // Run into clouds only if 0.7 seconds have passed since the last time the rocket run into them
 		for (auto&& cloud : clouds) {
-			if (intersects(this, cloud.get()) && cloud->lastTimeRanInto < timeCanRunInto) {
+			if (intersects(this, cloud.get()) && cloud->m_lastTimeRanInto < timeCanRunInto) {
 				m_vy -= 0.6f; /* TODO */
 				m_integrity -= 0.05f; /* TODO */
-				cloud->lastTimeRanInto = timeNow;
+				cloud->m_lastTimeRanInto = timeNow;
 			}
 		}
 	}

@@ -5,9 +5,10 @@
 #include <stypox/stock_container.h>
 
 #include "entity.h"
+#include "../../rend/items.h"
 
 namespace game::ent {
-	class Item : public Entity {
+	class Item : public Entity, public rend::ItemRender {
 	public:
 		// the enum values represent the index in the packed texture file 
 		enum Type : GLbyte {
@@ -21,24 +22,15 @@ namespace game::ent {
 			max = repair,
 		};
 
-		struct RenderData {
-			GLfloat x, y, textureIndex;
-		};
-		
-	private:
-		const Type m_type;
-		stypox::StockContainer<RenderData>::handler m_renderData;
-
-	public:
 		Item(Type type, float x, float y);
 
 		GLfloat x() const override { return m_renderData->x; }
 		GLfloat y() const override { return m_renderData->y; }
 		GLfloat w() const override { return 0.2f; }
 		GLfloat h() const override { return 0.2f; }
-		GLfloat textureIndex() const { return m_renderData->textureIndex; }
+		GLfloat rotation() const override { return 0.0f; }
 
-		Type type() const { return m_type; }
+		Type type() const { return static_cast<Type>(static_cast<int>(m_renderData->textureIndex)); }
 	};
 }
 

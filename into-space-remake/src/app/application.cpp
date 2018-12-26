@@ -11,7 +11,7 @@
 #include "debug.h"
 #include "../rend/renderer.h"
 #include "../rend/items.h"
-#include "../rend/movables.h"
+#include "../rend/rectangles.h"
 #include "../misc/get_current_monitor.h"
 
 namespace app {
@@ -80,7 +80,7 @@ namespace app {
 			// render engine initialization
 			rend::Renderer::updateScreenSize(Arguments::width, Arguments::height);
 			rend::Items::init();
-			rend::Movables::init();
+			rend::Rectangles::init();
 
 			m_game.reset(new game::Game{});
 

@@ -9,12 +9,19 @@
 #include <stypox/gl/ebo.h>
 #include <stypox/stock_container.h>
 
-#include "../game/ent/item.h"
-
 namespace rend {
-	class Items {
-		static constexpr size_t m_itemSize = 3;
+	struct ItemRenderData {
+		GLfloat x, y, textureIndex;
+	};
 
+	class ItemRender {
+	protected:
+		stypox::StockContainer<ItemRenderData>::handler m_renderData;
+	public:
+		ItemRender(const ItemRenderData& renderData);
+	};
+
+	class Items {
 		static std::unique_ptr<stypox::gl::Shader> m_shader;
 		static std::unique_ptr<stypox::gl::Texture2D> m_texture;
 		static std::unique_ptr<stypox::gl::Vao> m_vao;
@@ -22,7 +29,7 @@ namespace rend {
 		static std::unique_ptr<stypox::gl::Ebo> m_verticesEbo;
 		static std::unique_ptr<stypox::gl::Vbo> m_dataVbo;
 	public:
-		static stypox::StockContainer<game::ent::Item::RenderData> renderData;
+		static stypox::StockContainer<ItemRenderData> renderData;
 
 		static void init();
 		static void draw();

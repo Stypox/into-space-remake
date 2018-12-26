@@ -28,10 +28,10 @@ OBJECT_FILES = \
 		$(APP)event/event.o $(APP)event/handler.o \
 		$(APP)input/keys.o $(APP)input/scroll.o $(APP)input/mousemove.o \
 	$(GAME)game.o \
-		$(GAME)ent/entity.o $(GAME)ent/item.o \
-			$(GAME)ent/mov/movable.o $(GAME)ent/mov/rocket.o $(GAME)ent/mov/cloud.o \
+		$(GAME)ent/entity.o $(GAME)ent/item.o $(GAME)ent/cloud.o \
+			$(GAME)ent/mov/movable.o $(GAME)ent/mov/rocket.o \
 		$(GAME)world/world.o $(GAME)world/chunk.o \
-	$(REND)renderer.o $(REND)items.o $(REND)movables.o \
+	$(REND)renderer.o $(REND)items.o $(REND)rectangles.o \
 	$(MISC)random.o $(MISC)frequency.o $(MISC)acceleration.o $(MISC)get_current_monitor.o \
 	$(LIBS_PATH)glad/src/glad.o \
 	$(LIBS_PATH)imgui/imgui.o $(LIBS_PATH)imgui/imgui_demo.o $(LIBS_PATH)imgui/imgui_draw.o $(LIBS_PATH)imgui/imgui_widgets.o \
@@ -74,7 +74,7 @@ $(SRC)main.o: $(SRC)main.cpp $(APP)application.o
 
 # src/app/
 $(APP)application.h: $(MISC)frequency.h $(APP)event/handler.h $(APP)input/keys.h $(APP)input/mousemove.h $(APP)input/scroll.h $(GAME)game.h
-$(APP)application.o: $(APP)application.h $(APP)application.cpp $(APP)arguments.h $(APP)debug.h $(REND)renderer.h $(MISC)get_current_monitor.h
+$(APP)application.o: $(APP)application.h $(APP)application.cpp $(APP)arguments.h $(APP)debug.h $(REND)renderer.h $(REND)items.h $(REND)rectangles.h $(MISC)get_current_monitor.h
 	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp -o $(APP)application.o
 $(APP)arguments.h: $(APP)debug.h
 $(APP)arguments.o: $(APP)arguments.h $(APP)arguments.cpp
@@ -107,28 +107,28 @@ $(APP)input/mousemove.o: $(APP)input/mousemove.h $(APP)input/mousemove.cpp $(APP
 
 # src/game
 $(GAME)game.h: $(GAME)entitiescontainer.h $(GAME)world/world.h $(MISC)clock.h
-$(GAME)game.o: $(GAME)game.h $(GAME)game.cpp $(REND)items.h $(REND)movables.h $(REND)renderer.h $(APP)event/key.h $(APP)debug.h 
+$(GAME)game.o: $(GAME)game.h $(GAME)game.cpp $(REND)items.h $(REND)rectangles.h $(REND)renderer.h $(APP)event/key.h $(APP)debug.h 
 	$(CXX) $(CXXFLAGS) -c $(GAME)game.cpp -o $(GAME)game.o
-$(GAME)entitiescontainer.h: $(GAME)ent/item.h $(GAME)ent/mov/rocket.h $(GAME)ent/mov/cloud.h
+$(GAME)entitiescontainer.h: $(GAME)ent/item.h $(GAME)ent/mov/rocket.h $(GAME)ent/cloud.h
 
 # src/game/ent
 $(GAME)ent/entity.h:
 $(GAME)ent/entity.o: $(GAME)ent/entity.h $(GAME)ent/entity.cpp
 	$(CXX) $(CXXFLAGS) -c $(GAME)ent/entity.cpp -o $(GAME)ent/entity.o
-$(GAME)ent/item.h: $(GAME)ent/entity.h
-$(GAME)ent/item.o: $(GAME)ent/item.h $(GAME)ent/item.cpp $(REND)items.h
+$(GAME)ent/item.h: $(GAME)ent/entity.h $(REND)items.h
+$(GAME)ent/item.o: $(GAME)ent/item.h $(GAME)ent/item.cpp
 	$(CXX) $(CXXFLAGS) -c $(GAME)ent/item.cpp -o $(GAME)ent/item.o
+$(GAME)ent/cloud.h: $(GAME)ent/entity.h $(REND)rectangles.h
+$(GAME)ent/cloud.o: $(GAME)ent/cloud.h $(GAME)ent/cloud.cpp $(MISC)random.h
+	$(CXX) $(CXXFLAGS) -c $(GAME)ent/cloud.cpp -o $(GAME)ent/cloud.o
 
 # src/game/ent/mov
 $(GAME)ent/mov/movable.h: $(GAME)ent/entity.h
-$(GAME)ent/mov/movable.o: $(GAME)ent/mov/movable.h $(GAME)ent/mov/movable.cpp $(REND)movables.h
+$(GAME)ent/mov/movable.o: $(GAME)ent/mov/movable.h $(GAME)ent/mov/movable.cpp
 	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/movable.cpp -o $(GAME)ent/mov/movable.o
-$(GAME)ent/mov/rocket.h: $(GAME)ent/mov/movable.h $(GAME)ent/item.h $(GAME)ent/mov/cloud.h $(MISC)acceleration.h $(APP)event/event.h
+$(GAME)ent/mov/rocket.h: $(GAME)ent/mov/movable.h $(GAME)ent/item.h $(GAME)ent/cloud.h $(MISC)acceleration.h $(APP)event/event.h
 $(GAME)ent/mov/rocket.o: $(GAME)ent/mov/rocket.h $(GAME)ent/mov/rocket.cpp $(APP)event/key.h
 	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/rocket.cpp -o $(GAME)ent/mov/rocket.o
-$(GAME)ent/mov/cloud.h: $(GAME)ent/mov/movable.h
-$(GAME)ent/mov/cloud.o: $(GAME)ent/mov/cloud.h $(GAME)ent/mov/cloud.cpp $(MISC)random.h
-	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/cloud.cpp -o $(GAME)ent/mov/cloud.o
 
 # src/game/world
 $(GAME)world/chunk.h: $(GAME)entitiescontainer.h
@@ -143,12 +143,12 @@ $(REND)shared.h:
 $(REND)renderer.h: $(GAME)ent/mov/rocket.h
 $(REND)renderer.o: $(REND)renderer.h $(REND)renderer.cpp
 	$(CXX) $(CXXFLAGS) -c $(REND)renderer.cpp -o $(REND)renderer.o
-$(REND)items.h: $(GAME)ent/item.h
+$(REND)items.h:
 $(REND)items.o: $(REND)items.h $(REND)items.cpp $(REND)shared.h $(REND)renderer.h $(APP)arguments.h
 	$(CXX) $(CXXFLAGS) -c $(REND)items.cpp -o $(REND)items.o
-$(REND)movables.h: $(GAME)ent/mov/movable.h 
-$(REND)movables.o: $(REND)movables.h $(REND)movables.cpp $(REND)shared.h $(REND)renderer.h $(APP)arguments.h
-	$(CXX) $(CXXFLAGS) -c $(REND)movables.cpp -o $(REND)movables.o
+$(REND)rectangles.h:
+$(REND)rectangles.o: $(REND)rectangles.h $(REND)rectangles.cpp $(REND)shared.h $(REND)renderer.h $(APP)arguments.h
+	$(CXX) $(CXXFLAGS) -c $(REND)rectangles.cpp -o $(REND)rectangles.o
 
 # src/misc
 $(MISC)random.h:
