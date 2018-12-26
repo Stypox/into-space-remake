@@ -21,7 +21,7 @@ namespace game {
 	public:
 		Game();
 
-		bool process(std::shared_ptr<app::event::Event> eventHandler);
+		bool process(std::shared_ptr<app::event::Event> event);
 		void update();
 		void render();
 
