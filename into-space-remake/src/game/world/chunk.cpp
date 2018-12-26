@@ -10,13 +10,18 @@ namespace game::world {
 		m_x{x}, m_y{y} {}
 	
 	void Chunk::generate(EntitiesContainer& entities) const {
+		static const int percItemsClouds = app::Arguments::percItems + app::Arguments::percClouds;
 		const int nrEntities = Random::range(0, app::Arguments::entitiesPerChunk);
 		
-		for (int item = 0; item != nrEntities; ++item) {
-			int type = Random::range(1, app::Arguments::percItems + 1);
+		for (int entity = 0; entity != nrEntities; ++entity) {
+			float type = Random::range(0, percItemsClouds);
 			if (type < app::Arguments::percItems)
 				entities.items.emplace_back(new ent::Item{
 					static_cast<ent::Item::Type>(Random::range(ent::Item::Type::max)),
+					Random::range(static_cast<float>(m_x), m_x + 1.0f),
+					Random::range(static_cast<float>(m_y), m_y + 1.0f)});
+			else if (type < percItemsClouds)
+				entities.clouds.emplace_back(new ent::mov::Cloud{
 					Random::range(static_cast<float>(m_x), m_x + 1.0f),
 					Random::range(static_cast<float>(m_y), m_y + 1.0f)});
 		}

@@ -15,10 +15,9 @@ namespace app {
 		static bool fullscreen;
 
 		static Gravity verbosity;
-		static uint16_t width;
-		static uint16_t height;
+		static uint16_t width, height;
 		static uint16_t entitiesPerChunk;
-		static uint8_t percItems;
+		static uint8_t percItems, percClouds;
 
 		static float zoom;
 		static float doubleClickDelay;

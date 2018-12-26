@@ -14,7 +14,8 @@ namespace app {
 			{"width", "window starting width in pixel (default=480)", {"-w=", "--width="}, 480, [](int value){ return value > 0; }},
 			{"height", "window starting height in pixel (default=480)", {"-h=", "--height="}, 480, [](int value){ return value > 0; }},
 			{"entitiesPerChunk", "entities per chunk (default=1)", {"-e=", "--entities="}, 1, [](int value){ return value >= 0; }},
-			{"percItems", "item generation probability (0-255, default=50)", {"--%items="}, 50, [](int value){ return value >= 0 && value <= 255; }}
+			{"percItems", "item generation probability (0-255), default=50)", {"--%items="}, 50, [](int value){ return value >= 0 && value <= 255; }},
+			{"percClouds", "cloud generation probability (0-255), default=20)", {"--%clouds="}, 20, [](int value){ return value >= 0 && value <= 255; }}
 		}, {
 			{"zoom", "game starting zoom (0.5-2.0; default=1.0)", {"-z=", "--zoom="}, 1.0f, [](float value){ return value >= 0.5f && value <= 2.0f; }},
 			{"doubleClickDelay", "double click/press delay in seconds (default=0.5)", {"--dc-delay="}, 0.5f, [](int value){ return value >= 0.0f; }},
@@ -31,6 +32,7 @@ namespace app {
 	uint16_t Arguments::height{};
 	uint16_t Arguments::entitiesPerChunk{};
 	uint8_t Arguments::percItems{};
+	uint8_t Arguments::percClouds{};
 
 	float Arguments::zoom{};
 	float Arguments::doubleClickDelay{};
@@ -55,6 +57,7 @@ namespace app {
 		height = m_parser.getInt("height");
 		entitiesPerChunk = m_parser.getInt("entitiesPerChunk");
 		percItems = m_parser.getInt("percItems");
+		percClouds = m_parser.getInt("percClouds");
 
 		zoom = m_parser.getFloat("zoom");
 		doubleClickDelay = m_parser.getFloat("doubleClickDelay");
@@ -68,5 +71,6 @@ namespace app {
 		debug(Gravity::info, "Arguments", "Value of doubleClickDelay: " + std::to_string(doubleClickDelay));
 		debug(Gravity::info, "Arguments", "Value of entitiesPerChunk: " + std::to_string(entitiesPerChunk));
 		debug(Gravity::info, "Arguments", "Value of percItems: " + std::to_string(static_cast<int>(percItems)));
+		debug(Gravity::info, "Arguments", "Value of percClouds: " + std::to_string(static_cast<int>(percClouds)));
 	}
 }

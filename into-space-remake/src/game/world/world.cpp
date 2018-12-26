@@ -13,6 +13,12 @@ namespace game::world {
 				m_entities.items.erase(std::next(item).base());
 			}
 		}
+		for (auto cloud = m_entities.clouds.rbegin(); cloud != m_entities.clouds.rend(); ++cloud) {
+			if (distance(m_entities.rocket.get(), cloud->get()) > m_minRemovalDistance) {
+				maybeEmptyChunks.insert({floor((*cloud)->x()), floor((*cloud)->y())});
+				m_entities.clouds.erase(std::next(cloud).base());
+			}
+		}
 
 		removeEmptyChunks(maybeEmptyChunks);
 	}
