@@ -94,18 +94,6 @@ namespace rend {
 	}
 
 	void Movables::draw() {
-		std::vector<GLfloat> movablesData;
-		movablesData.reserve(m_movableSize * renderData.size());
-		for (auto&& movable : renderData) {
-			movablesData.push_back(movable.x);
-			movablesData.push_back(movable.y);
-			movablesData.push_back(movable.w);
-			movablesData.push_back(movable.h);
-			movablesData.push_back(movable.rotation);
-			movablesData.push_back(movable.textureOffset);
-			movablesData.push_back(movable.textureWidth);
-		}
-
 		m_dataVbo->data(renderData.data(), renderData.size(), GL_STREAM_DRAW);
 
 		m_vao->bind();
