@@ -75,7 +75,7 @@ namespace game::ent::mov {
 		m_engine.setRotation(m_renderData->rotation + 0.5f * M_PI);
 	}
 	void Rocket::damage(float velocity) {
-		m_integrity -= std::abs(velocity) * 0.1f;
+		m_integrity -= velocity * velocity * 0.1f;
 	}
 
 	Rocket::Rocket() :
