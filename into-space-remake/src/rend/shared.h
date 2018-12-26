@@ -3,7 +3,7 @@
 
 #include <cstddef>
 #include <filesystem>
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace rend {
 	const std::filesystem::path shaderDir = "./into-space-remake/src/rend/shader/";
