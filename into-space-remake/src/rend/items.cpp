@@ -81,6 +81,10 @@ namespace rend {
 		m_vao->enableAttrib(textureIndexIndex);
 		m_vao->attribPointer(textureIndexIndex,	   1, GL_FLOAT, nrOfFloats, 2);
 		m_vao->attribDivisor(textureIndexIndex,	   1);
+
+		m_shader->bind();
+		m_shader->uniform("itemsTexture", m_texture->position());
+		m_shader->uniform("nrPackedTextures", static_cast<GLint>(game::ent::Item::Type::max) + 1);
 	}
 
 	void Items::draw(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix) {
@@ -90,8 +94,6 @@ namespace rend {
 		m_shader->bind();
 		m_shader->uniform("projection", projectionMatrix);
 		m_shader->uniform("view", viewMatrix);
-		m_shader->uniform("itemsTexture", m_texture->position());
-		m_shader->uniform("nrPackedTextures", static_cast<GLint>(game::ent::Item::max) + 1);
 
 		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr, renderData.size());
 	}

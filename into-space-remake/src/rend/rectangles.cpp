@@ -95,6 +95,9 @@ namespace rend {
 		m_vao->enableAttrib(textureWidthIndex);
 		m_vao->attribPointer(textureWidthIndex,    1, GL_FLOAT, nrOfFloats, 6);
 		m_vao->attribDivisor(textureWidthIndex,    1);
+
+		m_shader->bind();
+		m_shader->uniform("rectanglesTexture", m_texture->position());
 	}
 
 	void Rectangles::draw(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix) {
@@ -104,7 +107,6 @@ namespace rend {
 		m_shader->bind();
 		m_shader->uniform("projection", projectionMatrix);
 		m_shader->uniform("view", viewMatrix);
-		m_shader->uniform("rectanglesTexture", m_texture->position());
 
 		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr, renderData.size());
 	}
