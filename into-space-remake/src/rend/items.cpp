@@ -42,10 +42,10 @@ namespace rend {
 		}
 
 		constexpr std::array<GLfloat, 16> vertices{
-			-0.1f, +0.1f, 0.0f, 0.0f, // Top-left
-			+0.1f, +0.1f, 1.0f, 0.0f, // Top-right
-			+0.1f, -0.1f, 1.0f, 1.0f, // Bottom-right
-			-0.1f, -0.1f, 0.0f, 1.0f, // Bottom-left
+			-0.1f, +0.1f, +0.0f, +0.0f, // Top-left
+			+0.1f, +0.1f, +1.0f, +0.0f, // Top-right
+			+0.1f, -0.1f, +1.0f, +1.0f, // Bottom-right
+			-0.1f, -0.1f, +0.0f, +1.0f, // Bottom-left
 		};
 		constexpr std::array<GLuint, 6> indices{
 			0, 1, 2,
