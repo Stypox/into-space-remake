@@ -15,7 +15,7 @@ namespace game::ent {
 	
 	bool intersects(const Entity* a, const Entity* b);
 	// Manhattan distance (Taxicab geometry)
-	float distance(const Entity* a, const Entity* b);
+	float manhattanDistance(const Entity* a, const Entity* b);
 }
 
 #endif

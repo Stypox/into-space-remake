@@ -21,7 +21,7 @@ namespace game::world {
 
 		bool isAt(int x, int y) const;
 		// Manhattan distance (Taxicab geometry)
-		float distance(const ent::Entity* entity) const;
+		float manhattanDistance(const ent::Entity* entity) const;
 	};
 }
 

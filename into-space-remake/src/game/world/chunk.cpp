@@ -27,7 +27,7 @@ namespace game::world {
 	bool Chunk::isAt(int x, int y) const {
 		return m_x == x && m_y == y;
 	}
-	float Chunk::distance(const ent::Entity* entity) const {
+	float Chunk::manhattanDistance(const ent::Entity* entity) const {
 		// Manhattan distance (Taxicab geometry)
 		return std::abs(m_x - entity->x()) + std::abs(m_y - entity->y());
 	}

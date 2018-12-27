@@ -6,7 +6,7 @@
 namespace game::world {	
 	void World::removeFarChunks() {
 		for (auto chunk = m_chunks.rbegin(); chunk != m_chunks.rend(); ++chunk) {
-			if (chunk->distance(&m_rocket) > m_minRemovalDistance)
+			if (chunk->manhattanDistance(&m_rocket) > m_minRemovalDistance)
 				m_chunks.erase(std::next(chunk).base());
 		}
 	}

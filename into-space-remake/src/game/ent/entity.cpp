@@ -11,7 +11,7 @@ namespace game::ent {
 			a->y() + 0.5f * a->h() > b->y() - 0.5f * b->h() &&
 			a->y() - 0.5f * a->h() < b->y() + 0.5f * b->h();
 	}
-	float distance(const Entity* a, const Entity* b) {
+	float manhattanDistance(const Entity* a, const Entity* b) {
 		// Manhattan distance (Taxicab geometry)
 		return std::abs(a->x() - b->x()) + std::abs(a->y() - b->y());
 	}
