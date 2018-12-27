@@ -16,7 +16,7 @@ namespace game::world {
 
 		for (int x = rocketPosX - m_maxGenDistance; x <= rocketPosX + m_maxGenDistance; ++x) {
 			for (int y = rocketPosY - m_maxGenDistance; y <= rocketPosY + m_maxGenDistance; ++y) {
-				if (y < 0) // not generating chunks under ground level
+				if (y < 1) // not generating chunks under ground level or just above
 					continue;
 				if (std::find_if(m_chunks.begin(), m_chunks.end(), [x, y](const Chunk& chunk){
 						return chunk.isAt(x, y);
