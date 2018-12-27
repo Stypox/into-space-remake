@@ -1,10 +1,9 @@
 #include "items.h"
 
-#include <vector>
-
 #include "shared.h"
 #include "renderer.h"
 #include "../app/arguments.h"
+#include "../game/ent/item.h"
 
 namespace rend {
 	using namespace stypox::gl;
@@ -84,13 +83,13 @@ namespace rend {
 		m_vao->attribDivisor(textureIndexIndex,	   1);
 	}
 
-	void Items::draw() {
+	void Items::draw(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix) {
 		m_dataVbo->data(renderData.data(), renderData.size(), GL_STREAM_DRAW);
 
 		m_vao->bind();
 		m_shader->bind();
-		m_shader->uniform("projection", Renderer::projectionMatrix());
-		m_shader->uniform("view", Renderer::viewMatrix());
+		m_shader->uniform("projection", projectionMatrix);
+		m_shader->uniform("view", viewMatrix);
 		m_shader->uniform("itemsTexture", m_texture->position());
 		m_shader->uniform("nrPackedTextures", static_cast<GLint>(game::ent::Item::max) + 1);
 

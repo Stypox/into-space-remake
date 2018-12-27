@@ -8,6 +8,7 @@
 #include <stypox/gl/vbo.h>
 #include <stypox/gl/ebo.h>
 #include <stypox/stock_container.h>
+#include <glm/mat4x4.hpp>
 
 namespace rend {
 	struct ItemRenderData {
@@ -33,7 +34,7 @@ namespace rend {
 		static stypox::StockContainer<ItemRenderData> renderData;
 
 		static void init();
-		static void draw();
+		static void draw(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix);
 	};
 }
 

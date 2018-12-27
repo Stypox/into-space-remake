@@ -1,10 +1,7 @@
-#include "../rend/items.h"
-#include "../rend/rectangles.h"
 #include "game.h"
 
-#include <iostream>
+#include <GLFW/glfw3.h>
 
-#include "../rend/renderer.h"
 #include "../app/event/key.h"
 #include "../app/debug.h"
 
@@ -39,12 +36,6 @@ namespace game {
 			deltaTime = deltaTime - timeConsumed + maxDeltaTime;
 			update(deltaTime, totalTime += deltaTime);
 		}
-	}
-	void Game::render() {
-		rend::Renderer::moveCameraToRocket(m_world.rocketX(), m_world.rocketY());
-
-		rend::Items::draw();
-		rend::Rectangles::draw();
 	}
 
 	void Game::pause() {

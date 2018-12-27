@@ -1,6 +1,5 @@
 #include "application.h"
 
-#include <vector>
 #include <string>
 #include <iostream>
 #include <imgui.h>
@@ -10,8 +9,6 @@
 #include "arguments.h"
 #include "debug.h"
 #include "../rend/renderer.h"
-#include "../rend/items.h"
-#include "../rend/rectangles.h"
 #include "../misc/get_current_monitor.h"
 
 namespace app {
@@ -78,9 +75,8 @@ namespace app {
 			ImGui::StyleColorsClassic();
 
 			// render engine initialization
+			rend::Renderer::init();
 			rend::Renderer::updateScreenSize(Arguments::width, Arguments::height);
-			rend::Items::init();
-			rend::Rectangles::init();
 
 			m_game.reset(new game::Game{});
 
@@ -132,8 +128,9 @@ namespace app {
 				delegateEvents();
 
 				m_game->update();
-
-				m_game->render();
+				rend::Renderer::moveCameraToRocket(m_game->rocketX(), m_game->rocketY());
+				
+				rend::Renderer::render();
 				ImGui::Render();
 				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

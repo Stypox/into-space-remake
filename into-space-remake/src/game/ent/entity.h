@@ -1,7 +1,7 @@
 #ifndef _INTO_SPACE_REMAKE_GAME_ENT_ENTITY_H_
 #define _INTO_SPACE_REMAKE_GAME_ENT_ENTITY_H_
 
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace game::ent {
 	class Entity {		

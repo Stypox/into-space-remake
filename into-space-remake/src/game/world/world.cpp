@@ -1,4 +1,3 @@
-#include <glad/glad.h>
 #include "world.h"
 
 #include <algorithm>

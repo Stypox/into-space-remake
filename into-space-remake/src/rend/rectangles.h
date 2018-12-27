@@ -1,7 +1,6 @@
 #ifndef _INTO_SPACE_REMAKE_RENDER_RECTANGLES_H_
 #define _INTO_SPACE_REMAKE_RENDER_RECTANGLES_H_
 
-#include <vector>
 #include <memory>
 #include <stypox/gl/shader.h>
 #include <stypox/gl/texture.h>
@@ -9,6 +8,7 @@
 #include <stypox/gl/vbo.h>
 #include <stypox/gl/ebo.h>
 #include <stypox/stock_container.h>
+#include <glm/mat4x4.hpp>
 
 namespace rend {
 	struct RectangleRenderData {
@@ -35,7 +35,7 @@ namespace rend {
 		static stypox::StockContainer<RectangleRenderData> renderData;
 
 		static void init();
-		static void draw();
+		static void draw(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix);
 	};
 }
 

@@ -1,4 +1,3 @@
-#include <glad/glad.h>
 #include "chunk.h"
 
 #include "../../misc/random.h"

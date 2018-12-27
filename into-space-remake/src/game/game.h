@@ -19,9 +19,11 @@ namespace game {
 	public:
 		Game();
 
+		float rocketX() const { return m_world.rocketX(); }
+		float rocketY() const { return m_world.rocketY(); }
+
 		bool process(std::shared_ptr<app::event::Event> event);
 		void update();
-		void render();
 
 		void pause();
 		void togglePause();

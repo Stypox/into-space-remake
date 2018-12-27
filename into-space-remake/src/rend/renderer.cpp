@@ -1,26 +1,13 @@
-#include <glad/glad.h>
 #include "renderer.h"
 
+#include "items.h"
+#include "rectangles.h"
+
 namespace rend {
-	int Renderer::m_width{};
-	int Renderer::m_height{};
-	float Renderer::m_x{};
-	float Renderer::m_y{};
+	glm::mat4 Renderer::m_projectionMatrix{1.0f};
+	glm::mat4 Renderer::m_viewMatrix{1.0f};
 
 	void Renderer::updateScreenSize(int width, int height) {
-		m_width = width;
-		m_height = height;
-	}
-	void Renderer::moveCameraToRocket(float x, float y) {
-		m_x = x;
-		m_y = y + 0.5f;
-	}
-
-	GLfloat Renderer::screenRatio() {
-		return static_cast<GLfloat>(m_width) / static_cast<GLfloat>(m_height);
-	}
-
-	glm::mat4 Renderer::projectionMatrix() {
 		/*
 		The returned matrix ensures the width/height of drawn things isn't changed
 		The optimal screen ratio is 16/9 an there the field of view is the biggest,
@@ -28,30 +15,29 @@ namespace rend {
 		If screen ratio > optimal then the bottom part of the y axis is rendered,
 		otherwise the central part on the x axis.
 		*/
-		GLfloat ratio = screenRatio();
+		GLfloat ratio = static_cast<GLfloat>(width) / static_cast<GLfloat>(height);
 		if (ratio > optimalScreenRatio) {
-			return glm::mat4{
-				1.0f / optimalScreenRatio, 0.0f, 0.0f, 0.0f,
-				0.0f, ratio / optimalScreenRatio, 0.0f, 0.0f,
-				0.0f, 0.0f, 1.0f, 0.0f,
-				0.0f, ratio / optimalScreenRatio - 1.0f, 0.0f, 1.0f,
-			};
+			m_projectionMatrix[0][0] = 1.0f / optimalScreenRatio;
+			m_projectionMatrix[1][1] = ratio / optimalScreenRatio;
+			m_projectionMatrix[3][1] = ratio / optimalScreenRatio - 1.0f; // the rocket should always be a little bit above the bottom margin
 		}
 		else {
-			return glm::mat4{
-				1.0f / ratio, 0.0f, 0.0f, 0.0f,
-				0.0f, 1.0f, 0.0f, 0.0f,
-				0.0f, 0.0f, 1.0f, 0.0f,
-				0.0f, 0.0f, 0.0f, 1.0f,
-			};
+			m_projectionMatrix[0][0] = 1.0f / ratio;
+			m_projectionMatrix[1][1] = 1.0f;
+			m_projectionMatrix[3][1] = 0.0f;
 		}
 	}
-	glm::mat4 Renderer::viewMatrix() {
-		return glm::mat4{
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			-m_x, -m_y, 0.0f, 1.0f,
-		};
+	void Renderer::moveCameraToRocket(float x, float y) {
+		m_viewMatrix[3][0] = -x;
+		m_viewMatrix[3][1] = -y - 0.5f; // the rocket should be a little bit above the bottom margin
+	}
+
+	void Renderer::init() {
+		Items::init();
+		Rectangles::init();
+	}
+	void Renderer::render() {
+		Items::draw(m_projectionMatrix, m_viewMatrix);
+		Rectangles::draw(m_projectionMatrix, m_viewMatrix);
 	}
 }

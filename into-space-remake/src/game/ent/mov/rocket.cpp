@@ -1,7 +1,6 @@
-#include <glad/glad.h>
 #include "rocket.h"
 
-#include <iostream>
+#include <GLFW/glfw3.h>
 #include <math.h>
 #include <imgui.h>
 #include <map>

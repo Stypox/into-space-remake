@@ -1,4 +1,3 @@
-#include <glad/glad.h>
 #include "cloud.h"
 
 #include "../../misc/random.h"

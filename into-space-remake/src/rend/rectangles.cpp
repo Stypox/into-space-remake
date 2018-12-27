@@ -97,13 +97,13 @@ namespace rend {
 		m_vao->attribDivisor(textureWidthIndex,    1);
 	}
 
-	void Rectangles::draw() {
+	void Rectangles::draw(const glm::mat4& projectionMatrix, const glm::mat4& viewMatrix) {
 		m_dataVbo->data(renderData.data(), renderData.size(), GL_STREAM_DRAW);
 
 		m_vao->bind();
 		m_shader->bind();
-		m_shader->uniform("projection", Renderer::projectionMatrix());
-		m_shader->uniform("view", Renderer::viewMatrix());
+		m_shader->uniform("projection", projectionMatrix);
+		m_shader->uniform("view", viewMatrix);
 		m_shader->uniform("rectanglesTexture", m_texture->position());
 
 		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr, renderData.size());
