@@ -4,6 +4,7 @@
 #include <iostream>
 #include <math.h>
 #include <imgui.h>
+#include <map>
 
 #include "../../../app/event/key.h"
 
@@ -185,21 +186,32 @@ namespace game::ent::mov {
 #endif
 	}
 
-	void Rocket::pickUpIntersecting(std::vector<std::unique_ptr<ent::Item>>& items) {
+	std::vector<std::pair<int, int>> Rocket::overlappingChunks() const {
+		// assumes the Rocket is axis-aligned
+		std::map<int, int> chunks;
+		chunks.emplace(floor(m_renderData->x - 0.5*width), floor(m_renderData->y - 0.5*height));
+		chunks.emplace(floor(m_renderData->x - 0.5*width), floor(m_renderData->y + 0.5*height));
+		chunks.emplace(floor(m_renderData->x + 0.5*width), floor(m_renderData->y - 0.5*height));
+		chunks.emplace(floor(m_renderData->x + 0.5*width), floor(m_renderData->y + 0.5*height));
+
+		return {chunks.begin(), chunks.end()};
+	}
+
+	void Rocket::pickUpIntersecting(std::vector<ent::Item>& items) {
 		for (auto item = items.rbegin(); item != items.rend(); ++item) {
-			if (intersects(this, item->get())) {
-				pickUp(**item);
+			if (intersects(this, &*item)) {
+				pickUp(*item);
 				items.erase(std::next(item).base());
 			}
 		}
 	}
-	void Rocket::runIntoIntersecting(const std::vector<std::unique_ptr<Cloud>>& clouds, float timeNow) {
+	void Rocket::runIntoIntersecting(std::vector<Cloud>& clouds, float timeNow) {
 		float timeCanRunInto = timeNow - 0.7f; // Run into clouds only if 0.7 seconds have passed since the last time the rocket run into them
 		for (auto&& cloud : clouds) {
-			if (intersects(this, cloud.get()) && cloud->m_lastTimeRanInto < timeCanRunInto) {
+			if (intersects(this, &cloud) && cloud.m_lastTimeRanInto < timeCanRunInto) {
 				m_vy -= 0.6f; /* TODO */
 				m_integrity -= 0.05f; /* TODO */
-				cloud->m_lastTimeRanInto = timeNow;
+				cloud.m_lastTimeRanInto = timeNow;
 			}
 		}
 	}

@@ -1,7 +1,6 @@
 #ifndef _INTO_SPACE_REMAKE_GAME_GAME_H_
 #define _INTO_SPACE_REMAKE_GAME_GAME_H_
 
-#include "entitiescontainer.h"
 #include "world/world.h"
 #include "../misc/clock.h"
 
@@ -10,7 +9,6 @@ namespace game {
 		// when the framerate is lower than 60fps the game is updated more than once per frame
 		static constexpr float maxDeltaTime = 1.0f/60.0f; // (s)
 
-		EntitiesContainer m_entities;
 		world::World m_world;
 
 		misc::Chronometer<> m_deltaClock;

@@ -5,58 +5,56 @@
 #include <math.h>
 
 namespace game::world {	
-	void World::removeFarEntities() {
-		std::map<int, int> maybeEmptyChunks;
-
-		for (auto item = m_entities.items.rbegin(); item != m_entities.items.rend(); ++item) {
-			if (distance(m_entities.rocket.get(), item->get()) > m_minRemovalDistance) {
-				maybeEmptyChunks.insert({floor((*item)->x()), floor((*item)->y())});
-				m_entities.items.erase(std::next(item).base());
-			}
-		}
-		for (auto cloud = m_entities.clouds.rbegin(); cloud != m_entities.clouds.rend(); ++cloud) {
-			if (distance(m_entities.rocket.get(), cloud->get()) > m_minRemovalDistance) {
-				maybeEmptyChunks.insert({floor((*cloud)->x()), floor((*cloud)->y())});
-				m_entities.clouds.erase(std::next(cloud).base());
-			}
-		}
-
-		removeEmptyChunks(maybeEmptyChunks);
-	}
-	void World::removeEmptyChunks(std::map<int, int>& maybeEmptyChunks) {
+	void World::removeFarChunks() {
 		for (auto chunk = m_chunks.rbegin(); chunk != m_chunks.rend(); ++chunk) {
-			for (auto maybeEmptyChunk = maybeEmptyChunks.begin(); maybeEmptyChunk != maybeEmptyChunks.end(); ++maybeEmptyChunk) {
-				if (chunk->isAt(maybeEmptyChunk->first, maybeEmptyChunk->second)) {
-					maybeEmptyChunks.erase(maybeEmptyChunk);
-					if (chunk->isEmpty(m_entities))
-						m_chunks.erase(std::next(chunk).base());
-					break;
-				}
-			}
+			if (chunk->distance(&m_rocket) > m_minRemovalDistance)
+				m_chunks.erase(std::next(chunk).base());
 		}
 	}
 	void World::genNearChunks() {
-		for (int x = -m_maxGenDistance; x <= m_maxGenDistance; ++x) {
-			for (int y = abs(x) - m_maxGenDistance; y <= -abs(x) + m_maxGenDistance; ++y) {
-				int posX = x + floor(m_entities.rocket->x()),
-					posY = y + floor(m_entities.rocket->y());
-				if (posY < 0) // not generating chunks under ground level
+		int rocketPosX = floor(m_rocket.x()),
+			rocketPosY = floor(m_rocket.y());
+
+		for (int x = rocketPosX - m_maxGenDistance; x <= rocketPosX + m_maxGenDistance; ++x) {
+			for (int y = rocketPosY - m_maxGenDistance; y <= rocketPosY + m_maxGenDistance; ++y) {
+				if (y < 0) // not generating chunks under ground level
 					continue;
-				if (std::find_if(m_chunks.begin(), m_chunks.end(), [posX, posY](const Chunk& chunk){
-						return chunk.isAt(posX, posY);
+				if (std::find_if(m_chunks.begin(), m_chunks.end(), [x, y](const Chunk& chunk){
+						return chunk.isAt(x, y);
 					}) == m_chunks.end()) {
-					m_chunks.emplace_back(posX, posY);
-					m_chunks.back().generate(m_entities);
+					m_chunks.push_back(Chunk{x, y});
 				}
 			}
 		}
 	}
 
-	World::World(EntitiesContainer& entities) :
-		m_entities{entities} {}
+	std::vector<Chunk*> World::positionsToChunks(const std::vector<std::pair<int, int>>& positions) {
+		std::vector<Chunk*> chunks;
+		chunks.reserve(positions.size());
 
-	void World::update() {
-		removeFarEntities();
+		for (auto&& position : positions) {
+			auto found = std::find_if(m_chunks.begin(), m_chunks.end(), [position](const Chunk& chunk){
+				return chunk.isAt(position.first, position.second);
+			});
+			if (found != m_chunks.end())
+				chunks.push_back(&*found);
+		}
+
+		return chunks;
+	}
+
+	bool World::process(std::shared_ptr<app::event::Event> event) {
+		return m_rocket.process(event);
+	}
+	void World::update(float deltaTime, float timeNow) {
+		removeFarChunks();
 		genNearChunks();
+
+		auto overlappingChunks = positionsToChunks(m_rocket.overlappingChunks());
+		for (auto&& chunk : overlappingChunks) {
+			m_rocket.pickUpIntersecting(chunk->m_items);
+			m_rocket.runIntoIntersecting(chunk->m_clouds, timeNow);
+		}
+		m_rocket.updatePosition(deltaTime);
 	}
 }

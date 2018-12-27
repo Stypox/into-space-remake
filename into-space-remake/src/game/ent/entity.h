@@ -13,9 +13,9 @@ namespace game::ent {
 		virtual GLfloat rotation() const = 0;
 	};
 	
-	bool intersects(Entity* a, Entity* b);
+	bool intersects(const Entity* a, const Entity* b);
 	// Manhattan distance (Taxicab geometry)
-	float distance(Entity* a, Entity* b);
+	float distance(const Entity* a, const Entity* b);
 }
 
 #endif

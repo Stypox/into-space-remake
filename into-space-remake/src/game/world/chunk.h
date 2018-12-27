@@ -1,20 +1,27 @@
 #ifndef _INTO_SPACE_REMAKE_GAME_WORLD_CHUNK_H_
 #define _INTO_SPACE_REMAKE_GAME_WORLD_CHUNK_H_
 
-#include "../entitiescontainer.h"
+#include "../ent/item.h"
+#include "../ent/cloud.h"
 
 namespace game::world {
 	class Chunk {
+		friend class World;
+
 		static constexpr float size = 1.0f;
 
 		int m_x, m_y;
+		std::vector<ent::Item> m_items;
+		std::vector<ent::Cloud> m_clouds;
+
+		void generate();
+
 	public:
 		Chunk(int x, int y);
 
-		void generate(EntitiesContainer& entities) const;
-
 		bool isAt(int x, int y) const;
-		bool isEmpty(EntitiesContainer& entities) const;
+		// Manhattan distance (Taxicab geometry)
+		float distance(const ent::Entity* entity) const;
 	};
 }
 

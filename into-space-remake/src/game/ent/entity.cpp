@@ -3,7 +3,7 @@
 #include <math.h>
 
 namespace game::ent {
-	bool intersects(Entity* a, Entity* b) {
+	bool intersects(const Entity* a, const Entity* b) {
 		// assumes a and b are axis-aligned
 		return
 			a->x() + 0.5f * a->w() > b->x() - 0.5f * b->w() &&
@@ -11,7 +11,7 @@ namespace game::ent {
 			a->y() + 0.5f * a->h() > b->y() - 0.5f * b->h() &&
 			a->y() - 0.5f * a->h() < b->y() + 0.5f * b->h();
 	}
-	float distance(Entity* a, Entity* b) {
+	float distance(const Entity* a, const Entity* b) {
 		// Manhattan distance (Taxicab geometry)
 		return std::abs(a->x() - b->x()) + std::abs(a->y() - b->y());
 	}

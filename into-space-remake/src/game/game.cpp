@@ -10,16 +10,12 @@
 
 namespace game {
 	void Game::update(float deltaTime, float timeNow) {
-		m_entities.rocket->pickUpIntersecting(m_entities.items);
-		m_entities.rocket->runIntoIntersecting(m_entities.clouds, timeNow);
-		m_world.update();
-
-		m_entities.rocket->updatePosition(deltaTime);
+		m_world.update(deltaTime, timeNow);
 	}
 
 	Game::Game() :
-		m_entities{}, m_world{m_entities},
-		m_deltaClock{}, m_paused{false} {}
+		m_world{}, m_deltaClock{},
+		m_paused{false} {}
 
 	bool Game::process(std::shared_ptr<app::event::Event> event) {
 		if (event->type == app::event::Event::key) {
@@ -30,7 +26,7 @@ namespace game {
 			}
 			}
 		}
-		return m_entities.rocket->process(event);
+		return m_world.process(event);
 	}
 	void Game::update() {
 		static float totalTime = 0.0f;
@@ -45,7 +41,7 @@ namespace game {
 		}
 	}
 	void Game::render() {
-		rend::Renderer::moveCameraToRocket(m_entities.rocket);
+		rend::Renderer::moveCameraToRocket(m_world.rocketX(), m_world.rocketY());
 
 		rend::Items::draw();
 		rend::Rectangles::draw();

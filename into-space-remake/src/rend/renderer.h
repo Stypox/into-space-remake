@@ -15,7 +15,7 @@ namespace rend {
 		static GLfloat m_x, m_y;
 	public:
 		static void updateScreenSize(int width, int height);
-		static void moveCameraToRocket(const std::unique_ptr<game::ent::mov::Rocket>& rocket);
+		static void moveCameraToRocket(float x, float y);
 
 		static GLfloat screenRatio();
 

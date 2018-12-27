@@ -11,9 +11,9 @@ namespace rend {
 		m_width = width;
 		m_height = height;
 	}
-	void Renderer::moveCameraToRocket(const std::unique_ptr<game::ent::mov::Rocket>& rocket) {
-		m_x = rocket->x();
-		m_y = rocket->y() + 0.5f;
+	void Renderer::moveCameraToRocket(float x, float y) {
+		m_x = x;
+		m_y = y + 0.5f;
 	}
 
 	GLfloat Renderer::screenRatio() {
