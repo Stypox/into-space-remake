@@ -34,7 +34,7 @@ namespace app {
 
 		static void loop();
 		static void updateInput();
-		static bool process(std::shared_ptr<event::Event> event);
+		static bool process(const std::shared_ptr<event::Event>& event);
 		static void delegateEvents();
 		static void updateFullscreen();
 

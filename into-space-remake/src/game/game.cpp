@@ -14,7 +14,7 @@ namespace game {
 		m_world{}, m_deltaClock{},
 		m_paused{false} {}
 
-	bool Game::process(std::shared_ptr<app::event::Event> event) {
+	bool Game::process(const std::shared_ptr<app::event::Event>& event) {
 		if (event->type == app::event::Event::key) {
 			switch (app::event::Key* keyEvent = static_cast<app::event::Key*>(event.get()); keyEvent->key) {
 			case GLFW_KEY_ESCAPE: {

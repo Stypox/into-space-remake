@@ -89,7 +89,7 @@ namespace game::ent::mov {
 		m_gravity.deactivate();
 	}
 
-	bool Rocket::process(std::shared_ptr<Event> event) {
+	bool Rocket::process(const std::shared_ptr<Event>& event) {
 		if (event->type == Event::key) {
 			switch (Key* keyEvent = dynamic_cast<Key*>(event.get()); keyEvent->key) {
 			case GLFW_KEY_W: case GLFW_KEY_UP:

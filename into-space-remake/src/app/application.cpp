@@ -152,7 +152,7 @@ namespace app {
 		m_mouseMoveInput.update();
 		m_scrollInput.update();
 	}
-	bool Application::process(std::shared_ptr<event::Event> event) {
+	bool Application::process(const std::shared_ptr<event::Event>& event) {
 		if (event->type == event::Event::key) {
 			switch (event::Key* keyEvent = dynamic_cast<event::Key*>(event.get()); keyEvent->key) {
 			case GLFW_KEY_F11: {

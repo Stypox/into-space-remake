@@ -22,7 +22,7 @@ namespace game {
 		float rocketX() const { return m_world.rocketX(); }
 		float rocketY() const { return m_world.rocketY(); }
 
-		bool process(std::shared_ptr<app::event::Event> event);
+		bool process(const std::shared_ptr<app::event::Event>& event);
 		void update();
 
 		void pause();

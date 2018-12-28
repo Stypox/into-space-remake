@@ -44,7 +44,7 @@ namespace game::ent::mov {
 		GLfloat h() const override { return m_renderData->h; }
 		GLfloat rotation() const override { return m_renderData->rotation; };
 
-		bool process(std::shared_ptr<app::event::Event> event);
+		bool process(const std::shared_ptr<app::event::Event>& event);
 		void updatePosition(float deltaTime) override;
 
 		std::vector<std::pair<int, int>> overlappingChunks() const;
