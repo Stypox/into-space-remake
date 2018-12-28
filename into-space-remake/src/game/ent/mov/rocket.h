@@ -47,7 +47,7 @@ namespace game::ent::mov {
 		bool process(const std::shared_ptr<app::event::Event>& event);
 		void updatePosition(float deltaTime) override;
 
-		std::vector<std::pair<int, int>> overlappingChunks() const;
+		std::vector<std::pair<int, int>> chunksToCheck() const;
 
 		void pickUpIntersecting(std::vector<Item>& items);
 		void runIntoIntersecting(std::vector<Cloud>& clouds, float timeNow);

@@ -49,8 +49,8 @@ namespace game::world {
 		removeFarChunks();
 		genNearChunks();
 
-		auto overlappingChunks = positionsToChunks(m_rocket.overlappingChunks());
-		for (auto&& chunk : overlappingChunks) {
+		auto chunksToCheck = positionsToChunks(m_rocket.chunksToCheck());
+		for (auto&& chunk : chunksToCheck) {
 			m_rocket.pickUpIntersecting(chunk->m_items);
 			m_rocket.runIntoIntersecting(chunk->m_clouds, timeNow);
 		}

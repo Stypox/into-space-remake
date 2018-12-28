@@ -3,7 +3,6 @@
 #include <GLFW/glfw3.h>
 #include <math.h>
 #include <imgui.h>
-#include <map>
 
 #include "../../../app/event/key.h"
 
@@ -185,15 +184,23 @@ namespace game::ent::mov {
 #endif
 	}
 
-	std::vector<std::pair<int, int>> Rocket::overlappingChunks() const {
-		// assumes the Rocket is axis-aligned
-		std::map<int, int> chunks;
-		chunks.emplace(floor(m_renderData->x - 0.5*width), floor(m_renderData->y - 0.5*height));
-		chunks.emplace(floor(m_renderData->x - 0.5*width), floor(m_renderData->y + 0.5*height));
-		chunks.emplace(floor(m_renderData->x + 0.5*width), floor(m_renderData->y - 0.5*height));
-		chunks.emplace(floor(m_renderData->x + 0.5*width), floor(m_renderData->y + 0.5*height));
+	std::vector<std::pair<int, int>> Rocket::chunksToCheck() const {
+		int x1 = std::floor(m_renderData->x),
+		    y1 = std::floor(m_renderData->y),
+			x2 = std::round(m_renderData->x),
+		    y2 = std::round(m_renderData->y);
+		if (x1 == x2)
+			--x2;
+		if (y1 == y2)
+			--y2;
 
-		return {chunks.begin(), chunks.end()};
+		// 2x2 area of chunks around the rocket. The center is the closest vertex of the chunk it is in.
+		return {
+			{x1, y1},
+			{x1, y2},
+			{x2, y1},
+			{x2, y2},
+		};
 	}
 
 	void Rocket::pickUpIntersecting(std::vector<ent::Item>& items) {
