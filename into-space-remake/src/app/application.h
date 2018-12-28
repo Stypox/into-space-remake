@@ -12,7 +12,7 @@
 #include "../game/game.h"
 
 namespace app {
-	constexpr const char * windowTitle = "Into Space remake";
+	constexpr const char * windowTitle = "Into Space! remake";
 
 	class Application {
 		static GLFWwindow* m_window;
