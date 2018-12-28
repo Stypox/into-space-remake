@@ -134,7 +134,7 @@ $(GAME)ent/mov/rocket.o: $(GAME)ent/mov/rocket.h $(GAME)ent/mov/rocket.cpp $(APP
 $(GAME)world/chunk.h:
 $(GAME)world/chunk.o: $(GAME)world/chunk.h $(GAME)world/chunk.cpp $(MISC)random.h $(APP)arguments.h
 	$(CXX) $(CXXFLAGS) -c $(GAME)world/chunk.cpp -o $(GAME)world/chunk.o
-$(GAME)world/world.h: $(GAME)world/chunk.h
+$(GAME)world/world.h: $(GAME)world/chunk.h $(GAME)ent/mov/rocket.h
 $(GAME)world/world.o: $(GAME)world/world.h $(GAME)world/world.cpp
 	$(CXX) $(CXXFLAGS) -c $(GAME)world/world.cpp -o $(GAME)world/world.o
 
