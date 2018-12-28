@@ -27,7 +27,7 @@ namespace rend {
 		m_verticesVbo.reset(new Vbo{});
 		m_verticesEbo.reset(new Ebo{});
 		m_dataVbo.reset(new Vbo{});
-		
+
 		// error logging
 		if (app::Gravity::info >= app::Arguments::verbosity) {
 			if (m_shader->errors())

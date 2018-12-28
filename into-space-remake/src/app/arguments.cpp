@@ -32,7 +32,7 @@ namespace app {
 	bool Arguments::fullscreen{};
 
 	Gravity Arguments::verbosity{};
-	uint16_t Arguments::width{}; 
+	uint16_t Arguments::width{};
 	uint16_t Arguments::height{};
 	uint16_t Arguments::entitiesPerChunk{};
 	uint8_t Arguments::percItems{};
