@@ -3,6 +3,7 @@
 
 #include <string>
 #include <stypox/argparser.h>
+#include <filesystem>
 
 #include "debug.h"
 
@@ -21,6 +22,11 @@ namespace app {
 
 		static float zoom;
 		static float doubleClickDelay;
+
+		static std::filesystem::path itemsVertexShader,
+			itemsFragmentShader,
+			rectanglesVertexShader,
+			rectanglesFragmentShader;
 
 		static void parse(int argc, char const* argv[]);
 		static std::string helpScreen() { return m_parser.help(); }

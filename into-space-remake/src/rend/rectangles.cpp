@@ -21,7 +21,7 @@ namespace rend {
 
 	void Rectangles::init() {
 		// acquire resources
-		m_shader.reset(new Shader{rend::shaderDir / "rectangles.vert", rend::shaderDir / "rectangles.frag"});
+		m_shader.reset(new Shader{app::Arguments::rectanglesVertexShader, app::Arguments::rectanglesFragmentShader});
 		m_texture.reset(new Texture2D{rectanglesTexturePos, "rectangles.png", GL_RGBA, GL_REPEAT, GL_REPEAT, GL_NEAREST, GL_NEAREST});
 		m_vao.reset(new Vao{});
 		m_verticesVbo.reset(new Vbo{});

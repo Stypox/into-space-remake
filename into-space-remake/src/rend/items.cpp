@@ -22,7 +22,7 @@ namespace rend {
 
 	void Items::init() {
 		// acquire resources
-		m_shader.reset(new Shader{rend::shaderDir / "items.vert", rend::shaderDir / "items.frag"});
+		m_shader.reset(new Shader{app::Arguments::itemsVertexShader, app::Arguments::itemsFragmentShader});
 		m_texture.reset(new Texture2D{itemsTexturePos, "items.png", GL_RGBA, GL_REPEAT, GL_REPEAT, GL_NEAREST, GL_NEAREST});
 		m_vao.reset(new Vao{});
 		m_verticesVbo.reset(new Vbo{});
