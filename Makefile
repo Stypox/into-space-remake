@@ -87,7 +87,7 @@ $(APP)debug.o: $(APP)debug.h $(APP)debug.cpp
 $(APP)event/event.h:
 $(APP)event/event.o: $(APP)event/event.h $(APP)event/event.cpp
 	$(CXX) $(CXXFLAGS) -c $(APP)event/event.cpp -o $(APP)event/event.o
-$(APP)event/key.h: $(APP)event/event.h
+$(APP)event/key.h: $(APP)input/key.h $(APP)event/event.h
 $(APP)event/scroll.h: $(APP)event/event.h
 $(APP)event/mousemove.h: $(APP)event/event.h
 $(APP)event/handler.h: $(APP)event/event.h
@@ -95,7 +95,8 @@ $(APP)event/handler.o: $(APP)event/handler.h $(APP)event/handler.cpp
 	$(CXX) $(CXXFLAGS) -c $(APP)event/handler.cpp -o $(APP)event/handler.o
 
 # src/app/input/
-$(APP)input/keys.h: $(APP)event/key.h $(APP)event/handler.h
+$(APP)input/key.h:
+$(APP)input/keys.h: $(APP)input/key.h $(APP)event/key.h $(APP)event/handler.h
 $(APP)input/keys.o: $(APP)input/keys.h $(APP)input/keys.cpp
 	$(CXX) $(CXXFLAGS) -c $(APP)input/keys.cpp -o $(APP)input/keys.o
 $(APP)input/scroll.h: $(APP)event/handler.h

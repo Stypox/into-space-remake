@@ -91,7 +91,7 @@ namespace game::ent::mov {
 	bool Rocket::process(const std::shared_ptr<Event>& event) {
 		if (event->type == Event::key) {
 			switch (Key* keyEvent = dynamic_cast<Key*>(event.get()); keyEvent->key) {
-			case GLFW_KEY_W: case GLFW_KEY_UP:
+			case app::input::kb_w: case app::input::kb_up:
 				switch (keyEvent->type) {
 				case Key::press:
 					m_engine.activate();
@@ -102,7 +102,7 @@ namespace game::ent::mov {
 				default:
 					return false;
 				}
-			case GLFW_KEY_A: case GLFW_KEY_LEFT:
+			case app::input::kb_a: case app::input::kb_left:
 				switch (keyEvent->type) {
 				case Key::press:
 					m_rotationVelocity += defaultRotationVelocity;
@@ -113,7 +113,7 @@ namespace game::ent::mov {
 				default:
 					return false;
 				}
-			case GLFW_KEY_S: case GLFW_KEY_DOWN:
+			case app::input::kb_s: case app::input::kb_down:
 				switch (keyEvent->type) {
 				case Key::press:
 					m_engine.deactivate();
@@ -121,7 +121,7 @@ namespace game::ent::mov {
 				default:
 					return false;
 				}
-			case GLFW_KEY_D: case GLFW_KEY_RIGHT:
+			case app::input::kb_d: case app::input::kb_right:
 				switch (keyEvent->type) {
 				case Key::press:
 					m_rotationVelocity -= defaultRotationVelocity;

@@ -18,8 +18,8 @@ namespace app {
 
 	event::Handler Application::m_eventHandler{};
 	input::Keys Application::m_keysInput{m_window, m_eventHandler, Arguments::doubleClickDelay, {
-		{event::Key::press, GLFW_KEY_F11, false},
-		{event::Key::press, GLFW_KEY_ESCAPE, false}
+		{event::Key::press, input::kb_f11,    false},
+		{event::Key::press, input::kb_escape, false}
 	}, {
 
 	}};
@@ -30,7 +30,7 @@ namespace app {
 
 	bool Application::m_initialized{false};
 	bool Application::m_fullscreen{false};
-	
+
 
 
 	void Application::init() {
@@ -55,7 +55,7 @@ namespace app {
 			glfwSetInputMode(m_window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE);
 			glfwMakeContextCurrent(m_window);
 			glfwSwapInterval(0);
-			
+
 			glfwSetFramebufferSizeCallback(m_window, framebufferSizeCallback);
 			m_scrollInput.activateWindowCallback();
 
@@ -87,24 +87,24 @@ namespace app {
 	}
 	void Application::initInput() {
 		if (Arguments::wasd) {
-			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_W,		false);
-			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_W,		false);
-			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_A,		false);
-			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_A,		false);
-			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_S,		false);
-			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_S,		false);
-			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_D,		false);
-			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_D,		false);
+			m_keysInput.addListener(event::Key::Type::press,   input::kb_w,     false);
+			m_keysInput.addListener(event::Key::Type::release, input::kb_w,     false);
+			m_keysInput.addListener(event::Key::Type::press,   input::kb_a,     false);
+			m_keysInput.addListener(event::Key::Type::release, input::kb_a,     false);
+			m_keysInput.addListener(event::Key::Type::press,   input::kb_s,     false);
+			m_keysInput.addListener(event::Key::Type::release, input::kb_s,     false);
+			m_keysInput.addListener(event::Key::Type::press,   input::kb_d,     false);
+			m_keysInput.addListener(event::Key::Type::release, input::kb_d,     false);
 		}
 		else {
-			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_UP,	false);
-			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_UP,	false);
-			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_LEFT,	false);
-			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_LEFT,	false);
-			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_DOWN,	false);
-			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_DOWN,	false);
-			m_keysInput.addListener(event::Key::Type::press,	GLFW_KEY_RIGHT,	false);
-			m_keysInput.addListener(event::Key::Type::release,	GLFW_KEY_RIGHT,	false);
+			m_keysInput.addListener(event::Key::Type::press,   input::kb_up,    false);
+			m_keysInput.addListener(event::Key::Type::release, input::kb_up,    false);
+			m_keysInput.addListener(event::Key::Type::press,   input::kb_left,  false);
+			m_keysInput.addListener(event::Key::Type::release, input::kb_left,  false);
+			m_keysInput.addListener(event::Key::Type::press,   input::kb_down,  false);
+			m_keysInput.addListener(event::Key::Type::release, input::kb_down,  false);
+			m_keysInput.addListener(event::Key::Type::press,   input::kb_right, false);
+			m_keysInput.addListener(event::Key::Type::release, input::kb_right, false);
 		}
 	}
 
@@ -129,7 +129,7 @@ namespace app {
 
 				m_game->update();
 				rend::Renderer::moveCameraToRocket(m_game->rocketX(), m_game->rocketY());
-				
+
 				rend::Renderer::render();
 				ImGui::Render();
 				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -141,7 +141,7 @@ namespace app {
 
 				if (Arguments::verbosity >= Gravity::error)
 					if (GLenum e = glGetError(); e) debug(Gravity::error, "MainLoop", "OpenGL" + std::to_string(e));
-					
+
 				glfwSwapBuffers(m_window);
 			}
 		}
@@ -155,14 +155,15 @@ namespace app {
 	bool Application::process(const std::shared_ptr<event::Event>& event) {
 		if (event->type == event::Event::key) {
 			switch (event::Key* keyEvent = dynamic_cast<event::Key*>(event.get()); keyEvent->key) {
-			case GLFW_KEY_F11: {
+			case app::input::kb_f11:
 				m_fullscreen = !m_fullscreen;
 				debug(Gravity::info, "Application", "Fullscreen is now " + std::string{m_fullscreen ? "active" : "inactive"});
 
 				updateFullscreen();
 				m_game->pause();
 				return true;
-			}
+			default:
+				break;
 			}
 		}
 		return false;

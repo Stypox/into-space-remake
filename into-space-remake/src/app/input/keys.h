@@ -5,34 +5,35 @@
 #include <tuple>
 #include <GLFW/glfw3.h>
 
+#include "key.h"
 #include "../event/key.h"
 #include "../event/handler.h"
 
 namespace app::input {
 	class Keys {
 		struct KeyData {
-			const int key;
+			const Key key;
 			bool lastState;
 
-			constexpr KeyData(int key) :
+			constexpr KeyData(Key key) :
 				key{key}, lastState{false} {}
 		};
 		struct KeyDoublePressData {
-			const int key;
+			const Key key;
 			bool lastState;
 			float lastPressed;
 
-			constexpr KeyDoublePressData(int key, float doublePressDelay) :
+			constexpr KeyDoublePressData(Key key, float doublePressDelay) :
 				key{key}, lastState{false},
 				lastPressed{-3 * doublePressDelay} {}
 		};
 		struct KeyLongData {
-			const int key;
+			const Key key;
 			const float delayAfterAction, delayInBetween;
 			bool lastState;
 			float lastAction;
 
-			constexpr KeyLongData(int key, float delayAfterAction, float delayInBetween) :
+			constexpr KeyLongData(Key key, float delayAfterAction, float delayInBetween) :
 				key{key}, delayAfterAction{delayAfterAction},
 				delayInBetween{delayInBetween}, lastState{false},
 				lastAction{0.0f} {}
@@ -42,36 +43,30 @@ namespace app::input {
 		event::Handler& m_eventHandler;
 		float m_doublePressDelay;
 
+		bool m_keysStatus[Key::last + 1];
+
 		//data of listeners (P -> track position, M -> mouse key)
 
 		//press
-		std::vector<KeyData> m_dataPress,						// press type, no position tracking, keyboard key
-							 m_dataPressM,						// press type, no position tracking, keyboard key
-							 m_dataPressP,						// press type, position tracking, keyboard key
-							 m_dataPressPM;						// press type, position tracking, mouse key
+		std::vector<KeyData> m_dataPress,						// press type, no position tracking
+							 m_dataPressP;						// press type, position tracking
 		//doublePress
-		std::vector<KeyDoublePressData> m_dataDoublePress,		// doublePress type, no position tracking, keyboard key
-										m_dataDoublePressM,		// doublePress type, no position tracking, mouse key
-										m_dataDoublePressP,		// doublePress type, position tracking, keyboard key
-										m_dataDoublePressPM;	// doublePress type, position tracking, mouse key
+		std::vector<KeyDoublePressData> m_dataDoublePress,		// doublePress type, no position tracking
+										m_dataDoublePressP;		// doublePress type, position tracking
 		//release
-		std::vector<KeyData> m_dataRelease,						// release type, no position tracking, keyboard key
-							 m_dataReleaseM,					// release type, no position tracking, mouse key
-							 m_dataReleaseP,					// release type, position tracking, keyboard key
-							 m_dataReleasePM;					// release type, position tracking, mouse key
+		std::vector<KeyData> m_dataRelease,						// release type, no position tracking
+							 m_dataReleaseP;					// release type, position tracking
 		//longPress
-		std::vector<KeyLongData> m_dataLongPress,				// longPress type, no position tracking, keyboard key
-								 m_dataLongPressM,				// longPress type, no position tracking, mouse key
-								 m_dataLongPressP,				// longPress type, position tracking, keyboard key
-								 m_dataLongPressPM;				// longPress type, position tracking, mouse key
+		std::vector<KeyLongData> m_dataLongPress,				// longPress type, no position tracking
+								 m_dataLongPressP;				// longPress type, position tracking
 		//longRelease
-		std::vector<KeyLongData> m_dataLongRelease,				// longRelease type, no position tracking, keyboard key
-								 m_dataLongReleaseM,			// longRelease type, no position tracking, mouse key
-								 m_dataLongReleaseP,			// longRelease type, position tracking, keyboard key
-								 m_dataLongReleasePM;			// longRelease type, position tracking, mouse key
+		std::vector<KeyLongData> m_dataLongRelease,				// longRelease type, no position tracking
+								 m_dataLongReleaseP;			// longRelease type, position tracking
 
 		float m_time;
 		double m_xCursor, m_yCursor;
+
+		void updateKeysStatus();
 
 		void updatePress();
 		void updateDoublePress();
@@ -81,13 +76,13 @@ namespace app::input {
 	public:
 		Keys(GLFWwindow*& window, event::Handler& eventHandler, float doublePressDelay);
 		Keys(GLFWwindow*& window, event::Handler& eventHandler, float doublePressDelay,
-			std::initializer_list<std::tuple<event::Key::Type, int, bool>> listeners,
-			std::initializer_list<std::tuple<event::KeyLong::Type, int, bool, float, float>> longListeners);
+			std::initializer_list<std::tuple<event::Key::Type, Key, bool>> listeners, // see addListener() with 3 arguments
+			std::initializer_list<std::tuple<event::KeyLong::Type, Key, bool, float, float>> longListeners); // see addListener() with 5 arguments
 
 		inline void setDoublePressDelay(float doublePressDelay) { m_doublePressDelay = doublePressDelay; }
 
-		void addListener(event::Key::Type type, int key, bool trackPosition);
-		void addListener(event::KeyLong::Type type, int key, bool trackPosition, float delayAfterAction, float delayInBetween);
+		void addListener(event::Key::Type type, Key key, bool trackPosition);
+		void addListener(event::KeyLong::Type type, Key key, bool trackPosition, float delayAfterAction, float delayInBetween);
 
 		void update();
 
