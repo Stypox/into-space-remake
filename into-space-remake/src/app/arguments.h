@@ -2,7 +2,6 @@
 #define _INTO_SPACE_REMAKE_APP_ARGUMENTS_H_
 
 #include <string>
-#include <stypox/argparser.h>
 #include <filesystem>
 
 #include "debug.h"
@@ -29,10 +28,7 @@ namespace app {
 			rectanglesFragmentShader;
 
 		static void parse(int argc, char const* argv[]);
-		static std::string helpScreen() { return m_parser.help(); }
-
-	private:
-		static stypox::ArgParser m_parser;
+		static std::string helpScreen();
 	};
 }
 
