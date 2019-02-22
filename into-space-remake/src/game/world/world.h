@@ -23,7 +23,6 @@ namespace game::world {
 		float rocketX() const { return m_rocket.x(); }
 		float rocketY() const { return m_rocket.y(); }
 
-		bool process(const std::shared_ptr<app::event::Event>& event);
 		void update(float deltaTime, float timeNow);
 	};
 }

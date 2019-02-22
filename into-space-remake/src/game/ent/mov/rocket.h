@@ -9,7 +9,6 @@
 #include "../item.h"
 #include "../cloud.h"
 #include "../../../misc/acceleration.h"
-#include "../../../app/event/event.h"
 
 namespace game::ent::mov {
 	class Rocket : public Movable, public rend::RectangleRender {
@@ -44,7 +43,6 @@ namespace game::ent::mov {
 		GLfloat h() const override { return m_renderData->h; }
 		GLfloat rotation() const override { return m_renderData->rotation; };
 
-		bool process(const std::shared_ptr<app::event::Event>& event);
 		void updatePosition(float deltaTime) override;
 
 		std::vector<std::pair<int, int>> chunksToCheck() const;

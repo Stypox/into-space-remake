@@ -16,15 +16,15 @@ namespace app {
 
 	misc::FrequencyNr Application::m_framerate{1000};
 
-	event::Handler Application::m_eventHandler{};
-	input::Keys Application::m_keysInput{m_window, m_eventHandler, Arguments::doubleClickDelay, {
+	stypox::EventNotifier Application::eventNotifier{};
+	input::Keys Application::m_keysInput{m_window, eventNotifier, Arguments::doubleClickDelay, {
 		{event::Key::press, input::kb_f11,    false},
 		{event::Key::press, input::kb_escape, false}
 	}, {
 
 	}};
-	input::MouseMove Application::m_mouseMoveInput{m_window, m_eventHandler, 0, 0};
-	input::Scroll Application::m_scrollInput{m_window, m_eventHandler, 0, 0};
+	input::MouseMove Application::m_mouseMoveInput{m_window, eventNotifier, 0, 0};
+	input::Scroll Application::m_scrollInput{m_window, eventNotifier, 0, 0};
 
 	std::unique_ptr<game::Game> Application::m_game{nullptr};
 
@@ -67,7 +67,7 @@ namespace app {
 			}
 
 			// ImGui initialization
-			IMGUI_CHECKVERSION();
+			//IMGUI_CHECKVERSION();
 			ImGui::CreateContext();
 			ImGuiIO& io = ImGui::GetIO(); (void)io;
 			ImGui_ImplGlfw_InitForOpenGL(m_window, true);
@@ -86,25 +86,27 @@ namespace app {
 		}
 	}
 	void Application::initInput() {
+		eventNotifier.connect(Application::toggleFullscreen, event::Key{event::Key::press, input::kb_f11});
+
 		if (Arguments::wasd) {
-			m_keysInput.addListener(event::Key::Type::press,   input::kb_w,     false);
-			m_keysInput.addListener(event::Key::Type::release, input::kb_w,     false);
-			m_keysInput.addListener(event::Key::Type::press,   input::kb_a,     false);
-			m_keysInput.addListener(event::Key::Type::release, input::kb_a,     false);
-			m_keysInput.addListener(event::Key::Type::press,   input::kb_s,     false);
-			m_keysInput.addListener(event::Key::Type::release, input::kb_s,     false);
-			m_keysInput.addListener(event::Key::Type::press,   input::kb_d,     false);
-			m_keysInput.addListener(event::Key::Type::release, input::kb_d,     false);
+			m_keysInput.addListener(event::Key::press,   input::kb_w,     false);
+			m_keysInput.addListener(event::Key::release, input::kb_w,     false);
+			m_keysInput.addListener(event::Key::press,   input::kb_a,     false);
+			m_keysInput.addListener(event::Key::release, input::kb_a,     false);
+			m_keysInput.addListener(event::Key::press,   input::kb_s,     false);
+			m_keysInput.addListener(event::Key::release, input::kb_s,     false);
+			m_keysInput.addListener(event::Key::press,   input::kb_d,     false);
+			m_keysInput.addListener(event::Key::release, input::kb_d,     false);
 		}
 		else {
-			m_keysInput.addListener(event::Key::Type::press,   input::kb_up,    false);
-			m_keysInput.addListener(event::Key::Type::release, input::kb_up,    false);
-			m_keysInput.addListener(event::Key::Type::press,   input::kb_left,  false);
-			m_keysInput.addListener(event::Key::Type::release, input::kb_left,  false);
-			m_keysInput.addListener(event::Key::Type::press,   input::kb_down,  false);
-			m_keysInput.addListener(event::Key::Type::release, input::kb_down,  false);
-			m_keysInput.addListener(event::Key::Type::press,   input::kb_right, false);
-			m_keysInput.addListener(event::Key::Type::release, input::kb_right, false);
+			m_keysInput.addListener(event::Key::press,   input::kb_up,    false);
+			m_keysInput.addListener(event::Key::release, input::kb_up,    false);
+			m_keysInput.addListener(event::Key::press,   input::kb_left,  false);
+			m_keysInput.addListener(event::Key::release, input::kb_left,  false);
+			m_keysInput.addListener(event::Key::press,   input::kb_down,  false);
+			m_keysInput.addListener(event::Key::release, input::kb_down,  false);
+			m_keysInput.addListener(event::Key::press,   input::kb_right, false);
+			m_keysInput.addListener(event::Key::release, input::kb_right, false);
 		}
 	}
 
@@ -124,8 +126,6 @@ namespace app {
 				ImGui_ImplOpenGL3_NewFrame();
 				ImGui_ImplGlfw_NewFrame();
 				ImGui::NewFrame();
-
-				delegateEvents();
 
 				m_game->update();
 				rend::Renderer::moveCameraToRocket(m_game->rocketX(), m_game->rocketY());
@@ -152,33 +152,13 @@ namespace app {
 		m_mouseMoveInput.update();
 		m_scrollInput.update();
 	}
-	bool Application::process(const std::shared_ptr<event::Event>& event) {
-		if (event->type == event::Event::key) {
-			switch (event::Key* keyEvent = dynamic_cast<event::Key*>(event.get()); keyEvent->key) {
-			case app::input::kb_f11:
-				m_fullscreen = !m_fullscreen;
-				debug(Gravity::info, "Application", "Fullscreen is now " + std::string{m_fullscreen ? "active" : "inactive"});
 
-				updateFullscreen();
-				m_game->pause();
-				return true;
-			default:
-				break;
-			}
-		}
-		return false;
-	}
-	void Application::delegateEvents() {
-		while (1) {
-			auto event = m_eventHandler.getKeep();
-			if (*event) {
-				process(event) ||
-				m_game->process(event);
+	void Application::toggleFullscreen() {
+		m_fullscreen = !m_fullscreen;
+		debug(Gravity::info, "Application", "Fullscreen is now " + std::string{m_fullscreen ? "active" : "inactive"});
 
-				m_eventHandler.get();
-			}
-			else break;
-		}
+		updateFullscreen();
+		m_game->pause();
 	}
 	void Application::updateFullscreen() {
 		GLFWmonitor* currentMonitor = misc::getCurrentMonitor(m_window);

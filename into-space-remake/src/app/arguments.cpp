@@ -33,7 +33,6 @@ namespace app {
 
 	stypox::ArgParser parser{
 		std::make_tuple(
-
 			HelpSection{"Fly with your customized rocket until you reach the moon!\n\nWindow options:"},
 			Option{"width", Arguments::width, args("-w=", "--width="), "window starting width in pixel (default=480)", false, [](auto value){ return value > 0; }},
 			Option{"height", Arguments::height, args("-h=", "--height="), "window starting height in pixel (default=480)", false, [](auto value){ return value > 0; }},

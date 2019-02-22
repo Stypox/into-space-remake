@@ -42,9 +42,6 @@ namespace game::world {
 		return chunks;
 	}
 
-	bool World::process(const std::shared_ptr<app::event::Event>& event) {
-		return m_rocket.process(event);
-	}
 	void World::update(float deltaTime, float timeNow) {
 		removeFarChunks();
 		genNearChunks();

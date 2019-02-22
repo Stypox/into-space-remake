@@ -1,10 +1,8 @@
 #ifndef _INTO_SPACE_REMAKE_APP_EVENT_MOUSEMOVE_H_
 #define _INTO_SPACE_REMAKE_APP_EVENT_MOUSEMOVE_H_
 
-#include "event.h"
-
 namespace app::event {
-	struct MouseMove : public Event {
+	struct MouseMove {
 		enum Type {
 			xAxis,
 			yAxis,
@@ -14,12 +12,12 @@ namespace app::event {
 		const double offset;
 		const double position;
 
+		constexpr explicit MouseMove(Type type) :
+			type{type}, offset{},
+			position{} {}
 		constexpr MouseMove(Type type, double offset, double position) :
-			Event{Event::Type::mouseMove}, type{type},
-			offset{offset}, position{position} {}
-
-		inline Event::Type eventType() const override { return Event::type; }
-		inline operator bool() const override { return Event::type != Event::Type::empty; }
+			type{type}, offset{offset},
+			position{position} {}
 	};
 }
 

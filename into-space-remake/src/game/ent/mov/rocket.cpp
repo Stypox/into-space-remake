@@ -5,6 +5,7 @@
 #include <imgui.h>
 
 #include "../../../app/event/key.h"
+#include "../../../app/application.h"
 
 namespace game::ent::mov {
 	using namespace app::event;
@@ -86,58 +87,21 @@ namespace game::ent::mov {
 		m_integrity{/*TODO*/0.0f} {
 		m_engine.deactivate();
 		m_gravity.deactivate();
+
+		using namespace app;
+		Application::eventNotifier.connect_member(m_engine, &misc::Acceleration::activate,
+			Key{Key::press,   input::kb_w}, Key{Key::press,   input::kb_up});
+		Application::eventNotifier.connect_member(m_engine, &misc::Acceleration::deactivate,
+			Key{Key::release, input::kb_w}, Key{Key::release, input::kb_up},
+			Key{Key::press,   input::kb_s}, Key{Key::press,   input::kb_down});
+		Application::eventNotifier.connect([this](){ m_rotationVelocity += defaultRotationVelocity; },
+			Key{Key::press,   input::kb_a}, Key{Key::press,   input::kb_left},
+			Key{Key::release, input::kb_d}, Key{Key::release, input::kb_right});
+		Application::eventNotifier.connect([this](){ m_rotationVelocity -= defaultRotationVelocity; },
+			Key{Key::release, input::kb_a}, Key{Key::release, input::kb_left},
+			Key{Key::press,   input::kb_d}, Key{Key::press,   input::kb_right});
 	}
 
-	bool Rocket::process(const std::shared_ptr<Event>& event) {
-		if (event->type == Event::key) {
-			switch (Key* keyEvent = dynamic_cast<Key*>(event.get()); keyEvent->key) {
-			case app::input::kb_w: case app::input::kb_up:
-				switch (keyEvent->type) {
-				case Key::press:
-					m_engine.activate();
-					return true;
-				case Key::release:
-					m_engine.deactivate();
-					return true;
-				default:
-					return false;
-				}
-			case app::input::kb_a: case app::input::kb_left:
-				switch (keyEvent->type) {
-				case Key::press:
-					m_rotationVelocity += defaultRotationVelocity;
-					return true;
-				case Key::release:
-					m_rotationVelocity -= defaultRotationVelocity;
-					return true;
-				default:
-					return false;
-				}
-			case app::input::kb_s: case app::input::kb_down:
-				switch (keyEvent->type) {
-				case Key::press:
-					m_engine.deactivate();
-					return true;
-				default:
-					return false;
-				}
-			case app::input::kb_d: case app::input::kb_right:
-				switch (keyEvent->type) {
-				case Key::press:
-					m_rotationVelocity -= defaultRotationVelocity;
-					return true;
-				case Key::release:
-					m_rotationVelocity += defaultRotationVelocity;
-					return true;
-				default:
-					return false;
-				}
-			default:
-				return false;
-			}
-		}
-		else return false;
-	}
 	void Rocket::updatePosition(float deltaTime) {
 		updateRotation(deltaTime);
 

@@ -3,10 +3,10 @@
 #include "../event/mousemove.h"
 
 namespace app::input {
-	MouseMove::MouseMove(GLFWwindow*& window, event::Handler& eventHandler) :
-		MouseMove{window, eventHandler, 0, 0} {}
-	MouseMove::MouseMove(GLFWwindow*& window, event::Handler& eventHandler, int8_t nrEventsX, int8_t nrEventsY) :
-		m_window{window}, m_eventHandler{eventHandler},
+	MouseMove::MouseMove(GLFWwindow*& window, stypox::EventNotifier& eventNotifier) :
+		MouseMove{window, eventNotifier, 0, 0} {}
+	MouseMove::MouseMove(GLFWwindow*& window, stypox::EventNotifier& eventNotifier, int8_t nrEventsX, int8_t nrEventsY) :
+		m_window{window}, m_eventNotifier{eventNotifier},
 		m_nrEventsX{nrEventsX}, m_nrEventsY{nrEventsY} {}
 
 	void MouseMove::update() {
@@ -17,13 +17,13 @@ namespace app::input {
 
 		if (xOffset != 0.0) {
 			for (int8_t xEvents = 0; xEvents != m_nrEventsX; ++xEvents)
-				m_eventHandler.push(new event::MouseMove{event::MouseMove::xAxis, xOffset, x});
+				m_eventNotifier.notify(event::MouseMove{event::MouseMove::xAxis, xOffset, x});
 			m_lastX = x;
 		}
 		
 		if (yOffset != 0.0) {
 			for (int8_t yEvents = 0; yEvents != m_nrEventsY; ++yEvents)
-				m_eventHandler.push(new event::MouseMove{event::MouseMove::yAxis, yOffset, y});
+				m_eventNotifier.notify(event::MouseMove{event::MouseMove::yAxis, yOffset, y});
 			m_lastY = y;
 		}
 	}

@@ -19,10 +19,10 @@ namespace app::input {
 		m_yOffset += yOffset;
 	}
 	
-	Scroll::Scroll(GLFWwindow*& window, event::Handler& eventHandler) :
-		Scroll{window, eventHandler, 0, 0} {}
-	Scroll::Scroll(GLFWwindow*& window, event::Handler& eventHandler, int8_t nrEventsX, int8_t nrEventsY) :
-		m_window{window}, m_eventHandler{eventHandler},
+	Scroll::Scroll(GLFWwindow*& window, stypox::EventNotifier& eventNotifier) :
+		Scroll{window, eventNotifier, 0, 0} {}
+	Scroll::Scroll(GLFWwindow*& window, stypox::EventNotifier& eventNotifier, int8_t nrEventsX, int8_t nrEventsY) :
+		m_window{window}, m_eventNotifier{eventNotifier},
 		m_nrEventsX{nrEventsX}, m_nrEventsY{nrEventsY},
 		m_xOffset{0.0}, m_yOffset{0.0} {
 		activateWindowCallback();
@@ -67,13 +67,13 @@ namespace app::input {
 
 		if (m_xOffset != 0.0) {
 			for (int8_t xEvents = 0; xEvents != m_nrEventsX; ++xEvents)
-				m_eventHandler.push(new event::Scroll{event::Scroll::xAxis, m_xOffset, xCursor, yCursor});
+				m_eventNotifier.notify(event::Scroll{event::Scroll::xAxis, m_xOffset, xCursor, yCursor});
 			m_xOffset = 0.0;
 		}
 
 		if (m_yOffset != 0.0) {
 			for (int8_t yEvents = 0; yEvents != m_nrEventsY; ++yEvents)
-				m_eventHandler.push(new event::Scroll{event::Scroll::yAxis, m_yOffset, xCursor, yCursor});
+				m_eventNotifier.notify(event::Scroll{event::Scroll::yAxis, m_yOffset, xCursor, yCursor});
 			m_yOffset = 0.0;
 		}
 	}

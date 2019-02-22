@@ -11,6 +11,7 @@ MISC := $(SRC)misc/
 CXX = g++
 CXXINCLUDE = \
 	-I$(LIBS_PATH)arg-parser/include \
+	-I$(LIBS_PATH)event-notifier/include \
 	-I$(LIBS_PATH)file-management/include \
 	-I$(LIBS_PATH)glad/include \
 	-I$(LIBS_PATH)gl-abstractions/include \
@@ -25,7 +26,6 @@ EXECUTABLE_NAME := IntoSpaceRemake$(if $(filter $(OS),Windows_NT), .exe,)
 OBJECT_FILES = \
 	$(SRC)main.o \
 	$(APP)application.o $(APP)arguments.o $(APP)debug.o \
-		$(APP)event/event.o $(APP)event/handler.o \
 		$(APP)input/keys.o $(APP)input/scroll.o $(APP)input/mousemove.o \
 	$(GAME)game.o \
 		$(GAME)ent/entity.o $(GAME)ent/item.o $(GAME)ent/cloud.o \
@@ -73,7 +73,7 @@ $(SRC)main.o: $(SRC)main.cpp $(APP)application.o
 	$(CXX) $(CXXFLAGS) -c $(SRC)main.cpp -o $(SRC)main.o
 
 # src/app/
-$(APP)application.h: $(MISC)frequency.h $(APP)event/handler.h $(APP)input/keys.h $(APP)input/mousemove.h $(APP)input/scroll.h $(GAME)game.h
+$(APP)application.h: $(MISC)frequency.h $(APP)input/keys.h $(APP)input/mousemove.h $(APP)input/scroll.h $(GAME)game.h
 $(APP)application.o: $(APP)application.h $(APP)application.cpp $(APP)arguments.h $(APP)debug.h $(REND)renderer.h $(MISC)get_current_monitor.h
 	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp -o $(APP)application.o
 $(APP)arguments.h: $(APP)debug.h
@@ -84,25 +84,19 @@ $(APP)debug.o: $(APP)debug.h $(APP)debug.cpp
 	$(CXX) $(CXXFLAGS) -c $(APP)debug.cpp -o $(APP)debug.o
 
 # src/app/event/
-$(APP)event/event.h:
-$(APP)event/event.o: $(APP)event/event.h $(APP)event/event.cpp
-	$(CXX) $(CXXFLAGS) -c $(APP)event/event.cpp -o $(APP)event/event.o
-$(APP)event/key.h: $(APP)input/key.h $(APP)event/event.h
-$(APP)event/scroll.h: $(APP)event/event.h
-$(APP)event/mousemove.h: $(APP)event/event.h
-$(APP)event/handler.h: $(APP)event/event.h
-$(APP)event/handler.o: $(APP)event/handler.h $(APP)event/handler.cpp
-	$(CXX) $(CXXFLAGS) -c $(APP)event/handler.cpp -o $(APP)event/handler.o
+$(APP)event/key.h: $(APP)input/key.h
+$(APP)event/scroll.h:
+$(APP)event/mousemove.h:
 
 # src/app/input/
 $(APP)input/key.h:
-$(APP)input/keys.h: $(APP)input/key.h $(APP)event/key.h $(APP)event/handler.h
+$(APP)input/keys.h: $(APP)input/key.h $(APP)event/key.h
 $(APP)input/keys.o: $(APP)input/keys.h $(APP)input/keys.cpp
 	$(CXX) $(CXXFLAGS) -c $(APP)input/keys.cpp -o $(APP)input/keys.o
-$(APP)input/scroll.h: $(APP)event/handler.h
+$(APP)input/scroll.h:
 $(APP)input/scroll.o: $(APP)input/scroll.h $(APP)input/scroll.cpp $(APP)event/scroll.h
 	$(CXX) $(CXXFLAGS) -c $(APP)input/scroll.cpp -o $(APP)input/scroll.o
-$(APP)input/mousemove.h: $(APP)event/handler.h
+$(APP)input/mousemove.h:
 $(APP)input/mousemove.o: $(APP)input/mousemove.h $(APP)input/mousemove.cpp $(APP)event/mousemove.h
 	$(CXX) $(CXXFLAGS) -c $(APP)input/mousemove.cpp -o $(APP)input/mousemove.o
 
@@ -125,7 +119,7 @@ $(GAME)ent/cloud.o: $(GAME)ent/cloud.h $(GAME)ent/cloud.cpp $(MISC)random.h
 
 # src/game/ent/mov
 $(GAME)ent/mov/movable.h: $(GAME)ent/entity.h
-$(GAME)ent/mov/rocket.h: $(GAME)ent/mov/movable.h $(GAME)ent/item.h $(GAME)ent/cloud.h $(MISC)acceleration.h $(APP)event/event.h
+$(GAME)ent/mov/rocket.h: $(GAME)ent/mov/movable.h $(GAME)ent/item.h $(GAME)ent/cloud.h $(MISC)acceleration.h
 $(GAME)ent/mov/rocket.o: $(GAME)ent/mov/rocket.h $(GAME)ent/mov/rocket.cpp $(APP)event/key.h
 	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/rocket.cpp -o $(GAME)ent/mov/rocket.o
 

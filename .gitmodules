@@ -13,3 +13,6 @@
 [submodule "libs/arg-parser"]
 	path = libs/arg-parser
 	url = https://github.com/Stypox/arg-parser
+[submodule "libs/event-notifier"]
+	path = libs/event-notifier
+	url = https://github.com/stypox/event-notifier

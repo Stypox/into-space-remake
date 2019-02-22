@@ -144,7 +144,7 @@ namespace app::input {
 		for (auto&& key : m_dataPress) {
 			if (bool keyState = m_keysStatus[key.key]; keyState != key.lastState) {
 				if (keyState)
-					m_eventHandler.push(new event::Key{event::Key::press, key.key});
+					m_eventNotifier.notify(event::Key{event::Key::press, key.key});
 				key.lastState = keyState;
 			}
 		}
@@ -153,7 +153,7 @@ namespace app::input {
 		for (auto&& key : m_dataPressP) {
 			if (bool keyState = m_keysStatus[key.key]; keyState != key.lastState) {
 				if (keyState)
-					m_eventHandler.push(new event::KeyPos{event::Key::press, key.key, m_xCursor, m_yCursor});
+					m_eventNotifier.notify(event::KeyPos{event::Key::press, key.key, m_xCursor, m_yCursor});
 				key.lastState = keyState;
 			}
 		}
@@ -164,7 +164,7 @@ namespace app::input {
 			if (bool keyState = m_keysStatus[key.key]; keyState != key.lastState) {
 				if (keyState) {
 					if (key.lastPressed + m_doublePressDelay > m_time) {
-						m_eventHandler.push(new event::Key{event::Key::doublePress, key.key});
+						m_eventNotifier.notify(event::Key{event::Key::doublePress, key.key});
 						key.lastPressed = -3 * m_doublePressDelay;
 					}
 					else
@@ -179,7 +179,7 @@ namespace app::input {
 			if (bool keyState = m_keysStatus[key.key]; keyState != key.lastState) {
 				if (keyState) {
 					if (key.lastPressed + m_doublePressDelay > m_time) {
-						m_eventHandler.push(new event::KeyPos{event::Key::doublePress, key.key, m_xCursor, m_yCursor});
+						m_eventNotifier.notify(event::KeyPos{event::Key::doublePress, key.key, m_xCursor, m_yCursor});
 						key.lastPressed = -3 * m_doublePressDelay;
 					}
 					else
@@ -194,7 +194,7 @@ namespace app::input {
 		for (auto&& key : m_dataRelease) {
 			if (bool keyState = m_keysStatus[key.key]; keyState != key.lastState) {
 				if (!keyState)
-					m_eventHandler.push(new event::Key{event::Key::release, key.key});
+					m_eventNotifier.notify(event::Key{event::Key::release, key.key});
 				key.lastState = keyState;
 			}
 		}
@@ -203,7 +203,7 @@ namespace app::input {
 		for (auto&& key : m_dataReleaseP) {
 			if (bool keyState = m_keysStatus[key.key]; keyState != key.lastState) {
 				if (!keyState)
-					m_eventHandler.push(new event::KeyPos{event::Key::release, key.key, m_xCursor, m_yCursor});
+					m_eventNotifier.notify(event::KeyPos{event::Key::release, key.key, m_xCursor, m_yCursor});
 				key.lastState = keyState;
 			}
 		}
@@ -217,7 +217,7 @@ namespace app::input {
 					key.lastAction = m_time;
 			}
 			if (key.lastState && key.lastAction + key.delayAfterAction < m_time) {
-				m_eventHandler.push(new event::KeyLong{event::KeyLong::press, key.key, key.delayAfterAction, key.delayInBetween});
+				m_eventNotifier.notify(event::KeyLong{event::KeyLong::press, key.key, key.delayAfterAction, key.delayInBetween});
 				key.lastAction += key.delayInBetween;
 			}
 		}
@@ -230,7 +230,7 @@ namespace app::input {
 					key.lastAction = m_time;
 			}
 			if (key.lastState && key.lastAction + key.delayAfterAction < m_time) {
-				m_eventHandler.push(new event::KeyPosLong{event::KeyLong::press, key.key, m_xCursor, m_yCursor, key.delayAfterAction, key.delayInBetween});
+				m_eventNotifier.notify(event::KeyPosLong{event::KeyLong::press, key.key, m_xCursor, m_yCursor, key.delayAfterAction, key.delayInBetween});
 				key.lastAction += key.delayInBetween;
 			}
 		}
@@ -244,7 +244,7 @@ namespace app::input {
 					key.lastAction = m_time;
 			}
 			if (!key.lastState && key.lastAction + key.delayAfterAction < m_time) {
-				m_eventHandler.push(new event::KeyLong{event::KeyLong::release, key.key, key.delayAfterAction, key.delayInBetween});
+				m_eventNotifier.notify(event::KeyLong{event::KeyLong::release, key.key, key.delayAfterAction, key.delayInBetween});
 				key.lastAction += key.delayInBetween;
 			}
 		}
@@ -257,20 +257,20 @@ namespace app::input {
 					key.lastAction = m_time;
 			}
 			if (!key.lastState && key.lastAction + key.delayAfterAction < m_time) {
-				m_eventHandler.push(new event::KeyPosLong{event::KeyLong::release, key.key, m_xCursor, m_yCursor, key.delayAfterAction, key.delayInBetween});
+				m_eventNotifier.notify(event::KeyPosLong{event::KeyLong::release, key.key, m_xCursor, m_yCursor, key.delayAfterAction, key.delayInBetween});
 				key.lastAction += key.delayInBetween;
 			}
 		}
 	}
 
 
-	Keys::Keys(GLFWwindow*& window, event::Handler& eventHandler, float doublePressDelay) :
-		m_window{window}, m_eventHandler{eventHandler},
+	Keys::Keys(GLFWwindow*& window, stypox::EventNotifier& eventNotifier, float doublePressDelay) :
+		m_window{window}, m_eventNotifier{eventNotifier},
 		m_doublePressDelay{doublePressDelay}, m_keysStatus{false} {}
-	Keys::Keys(GLFWwindow*& window, event::Handler& eventHandler, float doublePressDelay,
+	Keys::Keys(GLFWwindow*& window, stypox::EventNotifier& eventNotifier, float doublePressDelay,
 		initializer_list<tuple<event::Key::Type, Key, bool>> listeners,
 		initializer_list<tuple<event::KeyLong::Type, Key, bool, float, float>> longListeners) :
-		m_window{window}, m_eventHandler{eventHandler},
+		m_window{window}, m_eventNotifier{eventNotifier},
 		m_doublePressDelay{doublePressDelay}, m_keysStatus{false} {
 		for (auto&& listener : listeners)
 			addListener(get<0>(listener), get<1>(listener), get<2>(listener));

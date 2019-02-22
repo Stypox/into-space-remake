@@ -4,6 +4,7 @@
 
 #include "../app/event/key.h"
 #include "../app/debug.h"
+#include "../app/application.h"
 
 namespace game {
 	void Game::update(float deltaTime, float timeNow) {
@@ -12,20 +13,10 @@ namespace game {
 
 	Game::Game() :
 		m_world{}, m_deltaClock{},
-		m_paused{false} {}
-
-	bool Game::process(const std::shared_ptr<app::event::Event>& event) {
-		if (event->type == app::event::Event::key) {
-			switch (app::event::Key* keyEvent = static_cast<app::event::Key*>(event.get()); keyEvent->key) {
-			case app::input::kb_escape:
-				togglePause();
-				return true;
-			default:
-				break;
-			}
-		}
-		return m_world.process(event);
+		m_paused{false} {
+		app::Application::eventNotifier.connect_member(*this, &Game::togglePause, app::event::Key{app::event::Key::press, app::input::kb_escape});
 	}
+
 	void Game::update() {
 		static float totalTime = 0.0f;
 

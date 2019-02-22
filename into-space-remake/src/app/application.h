@@ -3,9 +3,9 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <stypox/event_notifier.h>
 
 #include "../misc/frequency.h"
-#include "event/handler.h"
 #include "input/keys.h"
 #include "input/mousemove.h"
 #include "input/scroll.h"
@@ -15,11 +15,14 @@ namespace app {
 	constexpr const char * windowTitle = "Into Space! remake";
 
 	class Application {
+	public:
+		static stypox::EventNotifier eventNotifier;
+
+	private:
 		static GLFWwindow* m_window;
 
 		static misc::FrequencyNr m_framerate;
 
-		static event::Handler m_eventHandler;
 		static input::Keys m_keysInput;
 		static input::MouseMove m_mouseMoveInput;
 		static input::Scroll m_scrollInput;
@@ -34,8 +37,9 @@ namespace app {
 
 		static void loop();
 		static void updateInput();
-		static bool process(const std::shared_ptr<event::Event>& event);
-		static void delegateEvents();
+		static bool processKey(const event::Key key);
+
+		static void toggleFullscreen();
 		static void updateFullscreen();
 
 		static void terminate();

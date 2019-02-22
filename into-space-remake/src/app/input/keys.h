@@ -4,10 +4,10 @@
 #include <vector>
 #include <tuple>
 #include <GLFW/glfw3.h>
+#include <stypox/event_notifier.h>
 
 #include "key.h"
 #include "../event/key.h"
-#include "../event/handler.h"
 
 namespace app::input {
 	class Keys {
@@ -40,7 +40,7 @@ namespace app::input {
 		};
 
 		GLFWwindow*& m_window;
-		event::Handler& m_eventHandler;
+		stypox::EventNotifier& m_eventNotifier;
 		float m_doublePressDelay;
 
 		bool m_keysStatus[Key::last + 1];
@@ -74,8 +74,8 @@ namespace app::input {
 		void updateLongPress();
 		void updateLongRelease();
 	public:
-		Keys(GLFWwindow*& window, event::Handler& eventHandler, float doublePressDelay);
-		Keys(GLFWwindow*& window, event::Handler& eventHandler, float doublePressDelay,
+		Keys(GLFWwindow*& window, stypox::EventNotifier& eventNotifier, float doublePressDelay);
+		Keys(GLFWwindow*& window, stypox::EventNotifier& eventNotifier, float doublePressDelay,
 			std::initializer_list<std::tuple<event::Key::Type, Key, bool>> listeners, // see addListener() with 3 arguments
 			std::initializer_list<std::tuple<event::KeyLong::Type, Key, bool, float, float>> longListeners); // see addListener() with 5 arguments
 
