@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <math.h>
+#include <stypox/event_notifier.h>
 
 #include "movable.h"
 #include "../item.h"
@@ -29,6 +30,8 @@ namespace game::ent::mov {
 		float m_fuel;
 		int m_collectedMoney;
 		float m_integrity;
+
+		std::array<stypox::EventNotifier::Handler, 4> m_keyboardFunctionHandlers;
 		
 		void pickUp(const Item& item);
 		void updateRotation(float deltaTime);

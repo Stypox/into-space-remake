@@ -1,6 +1,8 @@
 #ifndef _INTO_SPACE_REMAKE_GAME_GAME_H_
 #define _INTO_SPACE_REMAKE_GAME_GAME_H_
 
+#include <stypox/event_notifier.h>
+
 #include "world/world.h"
 #include "../misc/clock.h"
 
@@ -13,6 +15,8 @@ namespace game {
 
 		misc::Chronometer<> m_deltaClock;
 		bool m_paused;
+
+		stypox::EventNotifier::Handler m_pauseFunctionHandler;
 
 		void update(float deltaTime, float timeNow);
 

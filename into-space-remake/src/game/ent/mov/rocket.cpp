@@ -79,27 +79,27 @@ namespace game::ent::mov {
 		m_integrity -= velocity * velocity * 0.1f;
 	}
 
+	using namespace app;
 	Rocket::Rocket() :
 		RectangleRender{rend::RectangleRenderData{0.0f, groundLevel, width, height, 0.0f, 0.0f, 0.2f}}, m_vx{0.0f},
 		m_vy{0.0f}, m_engine{/*TODO*/10.2f, 0.5f * M_PI},
 		m_gravity{g, 1.5 * M_PI}, m_rotationVelocity{0.0f},
 		m_fuel{/*TODO*/10.0f}, m_collectedMoney{/*TODO*/0},
-		m_integrity{/*TODO*/0.0f} {
+		m_integrity{/*TODO*/0.0f}, m_keyboardFunctionHandlers{
+			Application::eventNotifier.connect_member(m_engine, &misc::Acceleration::activate,
+				Key{Key::press,   input::kb_w}, Key{Key::press,   input::kb_up}),
+			Application::eventNotifier.connect_member(m_engine, &misc::Acceleration::deactivate,
+				Key{Key::release, input::kb_w}, Key{Key::release, input::kb_up},
+				Key{Key::press,   input::kb_s}, Key{Key::press,   input::kb_down}),
+			Application::eventNotifier.connect([this](){ m_rotationVelocity += defaultRotationVelocity; },
+				Key{Key::press,   input::kb_a}, Key{Key::press,   input::kb_left},
+				Key{Key::release, input::kb_d}, Key{Key::release, input::kb_right}),
+			Application::eventNotifier.connect([this](){ m_rotationVelocity -= defaultRotationVelocity; },
+				Key{Key::release, input::kb_a}, Key{Key::release, input::kb_left},
+				Key{Key::press,   input::kb_d}, Key{Key::press,   input::kb_right}),
+		} {
 		m_engine.deactivate();
 		m_gravity.deactivate();
-
-		using namespace app;
-		Application::eventNotifier.connect_member(m_engine, &misc::Acceleration::activate,
-			Key{Key::press,   input::kb_w}, Key{Key::press,   input::kb_up});
-		Application::eventNotifier.connect_member(m_engine, &misc::Acceleration::deactivate,
-			Key{Key::release, input::kb_w}, Key{Key::release, input::kb_up},
-			Key{Key::press,   input::kb_s}, Key{Key::press,   input::kb_down});
-		Application::eventNotifier.connect([this](){ m_rotationVelocity += defaultRotationVelocity; },
-			Key{Key::press,   input::kb_a}, Key{Key::press,   input::kb_left},
-			Key{Key::release, input::kb_d}, Key{Key::release, input::kb_right});
-		Application::eventNotifier.connect([this](){ m_rotationVelocity -= defaultRotationVelocity; },
-			Key{Key::release, input::kb_a}, Key{Key::release, input::kb_left},
-			Key{Key::press,   input::kb_d}, Key{Key::press,   input::kb_right});
 	}
 
 	void Rocket::updatePosition(float deltaTime) {

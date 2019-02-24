@@ -13,9 +13,10 @@ namespace game {
 
 	Game::Game() :
 		m_world{}, m_deltaClock{},
-		m_paused{false} {
-		app::Application::eventNotifier.connect_member(*this, &Game::togglePause, app::event::Key{app::event::Key::press, app::input::kb_escape});
-	}
+		m_paused{false}, m_pauseFunctionHandler{
+			app::Application::eventNotifier.connect_member(*this, &Game::togglePause,
+				app::event::Key{app::event::Key::press, app::input::kb_escape})
+		} {}
 
 	void Game::update() {
 		static float totalTime = 0.0f;

@@ -86,7 +86,7 @@ namespace app {
 		}
 	}
 	void Application::initInput() {
-		eventNotifier.connect(Application::toggleFullscreen, event::Key{event::Key::press, input::kb_f11});
+		eventNotifier.connect(Application::toggleFullscreen, event::Key{event::Key::press, input::kb_f11}).keep();
 
 		if (Arguments::wasd) {
 			m_keysInput.addListener(event::Key::press,   input::kb_w,     false);
