@@ -1,7 +1,7 @@
-#ifndef _INTO_SPACE_REMAKE_APP_EVENT_KEYBOARD_H_
-#define _INTO_SPACE_REMAKE_APP_EVENT_KEYBOARD_H_
+#ifndef _INTO_SPACE_REMAKE_APP_EVENT_KEYBOARD_HPP_
+#define _INTO_SPACE_REMAKE_APP_EVENT_KEYBOARD_HPP_
 
-#include "../input/key.h"
+#include "../input/key.hpp"
 
 namespace app::event {
 	struct Key {

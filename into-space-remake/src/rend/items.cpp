@@ -1,9 +1,9 @@
-#include "items.h"
+#include "items.hpp"
 
-#include "shared.h"
-#include "renderer.h"
-#include "../app/arguments.h"
-#include "../game/ent/item.h"
+#include "shared.hpp"
+#include "renderer.hpp"
+#include "../app/arguments.hpp"
+#include "../game/ent/item.hpp"
 
 namespace rend {
 	using namespace stypox::gl;

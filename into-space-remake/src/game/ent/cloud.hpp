@@ -1,8 +1,8 @@
-#ifndef _INTO_SPACE_REMAKE_GAME_ENT_CLOUD_H_
-#define _INTO_SPACE_REMAKE_GAME_ENT_CLOUD_H_
+#ifndef _INTO_SPACE_REMAKE_GAME_ENT_CLOUD_HPP_
+#define _INTO_SPACE_REMAKE_GAME_ENT_CLOUD_HPP_
 
-#include "entity.h"
-#include "../../rend/rectangles.h"
+#include "entity.hpp"
+#include "../../rend/rectangles.hpp"
 
 namespace game::ent {
 	namespace mov { class Rocket; }

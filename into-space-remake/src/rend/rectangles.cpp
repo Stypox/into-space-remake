@@ -1,8 +1,8 @@
-#include "rectangles.h"
+#include "rectangles.hpp"
 
-#include "shared.h"
-#include "renderer.h"
-#include "../app/arguments.h"
+#include "shared.hpp"
+#include "renderer.hpp"
+#include "../app/arguments.hpp"
 
 namespace rend {
 	using namespace stypox::gl;

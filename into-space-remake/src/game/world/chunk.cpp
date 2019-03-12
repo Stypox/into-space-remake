@@ -1,7 +1,7 @@
-#include "chunk.h"
+#include "chunk.hpp"
 
-#include "../../misc/random.h"
-#include "../../app/arguments.h"
+#include "../../misc/random.hpp"
+#include "../../app/arguments.hpp"
 
 using namespace misc;
 

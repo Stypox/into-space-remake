@@ -1,6 +1,6 @@
-#include "mousemove.h"
+#include "mousemove.hpp"
 
-#include "../event/mousemove.h"
+#include "../event/mousemove.hpp"
 
 namespace app::input {
 	MouseMove::MouseMove(GLFWwindow*& window, stypox::EventNotifier& eventNotifier) :

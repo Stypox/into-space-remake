@@ -1,4 +1,4 @@
-#include "acceleration.h"
+#include "acceleration.hpp"
 
 #include <math.h>
 

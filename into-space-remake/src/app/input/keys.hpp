@@ -1,13 +1,13 @@
-#ifndef _INTO_SPACE_REMAKE_APP_INPUT_KEYS_H_
-#define _INTO_SPACE_REMAKE_APP_INPUT_KEYS_H_
+#ifndef _INTO_SPACE_REMAKE_APP_INPUT_KEYS_HPP_
+#define _INTO_SPACE_REMAKE_APP_INPUT_KEYS_HPP_
 
 #include <vector>
 #include <tuple>
 #include <GLFW/glfw3.h>
-#include <stypox/event_notifier.h>
+#include <stypox/event_notifier.hpp>
 
-#include "key.h"
-#include "../event/key.h"
+#include "key.hpp"
+#include "../event/key.hpp"
 
 namespace app::input {
 	class Keys {

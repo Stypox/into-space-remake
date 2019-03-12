@@ -1,8 +1,8 @@
-#ifndef _INTO_SPACE_REMAKE_APP_INPUT_MOUSE_H_
-#define _INTO_SPACE_REMAKE_APP_INPUT_MOUSE_H_
+#ifndef _INTO_SPACE_REMAKE_APP_INPUT_MOUSE_HPP_
+#define _INTO_SPACE_REMAKE_APP_INPUT_MOUSE_HPP_
 
 #include <GLFW/glfw3.h>
-#include <stypox/event_notifier.h>
+#include <stypox/event_notifier.hpp>
 
 namespace app::input {
 	class Scroll {

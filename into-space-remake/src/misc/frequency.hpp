@@ -1,9 +1,9 @@
-#ifndef _INTO_SPACE_REMAKE_MISC_FREQUENCY_H_
-#define _INTO_SPACE_REMAKE_MISC_FREQUENCY_H_
+#ifndef _INTO_SPACE_REMAKE_MISC_FREQUENCY_HPP_
+#define _INTO_SPACE_REMAKE_MISC_FREQUENCY_HPP_
 
 #include <vector>
 
-#include "clock.h"
+#include "clock.hpp"
 
 namespace misc {
 	class FrequencyNr {

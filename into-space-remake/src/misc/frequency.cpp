@@ -1,4 +1,4 @@
-#include "frequency.h"
+#include "frequency.hpp"
 
 #include <algorithm>
 

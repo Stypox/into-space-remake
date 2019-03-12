@@ -1,15 +1,15 @@
-#ifndef _INTO_SPACE_REMAKE_GAME_ENT_MOV_ROCKET_H_
-#define _INTO_SPACE_REMAKE_GAME_ENT_MOV_ROCKET_H_
+#ifndef _INTO_SPACE_REMAKE_GAME_ENT_MOV_ROCKET_HPP_
+#define _INTO_SPACE_REMAKE_GAME_ENT_MOV_ROCKET_HPP_
 
 #include <vector>
 #include <memory>
 #include <math.h>
-#include <stypox/event_notifier.h>
+#include <stypox/event_notifier.hpp>
 
-#include "movable.h"
-#include "../item.h"
-#include "../cloud.h"
-#include "../../../misc/acceleration.h"
+#include "movable.hpp"
+#include "../item.hpp"
+#include "../cloud.hpp"
+#include "../../../misc/acceleration.hpp"
 
 namespace game::ent::mov {
 	class Rocket : public Movable, public rend::RectangleRender {

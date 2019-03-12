@@ -1,9 +1,9 @@
-#include "scroll.h"
+#include "scroll.hpp"
 
 #include <vector>
 #include <algorithm>
 
-#include "../event/scroll.h"
+#include "../event/scroll.hpp"
 
 namespace app::input {
 	void Scroll::scrollCallback(GLFWwindow* window, double xOffset, double yOffset) {

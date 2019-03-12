@@ -1,8 +1,8 @@
-#ifndef _INTO_SPACE_REMAKE_GAME_ENT_ITEM_H_
-#define _INTO_SPACE_REMAKE_GAME_ENT_ITEM_H_
+#ifndef _INTO_SPACE_REMAKE_GAME_ENT_ITEM_HPP_
+#define _INTO_SPACE_REMAKE_GAME_ENT_ITEM_HPP_
 
-#include "entity.h"
-#include "../../rend/items.h"
+#include "entity.hpp"
+#include "../../rend/items.hpp"
 
 namespace game::ent {
 	class Item : public Entity, public rend::ItemRender {

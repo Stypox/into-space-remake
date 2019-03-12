@@ -1,10 +1,10 @@
-#ifndef _INTO_SPACE_REMAKE_GAME_WORLD_WORLD_H_
-#define _INTO_SPACE_REMAKE_GAME_WORLD_WORLD_H_
+#ifndef _INTO_SPACE_REMAKE_GAME_WORLD_WORLD_HPP_
+#define _INTO_SPACE_REMAKE_GAME_WORLD_WORLD_HPP_
 
 #include <vector>
 
-#include "chunk.h"
-#include "../ent/mov/rocket.h"
+#include "chunk.hpp"
+#include "../ent/mov/rocket.hpp"
 
 namespace game::world {
 	class World {

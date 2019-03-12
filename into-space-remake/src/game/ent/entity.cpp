@@ -1,4 +1,4 @@
-#include "entity.h"
+#include "entity.hpp"
 
 #include <math.h>
 

@@ -1,10 +1,10 @@
-#include "game.h"
+#include "game.hpp"
 
 #include <GLFW/glfw3.h>
 
-#include "../app/event/key.h"
-#include "../app/debug.h"
-#include "../app/application.h"
+#include "../app/event/key.hpp"
+#include "../app/debug.hpp"
+#include "../app/application.hpp"
 
 namespace game {
 	void Game::update(float deltaTime, float timeNow) {

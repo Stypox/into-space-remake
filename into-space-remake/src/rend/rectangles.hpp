@@ -1,13 +1,13 @@
-#ifndef _INTO_SPACE_REMAKE_RENDER_RECTANGLES_H_
-#define _INTO_SPACE_REMAKE_RENDER_RECTANGLES_H_
+#ifndef _INTO_SPACE_REMAKE_RENDER_RECTANGLES_HPP_
+#define _INTO_SPACE_REMAKE_RENDER_RECTANGLES_HPP_
 
 #include <memory>
-#include <stypox/gl/shader.h>
-#include <stypox/gl/texture.h>
-#include <stypox/gl/vao.h>
-#include <stypox/gl/vbo.h>
-#include <stypox/gl/ebo.h>
-#include <stypox/stock_container.h>
+#include <stypox/gl/shader.hpp>
+#include <stypox/gl/texture.hpp>
+#include <stypox/gl/vao.hpp>
+#include <stypox/gl/vbo.hpp>
+#include <stypox/gl/ebo.hpp>
+#include <stypox/stock_container.hpp>
 #include <glm/mat4x4.hpp>
 
 namespace rend {

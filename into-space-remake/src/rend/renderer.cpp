@@ -1,7 +1,7 @@
-#include "renderer.h"
+#include "renderer.hpp"
 
-#include "items.h"
-#include "rectangles.h"
+#include "items.hpp"
+#include "rectangles.hpp"
 
 namespace rend {
 	glm::mat4 Renderer::m_projectionMatrix{1.0f};

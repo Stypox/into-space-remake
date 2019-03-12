@@ -1,7 +1,7 @@
-#ifndef _INTO_SPACE_REMAKE_GAME_ENT_MOV_MOVABLE_H_
-#define _INTO_SPACE_REMAKE_GAME_ENT_MOV_MOVABLE_H_
+#ifndef _INTO_SPACE_REMAKE_GAME_ENT_MOV_MOVABLE_HPP_
+#define _INTO_SPACE_REMAKE_GAME_ENT_MOV_MOVABLE_HPP_
 
-#include "../entity.h"
+#include "../entity.hpp"
 
 namespace game::ent::mov {
 	class Movable : public Entity {

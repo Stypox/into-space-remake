@@ -73,89 +73,89 @@ $(SRC)main.o: $(SRC)main.cpp $(APP)application.o
 	$(CXX) $(CXXFLAGS) -c $(SRC)main.cpp -o $(SRC)main.o
 
 # src/app/
-$(APP)application.h: $(MISC)frequency.h $(APP)input/keys.h $(APP)input/mousemove.h $(APP)input/scroll.h $(GAME)game.h
-$(APP)application.o: $(APP)application.h $(APP)application.cpp $(APP)arguments.h $(APP)debug.h $(REND)renderer.h $(MISC)get_current_monitor.h
+$(APP)application.hpp: $(MISC)frequency.hpp $(APP)input/keys.hpp $(APP)input/mousemove.hpp $(APP)input/scroll.hpp $(GAME)game.hpp
+$(APP)application.o: $(APP)application.hpp $(APP)application.cpp $(APP)arguments.hpp $(APP)debug.hpp $(REND)renderer.hpp $(MISC)get_current_monitor.hpp
 	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp -o $(APP)application.o
-$(APP)arguments.h: $(APP)debug.h
-$(APP)arguments.o: $(APP)arguments.h $(APP)arguments.cpp
+$(APP)arguments.hpp: $(APP)debug.hpp
+$(APP)arguments.o: $(APP)arguments.hpp $(APP)arguments.cpp
 	$(CXX) $(CXXFLAGS) -c $(APP)arguments.cpp -o $(APP)arguments.o
-$(APP)debug.h: $(APP)arguments.h
-$(APP)debug.o: $(APP)debug.h $(APP)debug.cpp
+$(APP)debug.hpp: $(APP)arguments.hpp
+$(APP)debug.o: $(APP)debug.hpp $(APP)debug.cpp
 	$(CXX) $(CXXFLAGS) -c $(APP)debug.cpp -o $(APP)debug.o
 
 # src/app/event/
-$(APP)event/key.h: $(APP)input/key.h
-$(APP)event/scroll.h:
-$(APP)event/mousemove.h:
+$(APP)event/key.hpp: $(APP)input/key.hpp
+$(APP)event/scroll.hpp:
+$(APP)event/mousemove.hpp:
 
 # src/app/input/
-$(APP)input/key.h:
-$(APP)input/keys.h: $(APP)input/key.h $(APP)event/key.h
-$(APP)input/keys.o: $(APP)input/keys.h $(APP)input/keys.cpp
+$(APP)input/key.hpp:
+$(APP)input/keys.hpp: $(APP)input/key.hpp $(APP)event/key.hpp
+$(APP)input/keys.o: $(APP)input/keys.hpp $(APP)input/keys.cpp
 	$(CXX) $(CXXFLAGS) -c $(APP)input/keys.cpp -o $(APP)input/keys.o
-$(APP)input/scroll.h:
-$(APP)input/scroll.o: $(APP)input/scroll.h $(APP)input/scroll.cpp $(APP)event/scroll.h
+$(APP)input/scroll.hpp:
+$(APP)input/scroll.o: $(APP)input/scroll.hpp $(APP)input/scroll.cpp $(APP)event/scroll.hpp
 	$(CXX) $(CXXFLAGS) -c $(APP)input/scroll.cpp -o $(APP)input/scroll.o
-$(APP)input/mousemove.h:
-$(APP)input/mousemove.o: $(APP)input/mousemove.h $(APP)input/mousemove.cpp $(APP)event/mousemove.h
+$(APP)input/mousemove.hpp:
+$(APP)input/mousemove.o: $(APP)input/mousemove.hpp $(APP)input/mousemove.cpp $(APP)event/mousemove.hpp
 	$(CXX) $(CXXFLAGS) -c $(APP)input/mousemove.cpp -o $(APP)input/mousemove.o
 
 # src/game
-$(GAME)game.h: $(GAME)world/world.h $(MISC)clock.h
-$(GAME)game.o: $(GAME)game.h $(GAME)game.cpp $(APP)event/key.h $(APP)debug.h 
+$(GAME)game.hpp: $(GAME)world/world.hpp $(MISC)clock.hpp
+$(GAME)game.o: $(GAME)game.hpp $(GAME)game.cpp $(APP)event/key.hpp $(APP)debug.hpp 
 	$(CXX) $(CXXFLAGS) -c $(GAME)game.cpp -o $(GAME)game.o
-$(GAME)entitiescontainer.h: $(GAME)ent/item.h $(GAME)ent/mov/rocket.h $(GAME)ent/cloud.h
+$(GAME)entitiescontainer.hpp: $(GAME)ent/item.hpp $(GAME)ent/mov/rocket.hpp $(GAME)ent/cloud.hpp
 
 # src/game/ent
-$(GAME)ent/entity.h:
-$(GAME)ent/entity.o: $(GAME)ent/entity.h $(GAME)ent/entity.cpp
+$(GAME)ent/entity.hpp:
+$(GAME)ent/entity.o: $(GAME)ent/entity.hpp $(GAME)ent/entity.cpp
 	$(CXX) $(CXXFLAGS) -c $(GAME)ent/entity.cpp -o $(GAME)ent/entity.o
-$(GAME)ent/item.h: $(GAME)ent/entity.h $(REND)items.h
-$(GAME)ent/item.o: $(GAME)ent/item.h $(GAME)ent/item.cpp
+$(GAME)ent/item.hpp: $(GAME)ent/entity.hpp $(REND)items.hpp
+$(GAME)ent/item.o: $(GAME)ent/item.hpp $(GAME)ent/item.cpp
 	$(CXX) $(CXXFLAGS) -c $(GAME)ent/item.cpp -o $(GAME)ent/item.o
-$(GAME)ent/cloud.h: $(GAME)ent/entity.h $(REND)rectangles.h
-$(GAME)ent/cloud.o: $(GAME)ent/cloud.h $(GAME)ent/cloud.cpp $(MISC)random.h
+$(GAME)ent/cloud.hpp: $(GAME)ent/entity.hpp $(REND)rectangles.hpp
+$(GAME)ent/cloud.o: $(GAME)ent/cloud.hpp $(GAME)ent/cloud.cpp $(MISC)random.hpp
 	$(CXX) $(CXXFLAGS) -c $(GAME)ent/cloud.cpp -o $(GAME)ent/cloud.o
 
 # src/game/ent/mov
-$(GAME)ent/mov/movable.h: $(GAME)ent/entity.h
-$(GAME)ent/mov/rocket.h: $(GAME)ent/mov/movable.h $(GAME)ent/item.h $(GAME)ent/cloud.h $(MISC)acceleration.h
-$(GAME)ent/mov/rocket.o: $(GAME)ent/mov/rocket.h $(GAME)ent/mov/rocket.cpp $(APP)event/key.h
+$(GAME)ent/mov/movable.hpp: $(GAME)ent/entity.hpp
+$(GAME)ent/mov/rocket.hpp: $(GAME)ent/mov/movable.hpp $(GAME)ent/item.hpp $(GAME)ent/cloud.hpp $(MISC)acceleration.hpp
+$(GAME)ent/mov/rocket.o: $(GAME)ent/mov/rocket.hpp $(GAME)ent/mov/rocket.cpp $(APP)event/key.hpp
 	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/rocket.cpp -o $(GAME)ent/mov/rocket.o
 
 # src/game/world
-$(GAME)world/chunk.h:
-$(GAME)world/chunk.o: $(GAME)world/chunk.h $(GAME)world/chunk.cpp $(MISC)random.h $(APP)arguments.h
+$(GAME)world/chunk.hpp:
+$(GAME)world/chunk.o: $(GAME)world/chunk.hpp $(GAME)world/chunk.cpp $(MISC)random.hpp $(APP)arguments.hpp
 	$(CXX) $(CXXFLAGS) -c $(GAME)world/chunk.cpp -o $(GAME)world/chunk.o
-$(GAME)world/world.h: $(GAME)world/chunk.h $(GAME)ent/mov/rocket.h
-$(GAME)world/world.o: $(GAME)world/world.h $(GAME)world/world.cpp
+$(GAME)world/world.hpp: $(GAME)world/chunk.hpp $(GAME)ent/mov/rocket.hpp
+$(GAME)world/world.o: $(GAME)world/world.hpp $(GAME)world/world.cpp
 	$(CXX) $(CXXFLAGS) -c $(GAME)world/world.cpp -o $(GAME)world/world.o
 
 # src/rend
-$(REND)shared.h:
-$(REND)renderer.h:
-$(REND)renderer.o: $(REND)renderer.h $(REND)renderer.cpp $(REND)items.h $(REND)rectangles.h
+$(REND)shared.hpp:
+$(REND)renderer.hpp:
+$(REND)renderer.o: $(REND)renderer.hpp $(REND)renderer.cpp $(REND)items.hpp $(REND)rectangles.hpp
 	$(CXX) $(CXXFLAGS) -c $(REND)renderer.cpp -o $(REND)renderer.o
-$(REND)items.h:
-$(REND)items.o: $(REND)items.h $(REND)items.cpp $(REND)shared.h $(REND)renderer.h $(APP)arguments.h $(GAME)ent/item.h
+$(REND)items.hpp:
+$(REND)items.o: $(REND)items.hpp $(REND)items.cpp $(REND)shared.hpp $(REND)renderer.hpp $(APP)arguments.hpp $(GAME)ent/item.hpp
 	$(CXX) $(CXXFLAGS) -c $(REND)items.cpp -o $(REND)items.o
-$(REND)rectangles.h:
-$(REND)rectangles.o: $(REND)rectangles.h $(REND)rectangles.cpp $(REND)shared.h $(REND)renderer.h $(APP)arguments.h
+$(REND)rectangles.hpp:
+$(REND)rectangles.o: $(REND)rectangles.hpp $(REND)rectangles.cpp $(REND)shared.hpp $(REND)renderer.hpp $(APP)arguments.hpp
 	$(CXX) $(CXXFLAGS) -c $(REND)rectangles.cpp -o $(REND)rectangles.o
 
 # src/misc
-$(MISC)random.h:
-$(MISC)random.o: $(MISC)random.h $(MISC)random.cpp
+$(MISC)random.hpp:
+$(MISC)random.o: $(MISC)random.hpp $(MISC)random.cpp
 	$(CXX) $(CXXFLAGS) -c $(MISC)random.cpp -o $(MISC)random.o
-$(MISC)clock.h:
-$(MISC)frequency.h: $(MISC)clock.h
-$(MISC)frequency.o: $(MISC)frequency.h $(MISC)frequency.cpp
+$(MISC)clock.hpp:
+$(MISC)frequency.hpp: $(MISC)clock.hpp
+$(MISC)frequency.o: $(MISC)frequency.hpp $(MISC)frequency.cpp
 	$(CXX) $(CXXFLAGS) -c $(MISC)frequency.cpp -o $(MISC)frequency.o
-$(MISC)acceleration.h:
-$(MISC)acceleration.o: $(MISC)acceleration.h $(MISC)acceleration.cpp
+$(MISC)acceleration.hpp:
+$(MISC)acceleration.o: $(MISC)acceleration.hpp $(MISC)acceleration.cpp
 	$(CXX) $(CXXFLAGS) -c $(MISC)acceleration.cpp -o $(MISC)acceleration.o
-$(MISC)get_current_monitor.h:
-$(MISC)get_current_monitor.o: $(MISC)get_current_monitor.h $(MISC)get_current_monitor.cpp
+$(MISC)get_current_monitor.hpp:
+$(MISC)get_current_monitor.o: $(MISC)get_current_monitor.hpp $(MISC)get_current_monitor.cpp
 	$(CXX) $(CXXFLAGS) -c $(MISC)get_current_monitor.cpp -o $(MISC)get_current_monitor.o
 
 

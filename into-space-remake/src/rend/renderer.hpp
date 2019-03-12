@@ -1,5 +1,5 @@
-#ifndef _INTO_SPACE_REMAKE_RENDER_RENDERER_H_
-#define _INTO_SPACE_REMAKE_RENDER_RENDERER_H_
+#ifndef _INTO_SPACE_REMAKE_RENDER_RENDERER_HPP_
+#define _INTO_SPACE_REMAKE_RENDER_RENDERER_HPP_
 
 #include <glad/glad.h>
 #include <glm/mat4x4.hpp>

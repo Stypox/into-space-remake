@@ -1,15 +1,15 @@
-#ifndef _INTO_SPACE_REMAKE_APP_APPLICATION_H_
-#define _INTO_SPACE_REMAKE_APP_APPLICATION_H_
+#ifndef _INTO_SPACE_REMAKE_APP_APPLICATION_HPP_
+#define _INTO_SPACE_REMAKE_APP_APPLICATION_HPP_
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <stypox/event_notifier.h>
+#include <stypox/event_notifier.hpp>
 
-#include "../misc/frequency.h"
-#include "input/keys.h"
-#include "input/mousemove.h"
-#include "input/scroll.h"
-#include "../game/game.h"
+#include "../misc/frequency.hpp"
+#include "input/keys.hpp"
+#include "input/mousemove.hpp"
+#include "input/scroll.hpp"
+#include "../game/game.hpp"
 
 namespace app {
 	constexpr const char * windowTitle = "Into Space! remake";

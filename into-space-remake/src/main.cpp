@@ -1,8 +1,8 @@
 #include <iostream>
-#include <stypox/gl/texture.h>
+#include <stypox/gl/texture.hpp>
 
-#include "app/application.h"
-#include "app/arguments.h"
+#include "app/application.hpp"
+#include "app/arguments.hpp"
 
 int main(int argc, char const* argv[]) {
 	//settings

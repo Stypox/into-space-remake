@@ -1,11 +1,11 @@
-#include "rocket.h"
+#include "rocket.hpp"
 
 #include <GLFW/glfw3.h>
 #include <math.h>
 #include <imgui.h>
 
-#include "../../../app/event/key.h"
-#include "../../../app/application.h"
+#include "../../../app/event/key.hpp"
+#include "../../../app/application.hpp"
 
 namespace game::ent::mov {
 	using namespace app::event;

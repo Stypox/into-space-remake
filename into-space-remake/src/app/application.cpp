@@ -1,4 +1,4 @@
-#include "application.h"
+#include "application.hpp"
 
 #include <string>
 #include <iostream>
@@ -6,10 +6,10 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
-#include "arguments.h"
-#include "debug.h"
-#include "../rend/renderer.h"
-#include "../misc/get_current_monitor.h"
+#include "arguments.hpp"
+#include "debug.hpp"
+#include "../rend/renderer.hpp"
+#include "../misc/get_current_monitor.hpp"
 
 namespace app {
 	GLFWwindow* Application::m_window{nullptr};

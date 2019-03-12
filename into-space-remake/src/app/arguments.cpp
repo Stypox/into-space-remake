@@ -1,6 +1,6 @@
-#include "arguments.h"
+#include "arguments.hpp"
 
-#include <stypox/argparser.h>
+#include <stypox/argparser.hpp>
 
 namespace app {
 	using stypox::ArgParser;

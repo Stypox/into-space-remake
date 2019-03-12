@@ -1,8 +1,8 @@
-#ifndef _INTO_SPACE_REMAKE_GAME_WORLD_CHUNK_H_
-#define _INTO_SPACE_REMAKE_GAME_WORLD_CHUNK_H_
+#ifndef _INTO_SPACE_REMAKE_GAME_WORLD_CHUNK_HPP_
+#define _INTO_SPACE_REMAKE_GAME_WORLD_CHUNK_HPP_
 
-#include "../ent/item.h"
-#include "../ent/cloud.h"
+#include "../ent/item.hpp"
+#include "../ent/cloud.hpp"
 
 namespace game::world {
 	class Chunk {

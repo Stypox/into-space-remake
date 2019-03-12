@@ -1,6 +1,6 @@
-#include "cloud.h"
+#include "cloud.hpp"
 
-#include "../../misc/random.h"
+#include "../../misc/random.hpp"
 
 namespace game::ent {
 	Cloud::Cloud(float x, float y) :

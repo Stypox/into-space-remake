@@ -1,10 +1,10 @@
-#ifndef _INTO_SPACE_REMAKE_GAME_GAME_H_
-#define _INTO_SPACE_REMAKE_GAME_GAME_H_
+#ifndef _INTO_SPACE_REMAKE_GAME_GAME_HPP_
+#define _INTO_SPACE_REMAKE_GAME_GAME_HPP_
 
-#include <stypox/event_notifier.h>
+#include <stypox/event_notifier.hpp>
 
-#include "world/world.h"
-#include "../misc/clock.h"
+#include "world/world.hpp"
+#include "../misc/clock.hpp"
 
 namespace game {
 	class Game {

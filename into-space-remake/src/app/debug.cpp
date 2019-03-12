@@ -1,8 +1,8 @@
-#include "debug.h"
+#include "debug.hpp"
 
 #include <iostream>
 
-#include "arguments.h"
+#include "arguments.hpp"
 
 namespace app {
 	void debug(Gravity gravity, std::string source, std::string message) {

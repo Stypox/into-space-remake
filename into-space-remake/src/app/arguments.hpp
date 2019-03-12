@@ -1,10 +1,10 @@
-#ifndef _INTO_SPACE_REMAKE_APP_ARGUMENTS_H_
-#define _INTO_SPACE_REMAKE_APP_ARGUMENTS_H_
+#ifndef _INTO_SPACE_REMAKE_APP_ARGUMENTS_HPP_
+#define _INTO_SPACE_REMAKE_APP_ARGUMENTS_HPP_
 
 #include <string>
 #include <filesystem>
 
-#include "debug.h"
+#include "debug.hpp"
 
 namespace app {
 	struct Arguments {

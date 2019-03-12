@@ -1,5 +1,5 @@
-#ifndef _INTO_SPACE_REMAKE_APP_INPUT_KEY_H_
-#define _INTO_SPACE_REMAKE_APP_INPUT_KEY_H_
+#ifndef _INTO_SPACE_REMAKE_APP_INPUT_KEY_HPP_
+#define _INTO_SPACE_REMAKE_APP_INPUT_KEY_HPP_
 
 namespace app::input {
 	// kb_ --> keyboard (see https://www.glfw.org/docs/latest/group__keys.html)
