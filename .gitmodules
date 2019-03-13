@@ -16,3 +16,6 @@
 [submodule "libs/event-notifier"]
 	path = libs/event-notifier
 	url = https://github.com/stypox/event-notifier
+[submodule "libs/time-facilities"]
+	path = libs/time-facilities
+	url = https://github.com/Stypox/time-facilities

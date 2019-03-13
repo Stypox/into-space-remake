@@ -16,7 +16,8 @@ CXXINCLUDE = \
 	-I$(LIBS_PATH)glad/include \
 	-I$(LIBS_PATH)gl-abstractions/include \
 	-I$(LIBS_PATH)stock-container/include \
-	-I$(LIBS_PATH)imgui -I$(LIBS_PATH)imgui/examples
+	-I$(LIBS_PATH)imgui -I$(LIBS_PATH)imgui/examples \
+	-I$(LIBS_PATH)time-facilities/include
 CXXFLAGS := -Wall -std=c++17 $(CXXINCLUDE)
 CXXLIBS = -lstdc++fs -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor -lSOIL
 
@@ -32,11 +33,11 @@ OBJECT_FILES = \
 			$(GAME)ent/mov/rocket.o \
 		$(GAME)world/world.o $(GAME)world/chunk.o \
 	$(REND)renderer.o $(REND)items.o $(REND)rectangles.o \
-	$(MISC)random.o $(MISC)frequency.o $(MISC)acceleration.o $(MISC)get_current_monitor.o \
+	$(MISC)random.o $(MISC)acceleration.o $(MISC)get_current_monitor.o \
 	$(LIBS_PATH)glad/src/glad.o \
 	$(LIBS_PATH)imgui/imgui.o $(LIBS_PATH)imgui/imgui_demo.o $(LIBS_PATH)imgui/imgui_draw.o $(LIBS_PATH)imgui/imgui_widgets.o \
 		$(LIBS_PATH)imgui/examples/imgui_impl_glfw.o $(LIBS_PATH)imgui/examples/imgui_impl_opengl3.o
-OBJECT_FILES_GENERATED_BY_LIBS = $(LIBS_PATH)file-management/file_management.o $(LIBS_PATH)gl-abstractions/gl_abstractions.o
+OBJECT_FILES_GENERATED_BY_LIBS = $(LIBS_PATH)file-management/file_management.o $(LIBS_PATH)gl-abstractions/gl_abstractions.o $(LIBS_PATH)time-facilities/time_facilities.o
 
 # Let corresponding Makefiles decide which files should be recompiled, if any. 
 .PHONY: $(OBJECT_FILES_GENERATED_BY_LIBS)
@@ -73,7 +74,7 @@ $(SRC)main.o: $(SRC)main.cpp $(APP)application.o
 	$(CXX) $(CXXFLAGS) -c $(SRC)main.cpp -o $(SRC)main.o
 
 # src/app/
-$(APP)application.hpp: $(MISC)frequency.hpp $(APP)input/keys.hpp $(APP)input/mousemove.hpp $(APP)input/scroll.hpp $(GAME)game.hpp
+$(APP)application.hpp: $(APP)input/keys.hpp $(APP)input/mousemove.hpp $(APP)input/scroll.hpp $(GAME)game.hpp
 $(APP)application.o: $(APP)application.hpp $(APP)application.cpp $(APP)arguments.hpp $(APP)debug.hpp $(REND)renderer.hpp $(MISC)get_current_monitor.hpp
 	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp -o $(APP)application.o
 $(APP)arguments.hpp: $(APP)debug.hpp
@@ -101,7 +102,7 @@ $(APP)input/mousemove.o: $(APP)input/mousemove.hpp $(APP)input/mousemove.cpp $(A
 	$(CXX) $(CXXFLAGS) -c $(APP)input/mousemove.cpp -o $(APP)input/mousemove.o
 
 # src/game
-$(GAME)game.hpp: $(GAME)world/world.hpp $(MISC)clock.hpp
+$(GAME)game.hpp: $(GAME)world/world.hpp
 $(GAME)game.o: $(GAME)game.hpp $(GAME)game.cpp $(APP)event/key.hpp $(APP)debug.hpp 
 	$(CXX) $(CXXFLAGS) -c $(GAME)game.cpp -o $(GAME)game.o
 $(GAME)entitiescontainer.hpp: $(GAME)ent/item.hpp $(GAME)ent/mov/rocket.hpp $(GAME)ent/cloud.hpp
@@ -147,10 +148,6 @@ $(REND)rectangles.o: $(REND)rectangles.hpp $(REND)rectangles.cpp $(REND)shared.h
 $(MISC)random.hpp:
 $(MISC)random.o: $(MISC)random.hpp $(MISC)random.cpp
 	$(CXX) $(CXXFLAGS) -c $(MISC)random.cpp -o $(MISC)random.o
-$(MISC)clock.hpp:
-$(MISC)frequency.hpp: $(MISC)clock.hpp
-$(MISC)frequency.o: $(MISC)frequency.hpp $(MISC)frequency.cpp
-	$(CXX) $(CXXFLAGS) -c $(MISC)frequency.cpp -o $(MISC)frequency.o
 $(MISC)acceleration.hpp:
 $(MISC)acceleration.o: $(MISC)acceleration.hpp $(MISC)acceleration.cpp
 	$(CXX) $(CXXFLAGS) -c $(MISC)acceleration.cpp -o $(MISC)acceleration.o
@@ -170,6 +167,10 @@ $(LIBS_PATH)gl-abstractions/gl_abstractions.o:
 # libs/file-management
 $(LIBS_PATH)file-management/file_management.o:
 	cd $(LIBS_PATH)file-management/ && make
+
+# libs/time-facilities
+$(LIBS_PATH)time-facilities/time_facilities.o:
+	cd $(LIBS_PATH)time-facilities/ && make
 
 # libs/imgui
 $(LIBS_PATH)imgui/imgui.o:
@@ -192,4 +193,5 @@ clean:
 	rm $(OBJECT_FILES)
 	cd $(LIBS_PATH)gl-abstractions/ && make clean
 	cd $(LIBS_PATH)file-management/ && make clean
+	cd $(LIBS_PATH)time-facilities/ && make clean
 	

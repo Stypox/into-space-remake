@@ -4,7 +4,7 @@
 #include <stypox/event_notifier.hpp>
 
 #include "world/world.hpp"
-#include "../misc/clock.hpp"
+#include "stypox/clock.hpp"
 
 namespace game {
 	class Game {
@@ -13,7 +13,7 @@ namespace game {
 
 		world::World m_world;
 
-		misc::Chronometer<> m_deltaClock;
+		stypox::Chronometer<> m_deltaClock;
 		bool m_paused;
 
 		stypox::EventNotifier::Handler m_pauseFunctionHandler;

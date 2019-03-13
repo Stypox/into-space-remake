@@ -14,7 +14,7 @@
 namespace app {
 	GLFWwindow* Application::m_window{nullptr};
 
-	misc::FrequencyNr Application::m_framerate{1000};
+	stypox::FrequencyCount Application::m_framerate{1000};
 
 	stypox::EventNotifier Application::eventNotifier{};
 	input::Keys Application::m_keysInput{m_window, eventNotifier, Arguments::doubleClickDelay, {

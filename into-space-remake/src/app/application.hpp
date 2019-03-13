@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <stypox/event_notifier.hpp>
 
-#include "../misc/frequency.hpp"
+#include "stypox/frequency.hpp"
 #include "input/keys.hpp"
 #include "input/mousemove.hpp"
 #include "input/scroll.hpp"
@@ -21,7 +21,7 @@ namespace app {
 	private:
 		static GLFWwindow* m_window;
 
-		static misc::FrequencyNr m_framerate;
+		static stypox::FrequencyCount m_framerate;
 
 		static input::Keys m_keysInput;
 		static input::MouseMove m_mouseMoveInput;
