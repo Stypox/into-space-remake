@@ -25,7 +25,8 @@ namespace app {
 		static std::filesystem::path itemsVertexShader,
 			itemsFragmentShader,
 			rectanglesVertexShader,
-			rectanglesFragmentShader;
+			rectanglesFragmentShader,
+			textureFolder;
 
 		static void parse(int argc, char const* argv[]);
 		static std::string helpScreen();

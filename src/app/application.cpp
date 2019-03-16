@@ -75,6 +75,7 @@ namespace app {
 			ImGui::StyleColorsClassic();
 
 			// render engine initialization
+			stypox::gl::Texture2D::setDirectory(Arguments::textureFolder);
 			rend::Renderer::init();
 			rend::Renderer::updateScreenSize(Arguments::width, Arguments::height);
 

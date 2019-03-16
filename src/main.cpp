@@ -5,9 +5,6 @@
 #include "app/arguments.hpp"
 
 int main(int argc, char const* argv[]) {
-	//settings
-	stypox::gl::Texture2D::setDirectory("res/");
-
 	//run and catch exceptions
 	int exitValue;
 	try {
