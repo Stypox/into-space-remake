@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stypox/gl/texture.hpp>
 
 #include "app/application.hpp"
 #include "app/arguments.hpp"
