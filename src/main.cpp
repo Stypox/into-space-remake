@@ -6,7 +6,7 @@
 
 int main(int argc, char const* argv[]) {
 	//settings
-	stypox::gl::Texture2D::setDirectory("./into-space-remake/res/");
+	stypox::gl::Texture2D::setDirectory("res/");
 
 	//run and catch exceptions
 	int exitValue;

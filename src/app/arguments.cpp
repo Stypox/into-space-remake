@@ -26,10 +26,10 @@ namespace app {
 	float Arguments::zoom = 1.0f;
 	float Arguments::doubleClickDelay = 0.5f;
 
-	std::filesystem::path Arguments::itemsVertexShader = "into-space-remake/src/rend/shader/items.vert";
-	std::filesystem::path Arguments::itemsFragmentShader = "into-space-remake/src/rend/shader/items.frag";
-	std::filesystem::path Arguments::rectanglesVertexShader = "into-space-remake/src/rend/shader/rectangles.vert";
-	std::filesystem::path Arguments::rectanglesFragmentShader = "into-space-remake/src/rend/shader/rectangles.frag";
+	std::filesystem::path Arguments::itemsVertexShader = "src/rend/shader/items.vert";
+	std::filesystem::path Arguments::itemsFragmentShader = "src/rend/shader/items.frag";
+	std::filesystem::path Arguments::rectanglesVertexShader = "src/rend/shader/rectangles.vert";
+	std::filesystem::path Arguments::rectanglesFragmentShader = "src/rend/shader/rectangles.frag";
 
 	stypox::ArgParser parser{
 		std::make_tuple(
@@ -60,10 +60,10 @@ namespace app {
 					throw std::runtime_error{"Option verbosity: " + std::to_string(value) + " is not in range 0-3."};
 				return static_cast<Gravity>(3 - value);
 			}},
-			Option{"itemsVertexShader", Arguments::itemsVertexShader, args("--items-vert="), "items vertex shader (default=into-space-remake/src/rend/shader/items.vert)"},
-			Option{"itemsFragmentShader", Arguments::itemsFragmentShader, args("--items-frag="), "items fragment shader (default=into-space-remake/src/rend/shader/items.frag)"},
-			Option{"rectanglesVertexShader", Arguments::rectanglesVertexShader, args("--rectagles-vert="), "rectangles vertex shader (default=into-space-remake/src/rend/shader/rectangles.vert)"},
-			Option{"rectanglesFragmentShader", Arguments::rectanglesFragmentShader, args("--rectagles-frag="), "rectangles fragment shader (default=into-space-remake/src/rend/shader/rectangles.frag)"}
+			Option{"itemsVertexShader", Arguments::itemsVertexShader, args("--items-vert="), "items vertex shader (default=src/rend/shader/items.vert)"},
+			Option{"itemsFragmentShader", Arguments::itemsFragmentShader, args("--items-frag="), "items fragment shader (default=src/rend/shader/items.frag)"},
+			Option{"rectanglesVertexShader", Arguments::rectanglesVertexShader, args("--rectagles-vert="), "rectangles vertex shader (default=src/rend/shader/rectangles.vert)"},
+			Option{"rectanglesFragmentShader", Arguments::rectanglesFragmentShader, args("--rectagles-frag="), "rectangles fragment shader (default=src/rend/shader/rectangles.frag)"}
 		),
 		"Into Space! remake by Stypox",
 		21

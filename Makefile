@@ -1,7 +1,6 @@
 # source code paths
-SRC = ./into-space-remake/src/
-LIBS_PATH = libs/
-STYPOX_GL := $(STYPOX)gl-abstractions/
+SRC = src/
+LIBS = libs/
 APP := $(SRC)app/
 GAME := $(SRC)game/
 REND := $(SRC)rend/
@@ -10,14 +9,14 @@ MISC := $(SRC)misc/
 # compiler options and settings
 CXX = g++
 CXXINCLUDE = \
-	-I$(LIBS_PATH)arg-parser/include \
-	-I$(LIBS_PATH)event-notifier/include \
-	-I$(LIBS_PATH)file-management/include \
-	-I$(LIBS_PATH)glad/include \
-	-I$(LIBS_PATH)gl-abstractions/include \
-	-I$(LIBS_PATH)stock-container/include \
-	-I$(LIBS_PATH)imgui -I$(LIBS_PATH)imgui/examples \
-	-I$(LIBS_PATH)time-facilities/include
+	-I$(LIBS)arg-parser/include \
+	-I$(LIBS)event-notifier/include \
+	-I$(LIBS)file-management/include \
+	-I$(LIBS)glad/include \
+	-I$(LIBS)gl-abstractions/include \
+	-I$(LIBS)stock-container/include \
+	-I$(LIBS)imgui -I$(LIBS)imgui/examples \
+	-I$(LIBS)time-facilities/include
 CXXFLAGS := -Wall -std=c++17 $(CXXINCLUDE)
 CXXLIBS = -lstdc++fs -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor -lSOIL
 
@@ -34,10 +33,10 @@ OBJECT_FILES = \
 		$(GAME)world/world.o $(GAME)world/chunk.o \
 	$(REND)renderer.o $(REND)items.o $(REND)rectangles.o \
 	$(MISC)random.o $(MISC)acceleration.o $(MISC)get_current_monitor.o \
-	$(LIBS_PATH)glad/src/glad.o \
-	$(LIBS_PATH)imgui/imgui.o $(LIBS_PATH)imgui/imgui_demo.o $(LIBS_PATH)imgui/imgui_draw.o $(LIBS_PATH)imgui/imgui_widgets.o \
-		$(LIBS_PATH)imgui/examples/imgui_impl_glfw.o $(LIBS_PATH)imgui/examples/imgui_impl_opengl3.o
-OBJECT_FILES_GENERATED_BY_LIBS = $(LIBS_PATH)file-management/file_management.o $(LIBS_PATH)gl-abstractions/gl_abstractions.o $(LIBS_PATH)time-facilities/time_facilities.o
+	$(LIBS)glad/src/glad.o \
+	$(LIBS)imgui/imgui.o $(LIBS)imgui/imgui_demo.o $(LIBS)imgui/imgui_draw.o $(LIBS)imgui/imgui_widgets.o \
+		$(LIBS)imgui/examples/imgui_impl_glfw.o $(LIBS)imgui/examples/imgui_impl_opengl3.o
+OBJECT_FILES_GENERATED_BY_LIBS = $(LIBS)file-management/file_management.o $(LIBS)gl-abstractions/gl_abstractions.o $(LIBS)time-facilities/time_facilities.o
 
 # Let corresponding Makefiles decide which files should be recompiled, if any. 
 .PHONY: $(OBJECT_FILES_GENERATED_BY_LIBS)
@@ -157,41 +156,41 @@ $(MISC)get_current_monitor.o: $(MISC)get_current_monitor.hpp $(MISC)get_current_
 
 
 # libs/glad
-$(LIBS_PATH)glad/src/glad.o: $(LIBS_PATH)glad/include/glad/glad.h $(LIBS_PATH)glad/src/glad.c
-	$(CXX) $(CXXFLAGS) -c $(LIBS_PATH)glad/src/glad.c -o $(LIBS_PATH)glad/src/glad.o
+$(LIBS)glad/src/glad.o: $(LIBS)glad/include/glad/glad.h $(LIBS)glad/src/glad.c
+	$(CXX) $(CXXFLAGS) -c $(LIBS)glad/src/glad.c -o $(LIBS)glad/src/glad.o
 
 # libs/gl-abstractions
-$(LIBS_PATH)gl-abstractions/gl_abstractions.o:
-	cd $(LIBS_PATH)gl-abstractions/ && make GLAD_PATH=../glad
+$(LIBS)gl-abstractions/gl_abstractions.o:
+	cd $(LIBS)gl-abstractions/ && make GLAD_PATH=../glad
 
 # libs/file-management
-$(LIBS_PATH)file-management/file_management.o:
-	cd $(LIBS_PATH)file-management/ && make
+$(LIBS)file-management/file_management.o:
+	cd $(LIBS)file-management/ && make
 
 # libs/time-facilities
-$(LIBS_PATH)time-facilities/time_facilities.o:
-	cd $(LIBS_PATH)time-facilities/ && make
+$(LIBS)time-facilities/time_facilities.o:
+	cd $(LIBS)time-facilities/ && make
 
 # libs/imgui
-$(LIBS_PATH)imgui/imgui.o:
-	$(CXX) $(CXXFLAGS) -c $(LIBS_PATH)imgui/imgui.cpp -o $(LIBS_PATH)imgui/imgui.o
-$(LIBS_PATH)imgui/imgui_demo.o:
-	$(CXX) $(CXXFLAGS) -c $(LIBS_PATH)imgui/imgui_demo.cpp -o $(LIBS_PATH)imgui/imgui_demo.o
-$(LIBS_PATH)imgui/imgui_draw.o:
-	$(CXX) $(CXXFLAGS) -c $(LIBS_PATH)imgui/imgui_draw.cpp -o $(LIBS_PATH)imgui/imgui_draw.o
-$(LIBS_PATH)imgui/imgui_widgets.o:
-	$(CXX) $(CXXFLAGS) -c $(LIBS_PATH)imgui/imgui_widgets.cpp -o $(LIBS_PATH)imgui/imgui_widgets.o
+$(LIBS)imgui/imgui.o:
+	$(CXX) $(CXXFLAGS) -c $(LIBS)imgui/imgui.cpp -o $(LIBS)imgui/imgui.o
+$(LIBS)imgui/imgui_demo.o:
+	$(CXX) $(CXXFLAGS) -c $(LIBS)imgui/imgui_demo.cpp -o $(LIBS)imgui/imgui_demo.o
+$(LIBS)imgui/imgui_draw.o:
+	$(CXX) $(CXXFLAGS) -c $(LIBS)imgui/imgui_draw.cpp -o $(LIBS)imgui/imgui_draw.o
+$(LIBS)imgui/imgui_widgets.o:
+	$(CXX) $(CXXFLAGS) -c $(LIBS)imgui/imgui_widgets.cpp -o $(LIBS)imgui/imgui_widgets.o
 
 # libs/imgui/examples
-$(LIBS_PATH)imgui/examples/imgui_impl_glfw.o:
-	$(CXX) $(CXXFLAGS) -c $(LIBS_PATH)imgui/examples/imgui_impl_glfw.cpp -o $(LIBS_PATH)imgui/examples/imgui_impl_glfw.o
-$(LIBS_PATH)imgui/examples/imgui_impl_opengl3.o:
-	$(CXX) $(CXXFLAGS) -DIMGUI_IMPL_OPENGL_LOADER_GLAD -c $(LIBS_PATH)imgui/examples/imgui_impl_opengl3.cpp -o $(LIBS_PATH)imgui/examples/imgui_impl_opengl3.o
+$(LIBS)imgui/examples/imgui_impl_glfw.o:
+	$(CXX) $(CXXFLAGS) -c $(LIBS)imgui/examples/imgui_impl_glfw.cpp -o $(LIBS)imgui/examples/imgui_impl_glfw.o
+$(LIBS)imgui/examples/imgui_impl_opengl3.o:
+	$(CXX) $(CXXFLAGS) -DIMGUI_IMPL_OPENGL_LOADER_GLAD -c $(LIBS)imgui/examples/imgui_impl_opengl3.cpp -o $(LIBS)imgui/examples/imgui_impl_opengl3.o
 
 
 clean:
 	rm $(OBJECT_FILES)
-	cd $(LIBS_PATH)gl-abstractions/ && make clean
-	cd $(LIBS_PATH)file-management/ && make clean
-	cd $(LIBS_PATH)time-facilities/ && make clean
+	cd $(LIBS)gl-abstractions/ && make clean
+	cd $(LIBS)file-management/ && make clean
+	cd $(LIBS)time-facilities/ && make clean
 	
