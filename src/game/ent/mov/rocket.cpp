@@ -3,12 +3,11 @@
 #include <GLFW/glfw3.h>
 #include <math.h>
 #include <imgui.h>
+#include <stypox/key_event.hpp>
 
-#include "../../../app/event/key.hpp"
 #include "../../../app/application.hpp"
 
 namespace game::ent::mov {
-	using namespace app::event;
 
 	void Rocket::pickUp(const Item& item) {
 		switch (item.type()) {
@@ -80,6 +79,7 @@ namespace game::ent::mov {
 	}
 
 	using namespace app;
+	using stypox::KeyEvent, stypox::Key;
 	Rocket::Rocket() :
 		RectangleRender{rend::RectangleRenderData{0.0f, groundLevel, width, height, 0.0f, 0.0f, 0.2f}}, m_vx{0.0f},
 		m_vy{0.0f}, m_engine{/*TODO*/10.2f, 0.5f * M_PI},
@@ -87,16 +87,16 @@ namespace game::ent::mov {
 		m_fuel{/*TODO*/10.0f}, m_collectedMoney{/*TODO*/0},
 		m_integrity{/*TODO*/0.0f}, m_keyboardFunctionHandlers{
 			Application::eventNotifier.connect_member(m_engine, &misc::Acceleration::activate,
-				Key{Key::press,   input::kb_w}, Key{Key::press,   input::kb_up}),
+				KeyEvent{KeyEvent::press,   Key::kb_w}, KeyEvent{KeyEvent::press,   Key::kb_up}),
 			Application::eventNotifier.connect_member(m_engine, &misc::Acceleration::deactivate,
-				Key{Key::release, input::kb_w}, Key{Key::release, input::kb_up},
-				Key{Key::press,   input::kb_s}, Key{Key::press,   input::kb_down}),
+				KeyEvent{KeyEvent::release, Key::kb_w}, KeyEvent{KeyEvent::release, Key::kb_up},
+				KeyEvent{KeyEvent::press,   Key::kb_s}, KeyEvent{KeyEvent::press,   Key::kb_down}),
 			Application::eventNotifier.connect([this](){ m_rotationVelocity += defaultRotationVelocity; },
-				Key{Key::press,   input::kb_a}, Key{Key::press,   input::kb_left},
-				Key{Key::release, input::kb_d}, Key{Key::release, input::kb_right}),
+				KeyEvent{KeyEvent::press,   Key::kb_a}, KeyEvent{KeyEvent::press,   Key::kb_left},
+				KeyEvent{KeyEvent::release, Key::kb_d}, KeyEvent{KeyEvent::release, Key::kb_right}),
 			Application::eventNotifier.connect([this](){ m_rotationVelocity -= defaultRotationVelocity; },
-				Key{Key::release, input::kb_a}, Key{Key::release, input::kb_left},
-				Key{Key::press,   input::kb_d}, Key{Key::press,   input::kb_right}),
+				KeyEvent{KeyEvent::release, Key::kb_a}, KeyEvent{KeyEvent::release, Key::kb_left},
+				KeyEvent{KeyEvent::press,   Key::kb_d}, KeyEvent{KeyEvent::press,   Key::kb_right}),
 		} {
 		m_engine.deactivate();
 		m_gravity.deactivate();

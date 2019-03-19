@@ -16,7 +16,8 @@ CXXINCLUDE = \
 	-I$(LIBS)gl-abstractions/include \
 	-I$(LIBS)stock-container/include \
 	-I$(LIBS)imgui -I$(LIBS)imgui/examples \
-	-I$(LIBS)time-facilities/include
+	-I$(LIBS)time-facilities/include \
+	-I$(LIBS)input-listener/include
 CXXFLAGS := -Wall -std=c++17 $(CXXINCLUDE)
 CXXLIBS = -lstdc++fs -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor -lSOIL
 
@@ -26,7 +27,6 @@ EXECUTABLE_NAME := IntoSpaceRemake$(if $(filter $(OS),Windows_NT), .exe,)
 OBJECT_FILES = \
 	$(SRC)main.o \
 	$(APP)application.o $(APP)arguments.o $(APP)debug.o \
-		$(APP)input/keys.o $(APP)input/scroll.o $(APP)input/mousemove.o \
 	$(GAME)game.o \
 		$(GAME)ent/entity.o $(GAME)ent/item.o $(GAME)ent/cloud.o \
 			$(GAME)ent/mov/rocket.o \
@@ -36,7 +36,10 @@ OBJECT_FILES = \
 	$(LIBS)glad/src/glad.o \
 	$(LIBS)imgui/imgui.o $(LIBS)imgui/imgui_demo.o $(LIBS)imgui/imgui_draw.o $(LIBS)imgui/imgui_widgets.o \
 		$(LIBS)imgui/examples/imgui_impl_glfw.o $(LIBS)imgui/examples/imgui_impl_opengl3.o
-OBJECT_FILES_GENERATED_BY_LIBS = $(LIBS)file-management/file_management.o $(LIBS)gl-abstractions/gl_abstractions.o $(LIBS)time-facilities/time_facilities.o
+OBJECT_FILES_GENERATED_BY_LIBS = $(LIBS)file-management/file_management.o \
+	$(LIBS)gl-abstractions/gl_abstractions.o \
+	$(LIBS)time-facilities/time_facilities.o \
+	$(LIBS)input-listener/input_listener.o
 
 # Let corresponding Makefiles decide which files should be recompiled, if any. 
 .PHONY: $(OBJECT_FILES_GENERATED_BY_LIBS)
@@ -73,7 +76,7 @@ $(SRC)main.o: $(SRC)main.cpp $(APP)application.o
 	$(CXX) $(CXXFLAGS) -c $(SRC)main.cpp -o $(SRC)main.o
 
 # src/app/
-$(APP)application.hpp: $(APP)input/keys.hpp $(APP)input/mousemove.hpp $(APP)input/scroll.hpp $(GAME)game.hpp
+$(APP)application.hpp: $(GAME)game.hpp
 $(APP)application.o: $(APP)application.hpp $(APP)application.cpp $(APP)arguments.hpp $(APP)debug.hpp $(REND)renderer.hpp $(MISC)get_current_monitor.hpp
 	$(CXX) $(CXXFLAGS) -c $(APP)application.cpp -o $(APP)application.o
 $(APP)arguments.hpp: $(APP)debug.hpp
@@ -83,26 +86,9 @@ $(APP)debug.hpp: $(APP)arguments.hpp
 $(APP)debug.o: $(APP)debug.hpp $(APP)debug.cpp
 	$(CXX) $(CXXFLAGS) -c $(APP)debug.cpp -o $(APP)debug.o
 
-# src/app/event/
-$(APP)event/key.hpp: $(APP)input/key.hpp
-$(APP)event/scroll.hpp:
-$(APP)event/mousemove.hpp:
-
-# src/app/input/
-$(APP)input/key.hpp:
-$(APP)input/keys.hpp: $(APP)input/key.hpp $(APP)event/key.hpp
-$(APP)input/keys.o: $(APP)input/keys.hpp $(APP)input/keys.cpp
-	$(CXX) $(CXXFLAGS) -c $(APP)input/keys.cpp -o $(APP)input/keys.o
-$(APP)input/scroll.hpp:
-$(APP)input/scroll.o: $(APP)input/scroll.hpp $(APP)input/scroll.cpp $(APP)event/scroll.hpp
-	$(CXX) $(CXXFLAGS) -c $(APP)input/scroll.cpp -o $(APP)input/scroll.o
-$(APP)input/mousemove.hpp:
-$(APP)input/mousemove.o: $(APP)input/mousemove.hpp $(APP)input/mousemove.cpp $(APP)event/mousemove.hpp
-	$(CXX) $(CXXFLAGS) -c $(APP)input/mousemove.cpp -o $(APP)input/mousemove.o
-
 # src/game
 $(GAME)game.hpp: $(GAME)world/world.hpp
-$(GAME)game.o: $(GAME)game.hpp $(GAME)game.cpp $(APP)event/key.hpp $(APP)debug.hpp 
+$(GAME)game.o: $(GAME)game.hpp $(GAME)game.cpp $(APP)debug.hpp 
 	$(CXX) $(CXXFLAGS) -c $(GAME)game.cpp -o $(GAME)game.o
 $(GAME)entitiescontainer.hpp: $(GAME)ent/item.hpp $(GAME)ent/mov/rocket.hpp $(GAME)ent/cloud.hpp
 
@@ -120,7 +106,7 @@ $(GAME)ent/cloud.o: $(GAME)ent/cloud.hpp $(GAME)ent/cloud.cpp $(MISC)random.hpp
 # src/game/ent/mov
 $(GAME)ent/mov/movable.hpp: $(GAME)ent/entity.hpp
 $(GAME)ent/mov/rocket.hpp: $(GAME)ent/mov/movable.hpp $(GAME)ent/item.hpp $(GAME)ent/cloud.hpp $(MISC)acceleration.hpp
-$(GAME)ent/mov/rocket.o: $(GAME)ent/mov/rocket.hpp $(GAME)ent/mov/rocket.cpp $(APP)event/key.hpp
+$(GAME)ent/mov/rocket.o: $(GAME)ent/mov/rocket.hpp $(GAME)ent/mov/rocket.cpp
 	$(CXX) $(CXXFLAGS) -c $(GAME)ent/mov/rocket.cpp -o $(GAME)ent/mov/rocket.o
 
 # src/game/world
@@ -170,6 +156,10 @@ $(LIBS)file-management/file_management.o:
 # libs/time-facilities
 $(LIBS)time-facilities/time_facilities.o:
 	cd $(LIBS)time-facilities/ && make
+
+# libs/input-listener
+$(LIBS)input-listener/input_listener.o:
+	cd $(LIBS)input-listener/ && make EVENT_NOTIFIER_PATH=../event-notifier
 
 # libs/imgui
 $(LIBS)imgui/imgui.o:

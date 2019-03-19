@@ -3,12 +3,11 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <stypox/event_notifier.hpp>
+#include <stypox/frequency.hpp>
+#include <stypox/key_input.hpp>
+#include <stypox/mousemove_input.hpp>
+#include <stypox/scroll_input.hpp>
 
-#include "stypox/frequency.hpp"
-#include "input/keys.hpp"
-#include "input/mousemove.hpp"
-#include "input/scroll.hpp"
 #include "../game/game.hpp"
 
 namespace app {
@@ -23,9 +22,9 @@ namespace app {
 
 		static stypox::FrequencyCount m_framerate;
 
-		static input::Keys m_keysInput;
-		static input::MouseMove m_mouseMoveInput;
-		static input::Scroll m_scrollInput;
+		static stypox::KeyInput m_keyInput;
+		static stypox::MouseMoveInput m_mouseMoveInput;
+		static stypox::ScrollInput m_scrollInput;
 
 		static std::unique_ptr<game::Game> m_game;
 
@@ -37,7 +36,6 @@ namespace app {
 
 		static void loop();
 		static void updateInput();
-		static bool processKey(const event::Key key);
 
 		static void toggleFullscreen();
 		static void updateFullscreen();

@@ -17,14 +17,9 @@ namespace app {
 	stypox::FrequencyCount Application::m_framerate{1000};
 
 	stypox::EventNotifier Application::eventNotifier{};
-	input::Keys Application::m_keysInput{m_window, eventNotifier, Arguments::doubleClickDelay, {
-		{event::Key::press, input::kb_f11,    false},
-		{event::Key::press, input::kb_escape, false}
-	}, {
-
-	}};
-	input::MouseMove Application::m_mouseMoveInput{m_window, eventNotifier, 0, 0};
-	input::Scroll Application::m_scrollInput{m_window, eventNotifier, 0, 0};
+	stypox::KeyInput Application::m_keyInput{eventNotifier, Arguments::doubleClickDelay};
+	stypox::MouseMoveInput Application::m_mouseMoveInput{eventNotifier};
+	stypox::ScrollInput Application::m_scrollInput{eventNotifier};
 
 	std::unique_ptr<game::Game> Application::m_game{nullptr};
 
@@ -57,7 +52,9 @@ namespace app {
 			glfwSwapInterval(0);
 
 			glfwSetFramebufferSizeCallback(m_window, framebufferSizeCallback);
-			m_scrollInput.activateWindowCallback();
+			m_keyInput.setWindow(m_window);
+			m_mouseMoveInput.setWindow(m_window);
+			m_scrollInput.setWindow(m_window);
 
 			// GLAD initialization
 			if (int errorCode = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress); !errorCode) {
@@ -87,27 +84,34 @@ namespace app {
 		}
 	}
 	void Application::initInput() {
-		eventNotifier.connect(Application::toggleFullscreen, event::Key{event::Key::press, input::kb_f11}).keep();
+		using stypox::KeyEvent, stypox::Key;
+
+		m_keyInput
+			.addListener(KeyEvent::press, Key::kb_f11)
+			.addListener(KeyEvent::press, Key::kb_escape);
+		eventNotifier.connect(Application::toggleFullscreen, KeyEvent{KeyEvent::press, Key::kb_f11}).keep();
 
 		if (Arguments::wasd) {
-			m_keysInput.addListener(event::Key::press,   input::kb_w,     false);
-			m_keysInput.addListener(event::Key::release, input::kb_w,     false);
-			m_keysInput.addListener(event::Key::press,   input::kb_a,     false);
-			m_keysInput.addListener(event::Key::release, input::kb_a,     false);
-			m_keysInput.addListener(event::Key::press,   input::kb_s,     false);
-			m_keysInput.addListener(event::Key::release, input::kb_s,     false);
-			m_keysInput.addListener(event::Key::press,   input::kb_d,     false);
-			m_keysInput.addListener(event::Key::release, input::kb_d,     false);
+			m_keyInput
+				.addListener(KeyEvent::press,   Key::kb_w)
+				.addListener(KeyEvent::release, Key::kb_w)
+				.addListener(KeyEvent::press,   Key::kb_a)
+				.addListener(KeyEvent::release, Key::kb_a)
+				.addListener(KeyEvent::press,   Key::kb_s)
+				.addListener(KeyEvent::release, Key::kb_s)
+				.addListener(KeyEvent::press,   Key::kb_d)
+				.addListener(KeyEvent::release, Key::kb_d);
 		}
 		else {
-			m_keysInput.addListener(event::Key::press,   input::kb_up,    false);
-			m_keysInput.addListener(event::Key::release, input::kb_up,    false);
-			m_keysInput.addListener(event::Key::press,   input::kb_left,  false);
-			m_keysInput.addListener(event::Key::release, input::kb_left,  false);
-			m_keysInput.addListener(event::Key::press,   input::kb_down,  false);
-			m_keysInput.addListener(event::Key::release, input::kb_down,  false);
-			m_keysInput.addListener(event::Key::press,   input::kb_right, false);
-			m_keysInput.addListener(event::Key::release, input::kb_right, false);
+			m_keyInput
+				.addListener(KeyEvent::press,   Key::kb_up   )
+				.addListener(KeyEvent::release, Key::kb_up   )
+				.addListener(KeyEvent::press,   Key::kb_left )
+				.addListener(KeyEvent::release, Key::kb_left )
+				.addListener(KeyEvent::press,   Key::kb_down )
+				.addListener(KeyEvent::release, Key::kb_down )
+				.addListener(KeyEvent::press,   Key::kb_right)
+				.addListener(KeyEvent::release, Key::kb_right);
 		}
 	}
 
@@ -149,7 +153,7 @@ namespace app {
 	}
 	void Application::updateInput() {
 		glfwPollEvents();
-		m_keysInput.update();
+		m_keyInput.update();
 		m_mouseMoveInput.update();
 		m_scrollInput.update();
 	}
@@ -176,6 +180,10 @@ namespace app {
 
 	void Application::terminate() {
 		if (m_initialized) {
+			m_keyInput.setWindow(nullptr);
+			m_mouseMoveInput.setWindow(nullptr);
+			m_scrollInput.setWindow(nullptr);
+			
 			glfwDestroyWindow(m_window);
 			glfwTerminate();
 			m_initialized = false;

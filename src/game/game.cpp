@@ -1,8 +1,8 @@
 #include "game.hpp"
 
 #include <GLFW/glfw3.h>
+#include <stypox/key_event.hpp>
 
-#include "../app/event/key.hpp"
 #include "../app/debug.hpp"
 #include "../app/application.hpp"
 
@@ -15,7 +15,7 @@ namespace game {
 		m_world{}, m_deltaClock{},
 		m_paused{false}, m_pauseFunctionHandler{
 			app::Application::eventNotifier.connect_member(*this, &Game::togglePause,
-				app::event::Key{app::event::Key::press, app::input::kb_escape})
+				stypox::KeyEvent{stypox::KeyEvent::press, stypox::Key::kb_escape})
 		} {}
 
 	void Game::update() {

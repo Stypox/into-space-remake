@@ -19,3 +19,6 @@
 [submodule "libs/time-facilities"]
 	path = libs/time-facilities
 	url = https://github.com/Stypox/time-facilities
+[submodule "libs/input-listener"]
+	path = libs/input-listener
+	url = https://github.com/Stypox/input-listener.git
