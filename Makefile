@@ -19,7 +19,7 @@ CXXINCLUDE = \
 	-I$(LIBS)time-facilities/include \
 	-I$(LIBS)input-listener/include
 CXXFLAGS := -Wall -std=c++17 $(CXXINCLUDE)
-CXXLIBS = -lstdc++fs -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor -lSOIL
+CXXLIBS = -lstdc++fs -lSOIL -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor
 
 
 # generated files
